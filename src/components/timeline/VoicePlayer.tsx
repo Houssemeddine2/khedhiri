@@ -8,6 +8,11 @@ interface VoicePlayerProps {
   duration: number | null
 }
 
+const BARS = Array.from({ length: 24 }, (_, i) => {
+  const height = Math.abs(Math.sin(i * 0.8)) * 24 + 8
+  return height
+})
+
 export default function VoicePlayer({ url, duration }: VoicePlayerProps) {
   const audioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
@@ -19,7 +24,7 @@ export default function VoicePlayer({ url, duration }: VoicePlayerProps) {
       audioRef.current.pause()
       setIsPlaying(false)
     } else {
-      audioRef.current.play()
+      audioRef.current.play().catch(() => setIsPlaying(false))
       setIsPlaying(true)
     }
   }
@@ -28,11 +33,6 @@ export default function VoicePlayer({ url, duration }: VoicePlayerProps) {
     setIsPlaying(false)
   }
 
-  // Waveform bars: 24 bars with heights computed by sine function
-  const bars = Array.from({ length: 24 }, (_, i) => {
-    const height = Math.abs(Math.sin(i * 0.8)) * 24 + 8
-    return height
-  })
 
   return (
     <div className="flex items-center gap-4 bg-jasmine rounded-2xl px-4 py-3">
@@ -70,7 +70,7 @@ export default function VoicePlayer({ url, duration }: VoicePlayerProps) {
 
       {/* Waveform */}
       <div className="flex-1 flex items-center gap-1">
-        {bars.map((height, i) => (
+        {BARS.map((height, i) => (
           <div
             key={i}
             className={`w-[3px] rounded transition-opacity ${
@@ -83,7 +83,7 @@ export default function VoicePlayer({ url, duration }: VoicePlayerProps) {
 
       {/* Duration */}
       <div className="text-sm text-ink font-medium flex-shrink-0">
-        {formatDuree(duration ?? 0)}
+        {duration !== null ? formatDuree(duration) : '--:--'}
       </div>
 
       {/* Hidden audio element */}
