@@ -63,11 +63,9 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
       <div className="sticky bottom-0 left-0 right-0 bg-cream border-t border-terracotta/20 p-4">
         <div className="mx-auto max-w-lg">
           <VoiceRecorder
-            onDone={() => {
-              setMode('text')
-              onPosted()
-            }}
+            onDone={() => { setMode('text'); onPosted() }}
             onCancel={() => setMode('text')}
+            onRecorded={async (url, dur) => { await createMediaPost('audio', url, dur) }}
           />
         </div>
       </div>
