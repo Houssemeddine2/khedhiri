@@ -10,6 +10,7 @@ interface ComposeBarProps {
 
 export default function ComposeBar({ onPosted }: ComposeBarProps) {
   const [text, setText] = useState('')
+  const [error, setError] = useState<string | null>(null)
   const [mode, setMode] = useState<'text' | 'voice'>('text')
   const [isPending, startTransition] = useTransition()
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false)
@@ -22,9 +23,11 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
       try {
         await createTextPost(text.trim())
         setText('')
+        setError(null)
         onPosted()
       } catch (err) {
         console.error('Erreur lors de l\'envoi du message:', err)
+        setError('Impossible d\'envoyer le message. Réessaie.')
       }
     })
   }
@@ -43,12 +46,13 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
       formData.append('file', file)
       const mediaUrl = await uploadMedia(formData)
       await createMediaPost('photo', mediaUrl)
+      setError(null)
       onPosted()
-      // Réinitialiser l'input
-      if (fileInputRef.current) fileInputRef.current.value = ''
     } catch (err) {
-      console.error('Erreur lors de l\'upload de la photo:', err)
+      console.error('Impossible d\'envoyer la photo:', err)
+      setError('Impossible d\'envoyer la photo. Réessaie.')
     } finally {
+      if (fileInputRef.current) fileInputRef.current.value = ''
       setIsUploadingPhoto(false)
     }
   }
@@ -77,11 +81,18 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
         {/* Textarea */}
         <textarea
           value={text}
-          onChange={(e) => setText(e.target.value)}
+          onChange={(e) => {
+            setText(e.target.value)
+            setError(null)
+          }}
           placeholder="Dis quelque chose à la famille ♡"
           rows={3}
+          aria-label="Dis quelque chose à la famille"
           className="w-full px-4 py-3 font-manrope text-ink bg-white border border-terracotta/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-terracotta/50 resize-none"
         />
+
+        {/* Message d'erreur */}
+        {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
 
         {/* Boutons */}
         <div className="flex items-center justify-between mt-3 gap-2">
