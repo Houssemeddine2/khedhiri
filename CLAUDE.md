@@ -92,7 +92,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 ## 🗺️ Roadmap — 20 étapes
 
 ### Fondations critiques (étapes 1-5)
-- [ ] **Étape 1** — Fondations (Next.js, Vercel, domaine)
+- [x] **Étape 1** — Fondations (Next.js, Vercel, domaine)
 - [ ] **Étape 2** — Authentification + 3 comptes
 - [ ] **Étape 3** — Timeline familiale temps réel + vocaux (cœur du projet)
 - [ ] **Étape 4** — Chats individuels temps réel (Papa↔Sandra, Papa↔Sarah, Sandra↔Sarah)
@@ -281,13 +281,13 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Date | Session | Résultat |
 |------|---------|----------|
 | Avril 2026 | Conception initiale | Vision, roadmap 20 étapes, Manifesto, prototype |
-| — | — | À compléter après chaque étape |
+| Avril 2026 | Étape 1 | Next.js 15 initialisé, système de design configuré (palette + Fraunces/Manrope/Caveat), page d'accueil, déployé sur khedhiri.me |
 
 ---
 
 ## 📚 Liens utiles
 
-- **Repo GitHub** : `https://github.com/[USERNAME]/Khedhiri` (à compléter)
+- **Repo GitHub** : `https://github.com/Houssemeddine2/khedhiri` (privé)
 - **Dashboard Vercel** : https://vercel.com/dashboard
 - **Dashboard Supabase** : https://supabase.com/dashboard
 - **Site** : https://khedhiri.me
