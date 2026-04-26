@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback } from 'react'
+import { useState, useEffect, useCallback, useMemo } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 import PostCard from './PostCard'
 import ComposeBar from './ComposeBar'
@@ -21,19 +21,21 @@ export default function Timeline({
 }: TimelineProps) {
   const [posts, setPosts] = useState<Post[]>(initialPosts)
 
+  const supabase = useMemo(
+    () => createBrowserClient(supabaseUrl, supabaseAnonKey),
+    [supabaseUrl, supabaseAnonKey]
+  )
+
   const fetchPosts = useCallback(async () => {
-    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey)
     const { data } = await supabase
       .from('posts')
       .select('*, reactions(*), profiles(email, nom)')
       .order('created_at', { ascending: false })
       .limit(50)
     if (data) setPosts(data as Post[])
-  }, [supabaseUrl, supabaseAnonKey])
+  }, [supabase])
 
   useEffect(() => {
-    const supabase = createBrowserClient(supabaseUrl, supabaseAnonKey)
-
     fetchPosts()
 
     const channel = supabase
@@ -45,7 +47,7 @@ export default function Timeline({
     return () => {
       supabase.removeChannel(channel)
     }
-  }, [supabaseUrl, supabaseAnonKey, fetchPosts])
+  }, [supabase, fetchPosts])
 
   return (
     <div className="min-h-screen bg-cream pb-32">
