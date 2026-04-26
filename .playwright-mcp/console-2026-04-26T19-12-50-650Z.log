@@ -1,0 +1,28 @@
+[     380ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://github.com/github-copilot/chat/entitlement:0
+[    1000ms] [ERROR] Failed to load resource: the server responded with a status of 404 () @ https://github.com/github-copilot/chat/entitlement:0
+[   15147ms] [INFO] Autofocus processing was blocked because a document already has a focused element. @ https://github.com/apps/vercel/installations/new/permissions?state=eyJmcm9tIjoiL25ldyIsIm5leHQiOiJodHRwczovL3ZlcmNlbC5jb20vZ2l0aHViL2luc3RhbGxlZCJ9&target_id=171374541:0
+[   21415ms] [LOG] %c
+▲
+
+    ____                               _ __
+   / __ \________  ____ _____ ___     (_) /_
+  / / / / ___/ _ \/ __ `/ __ `__ \   / / __/
+ / /_/ / /  /  __/ /_/ / / / / / /  / / /__
+/_____/_/   \___/\__,_/_/ /_/ /_/  /_/\__( )
+   _____ __    _          _ __           |/
+  / ___// /_  (_)___     (_) /_
+  \__ \/ __ \/ / __ \   / / __/
+ ___/ / / / / / /_/ /  / / /_
+/____/_/ /_/_/ .___/  /_/\__/
+            /_/
+  
+
+Hello!
+
+- Open Source https://vercel.com/oss
+- Careers https://vercel.com/careers
+- Status https://vercel-status.com
+
+ font-family: "Geist Mono", monospace; white-space: pre; line-height: 1; @ https://vercel.com/_next/static/chunks/0-ql08uahvm61.js?dpl=dpl_Go72LmjD8Ev2L4BffqagGfL8PLaD:78
+[   21541ms] [WARNING] Deprecated API for given entry type. @ https://vercel.com/_next/static/chunks/0p4bfob-v5nr-.js?dpl=dpl_Go72LmjD8Ev2L4BffqagGfL8PLaD:18
+[   21637ms] [WARNING] iso_swr[warn] useIsomorphicSWRInfinite used without Provider. Fallbacking back to client-side render @ https://vercel.com/_next/static/chunks/0p4bfob-v5nr-.js?dpl=dpl_Go72LmjD8Ev2L4BffqagGfL8PLaD:16

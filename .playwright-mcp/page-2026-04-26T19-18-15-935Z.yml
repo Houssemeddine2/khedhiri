@@ -1,0 +1,228 @@
+- generic [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e9]:
+            - link "houssemeddin-6161's projects Hobby" [ref=e10] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects
+              - img [ref=e11]
+              - generic [ref=e12]:
+                - generic [ref=e13]: houssemeddin-6161's projects
+                - generic [ref=e15]: Hobby
+            - button [ref=e16] [cursor=pointer]:
+              - img [ref=e18]
+          - button "Find… F" [ref=e21]:
+            - generic [ref=e23]:
+              - img [ref=e25]
+              - generic [ref=e27]: Find…
+              - generic [ref=e29]: F
+        - navigation [ref=e31]:
+          - generic [ref=e34]:
+            - link "Other Overview" [ref=e330] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri
+              - img "Other" [ref=e331]:
+                - img "Other" [ref=e332]
+              - generic [ref=e38]: Overview
+            - link "Deployments" [ref=e39] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/deployments
+              - img [ref=e41]
+              - generic [ref=e44]: Deployments
+            - link "Logs" [ref=e45] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/logs
+              - img [ref=e47]
+              - generic [ref=e50]: Logs
+            - link "Analytics" [ref=e51] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/analytics
+              - img [ref=e53]
+              - generic [ref=e56]: Analytics
+            - link "Speed Insights" [ref=e57] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/speed-insights
+              - img [ref=e59]
+              - generic [ref=e62]: Speed Insights
+            - link "Observability" [ref=e63] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/observability
+              - img [ref=e65]
+              - generic [ref=e68]: Observability
+              - img [ref=e70]
+            - link "Firewall" [ref=e72] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/firewall
+              - img [ref=e74]
+              - generic [ref=e78]: Firewall
+              - img [ref=e80]
+            - link "CDN" [ref=e82] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/cdn
+              - img [ref=e84]
+              - generic [ref=e87]: CDN
+              - img [ref=e89]
+            - separator [ref=e91]
+            - link "Environment Variables" [ref=e92] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/settings/environment-variables
+              - img [ref=e94]
+              - generic [ref=e97]: Environment Variables
+            - link "Domains" [ref=e98] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/settings/domains
+              - img [ref=e100]
+              - generic [ref=e103]: Domains
+            - link "Integrations" [ref=e104] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/settings/integrations
+              - img [ref=e106]
+              - generic [ref=e109]: Integrations
+            - link "Storage" [ref=e110] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/stores
+              - img [ref=e112]
+              - generic [ref=e115]: Storage
+            - link "Flags" [ref=e116] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/flags
+              - img [ref=e118]
+              - generic [ref=e121]: Flags
+              - img [ref=e123]
+            - link "Agent" [ref=e125] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/agent
+              - img [ref=e127]
+              - generic [ref=e130]: Agent
+              - img [ref=e132]
+            - link "AI Gateway" [ref=e134] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/ai-gateway
+              - img [ref=e136]
+              - generic [ref=e139]: AI Gateway
+              - img [ref=e141]
+            - link "Sandboxes" [ref=e143] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/sandboxes
+              - img [ref=e145]
+              - generic [ref=e148]: Sandboxes
+            - link "Workflows" [ref=e149] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/workflows
+              - img [ref=e151]
+              - generic [ref=e154]: Workflows
+            - separator [ref=e155]
+            - link "Usage" [ref=e156] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/usage
+              - img [ref=e158]
+              - generic [ref=e161]: Usage
+            - link "Support" [ref=e162] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/support
+              - img [ref=e164]
+              - generic [ref=e167]: Support
+            - link "Settings" [ref=e168] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/settings
+              - img [ref=e170]
+              - generic [ref=e173]: Settings
+              - img [ref=e175]
+        - generic [ref=e179]:
+          - button "Avatar for houssemeddin-6161 houssemeddin-6161" [ref=e333] [cursor=pointer]:
+            - img "Avatar for houssemeddin-6161" [ref=e334]:
+              - img "Avatar for houssemeddin-6161" [ref=e335]
+            - generic [ref=e337]: houssemeddin-6161
+            - img [ref=e339]
+          - button "notifications" [ref=e342] [cursor=pointer]:
+            - generic [ref=e344]:
+              - img
+      - button [ref=e185] [cursor=pointer]:
+        - img [ref=e186]
+    - generic [ref=e189]:
+      - generic [ref=e190]:
+        - generic [ref=e193]:
+          - link "Other khedhiri" [ref=e345] [cursor=pointer]:
+            - /url: /houssemeddin-6161s-projects/khedhiri
+            - img "Other" [ref=e346]:
+              - img "Other" [ref=e347]
+            - generic [ref=e197]: khedhiri
+          - button [ref=e198] [cursor=pointer]:
+            - img [ref=e200]
+          - link "Back to team view" [ref=e204] [cursor=pointer]:
+            - /url: /houssemeddin-6161s-projects/~/domains
+            - img [ref=e206]
+        - generic [ref=e210]: Domains
+        - button "Open page actions menu" [ref=e212] [cursor=pointer]:
+          - img [ref=e214]
+      - generic [ref=e224]:
+        - generic [ref=e225]:
+          - generic [ref=e226]:
+            - button "Filter domains" [ref=e227] [cursor=pointer]:
+              - img [ref=e229]
+            - generic [ref=e231]:
+              - searchbox "Search" [ref=e232]
+              - img [ref=e234]
+          - generic [ref=e236]:
+            - button "Add Existing" [ref=e237] [cursor=pointer]:
+              - generic [ref=e238]: Add Existing
+            - link "Buy" [ref=e239] [cursor=pointer]:
+              - /url: /domains?q=&teamSlug=houssemeddin-6161s-projects
+              - generic [ref=e240]: Buy
+        - generic [ref=e357]:
+          - button "khedhiri.vercel.app Valid Configuration Production" [disabled] [ref=e358]:
+            - img [ref=e359]
+            - generic [ref=e362]:
+              - link "khedhiri.vercel.app" [ref=e363] [cursor=pointer]:
+                - /url: https://khedhiri.vercel.app
+              - generic [ref=e365]: Valid Configuration
+            - generic [ref=e367]:
+              - img [ref=e368]
+              - text: Production
+          - generic [ref=e370]:
+            - button "Refresh" [ref=e371] [cursor=pointer]:
+              - generic [ref=e372]: Refresh
+            - button "Edit" [ref=e373] [cursor=pointer]:
+              - generic [ref=e374]: Edit
+  - alert [ref=e329]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img
+  - dialog [ref=e377]:
+    - generic [ref=e379]:
+      - heading "Add Domain" [level=3] [ref=e380]
+      - generic [ref=e381]:
+        - generic [ref=e382]: Add a domain to connect it to a project. After being connected, the domain will be aliased to the most recent deployment in that environment.
+        - generic [ref=e383]:
+          - combobox [expanded] [ref=e386]:
+            - generic [ref=e387]:
+              - generic:
+                - img
+              - searchbox "example.com" [active] [ref=e388]: khedhiri.khedhiri.meme
+              - button "Clear selected value" [ref=e432] [cursor=pointer]:
+                - img [ref=e433]
+          - radiogroup [ref=e391]:
+            - generic [ref=e392]:
+              - generic [ref=e394]:
+                - radio "Connect to an environment" [checked] [ref=e396]
+                - generic [ref=e398]: Connect to an environment
+              - generic [ref=e402]:
+                - generic:
+                  - img
+                - combobox "Environments" [ref=e403] [cursor=pointer]:
+                  - option "Production" [selected]
+                  - option "Preview"
+                  - option "Your project has no custom environments" [disabled]
+                - generic:
+                  - generic:
+                    - img
+            - generic [ref=e405]:
+              - generic [ref=e407]:
+                - radio "Redirect to Another Domain" [ref=e409]
+                - generic [ref=e411]: Redirect to Another Domain
+              - generic [ref=e412]:
+                - generic [ref=e415]:
+                  - combobox [disabled] [ref=e416]:
+                    - option "307 Temporary Redirect" [selected]
+                    - option "302 Found"
+                    - option "308 Permanent Redirect"
+                    - option "301 Moved Permanently"
+                  - generic:
+                    - img
+                - combobox [ref=e420]:
+                  - generic [ref=e421]:
+                    - generic:
+                      - img
+                    - searchbox "No Redirect" [disabled] [ref=e422]
+                    - button "Open menu" [disabled] [ref=e423]:
+                      - img [ref=e424]
+    - contentinfo [ref=e426]:
+      - button "Cancel" [ref=e427] [cursor=pointer]:
+        - generic [ref=e428]: Cancel
+      - button "Save" [ref=e435] [cursor=pointer]:
+        - generic [ref=e436]: Save

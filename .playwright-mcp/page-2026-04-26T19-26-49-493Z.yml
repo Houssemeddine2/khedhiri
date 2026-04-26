@@ -1,0 +1,434 @@
+- generic [ref=e2]:
+  - generic [ref=e3]:
+    - generic:
+      - button "Allez au contenu principal"
+    - generic [ref=e7]:
+      - img "OVHcloud" [ref=e8] [cursor=pointer]:
+        - img "OVHcloud_master_logo_white_RGB" [ref=e9]
+      - menubar "Menu de mes services" [ref=e19]:
+        - menu [ref=e20]:
+          - listitem [ref=e21]:
+            - heading "Hub de services" [level=2] [ref=e22]
+          - menuitem "Bare Metal Cloud" [ref=e23]:
+            - button "Bare Metal Cloud" [ref=e24] [cursor=pointer]:
+              - generic [ref=e25]:
+                - img [ref=e27]
+                - generic [ref=e29]: Bare Metal Cloud
+              - generic [ref=e32]: 
+          - menuitem "Hosted Private Cloud" [ref=e33]:
+            - button "Hosted Private Cloud" [ref=e34] [cursor=pointer]:
+              - generic [ref=e35]:
+                - img [ref=e37]
+                - generic [ref=e39]: Hosted Private Cloud
+              - generic [ref=e41]: 
+          - menuitem "Network" [ref=e42]:
+            - button "Network" [ref=e43] [cursor=pointer]:
+              - generic [ref=e44]:
+                - img [ref=e46]
+                - generic [ref=e60]: Network
+              - generic [ref=e63]: 
+          - menuitem "Public Cloud" [ref=e64]:
+            - button "Public Cloud" [ref=e65] [cursor=pointer]:
+              - generic [ref=e66]:
+                - img [ref=e68]
+                - generic [ref=e72]: Public Cloud
+              - generic [ref=e74]: 
+          - menuitem "Sunrise" [ref=e75]:
+            - button "Sunrise" [ref=e76] [cursor=pointer]:
+              - generic [ref=e77]:
+                - img [ref=e79]
+                - generic [ref=e81]: Sunrise
+              - generic [ref=e83]: 
+          - menuitem "Identité, Sécurité & Opérations" [ref=e84]:
+            - button "Identité, Sécurité & Opérations" [ref=e85] [cursor=pointer]:
+              - generic [ref=e86]:
+                - img [ref=e88]
+                - generic [ref=e91]: Identité, Sécurité & Opérations
+              - generic [ref=e93]: 
+          - menuitem "Télécom" [ref=e94]:
+            - button "Télécom" [ref=e95] [cursor=pointer]:
+              - generic [ref=e96]:
+                - img [ref=e98]
+                - generic [ref=e100]: Télécom
+              - generic [ref=e103]: 
+          - menuitem "Web Cloud" [ref=e104]:
+            - button "Web Cloud" [ref=e105] [cursor=pointer]:
+              - generic [ref=e106]:
+                - img [ref=e108]
+                - generic [ref=e110]: Web Cloud
+              - generic [ref=e113]: 
+        - link "Ajouter un service" [ref=e115]:
+          - /url: https://manager.eu.ovhcloud.com/#/catalog/
+          - link "Ajouter un service" [ref=e116] [cursor=pointer]:
+            - /url: https://manager.eu.ovhcloud.com/#/catalog/
+            - generic [ref=e120]:
+              - img [ref=e121]
+              - generic [ref=e124]: Ajouter un service
+      - menu [ref=e125]:
+        - menuitem "Centre d'aide" [ref=e126]:
+          - link "Centre d'aide" [ref=e127] [cursor=pointer]:
+            - /url: https://help.ovhcloud.com/csm/fr-home?id=csm_index
+            - text: Centre d'aide
+        - menuitem "Mes demandes d'assistance" [ref=e129]:
+          - link "Mes demandes d'assistance" [ref=e130] [cursor=pointer]:
+            - /url: https://help.ovhcloud.com/csm?id=csm_cases_requests&ovhSubsidiary=FR
+            - text: Mes demandes d'assistance
+        - menuitem "Roadmap & Changelog" [ref=e132]:
+          - link "Roadmap & Changelog" [ref=e133] [cursor=pointer]:
+            - /url: https://manager.eu.ovhcloud.com/#/hub/roadmap-changelog
+        - menuitem "Marketplace" [ref=e134]:
+          - link "Marketplace" [ref=e135] [cursor=pointer]:
+            - /url: https://marketplace.ovhcloud.com/
+            - text: Marketplace
+        - menuitem "Etat du réseau et incidents" [ref=e137]:
+          - link "Etat du réseau et incidents" [ref=e138] [cursor=pointer]:
+            - /url: https://www.status-ovhcloud.com/
+            - text: Etat du réseau et incidents
+        - menuitem "Créer un ticket" [ref=e140]:
+          - link "Créer un ticket" [ref=e141] [cursor=pointer]:
+            - /url: https://help.ovhcloud.com/csm?id=csm_get_help&ovhSubsidiary=FR
+            - text: Créer un ticket
+        - menuitem "Live Chat" [ref=e143]:
+          - button "Live Chat" [ref=e144] [cursor=pointer]:
+            - generic [ref=e146]: Live Chat
+        - menuitem "Assistant IA" [ref=e147]:
+          - button "Assistant IA" [ref=e148] [cursor=pointer]:
+            - generic [ref=e150]: Assistant IA
+        - menuitem "Mon bilan carbone" [ref=e151]:
+          - link "Mon bilan carbone" [ref=e152] [cursor=pointer]:
+            - /url: https://manager.eu.ovhcloud.com/#/carbon-calculator
+      - button "Réduire" [ref=e153] [cursor=pointer]:
+        - generic [ref=e154]: Réduire
+        - generic [ref=e155]: 
+        - generic [ref=e156]: 
+    - generic [ref=e157]:
+      - generic [ref=e160]:
+        - generic [ref=e162]:
+          - radiogroup [ref=e163]:
+            - generic:
+              - generic [ref=e165]:
+                - radio "Navigation classique" [ref=e166]
+                - generic [ref=e170]:
+                  - generic: Navigation classique
+              - generic [ref=e172]:
+                - radio "Navigation beta" [checked] [ref=e173]
+                - generic [ref=e177]:
+                  - generic: Navigation beta
+          - link "Découvrez notre nouveau Manager Beta" [ref=e179] [cursor=pointer]:
+            - /url: /beta/#/
+            - generic [ref=e182]: Découvrez notre nouveau Manager Beta
+        - button "Changer la langue de l'interface" [ref=e185]:
+          - generic [ref=e186]:
+            - generic [ref=e187]: Français
+            - generic [ref=e188]: 
+        - link "OVHcloud Shell" [ref=e190] [cursor=pointer]:
+          - /url: https://manager.eu.ovhcloud.com/#/cloud-shell
+          - img [ref=e191]
+        - button "Notifications" [ref=e194]
+        - generic [ref=e197]:
+          - button "Gérer mon compte" [ref=e198]:
+            - button "Assist-Pro-Solution" [ref=e199] [cursor=pointer]:
+              - generic [ref=e205]: Assist-Pro-Solution
+          - generic:
+            - generic: Administrateur
+            - generic: Standard
+      - iframe [active] [ref=e208]:
+        - generic [ref=f23e5]:
+          - link "-" [ref=f23e7] [cursor=pointer]:
+            - /url: ""
+          - generic [ref=f23e8]:
+            - list [ref=f23e10]:
+              - listitem [ref=f23e11]:
+                - link "Noms de domaine" [ref=f23e12] [cursor=pointer]:
+                  - /url: https://manager.eu.ovhcloud.com/web/#/domain
+              - listitem [ref=f23e13]:
+                - text: /
+                - link "khedhiri.me" [ref=f23e14] [cursor=pointer]:
+                  - /url: https://manager.eu.ovhcloud.com/web/#/domain/khedhiri.me
+              - listitem [ref=f23e15]: / Zone DNS
+            - generic [ref=f23e19]:
+              - generic [ref=f23e20]:
+                - generic [ref=f23e21]:
+                  - generic [ref=f23e24]:
+                    - generic [ref=f23e25]:
+                      - heading "khedhiri.me" [level=1] [ref=f23e27]
+                      - generic [ref=f23e33]:
+                        - text: Renouvellement automatique prévu en
+                        - strong [ref=f23e34]: avr. 2027
+                    - generic [ref=f23e36]:
+                      - generic [ref=f23e38]:
+                        - button "Roadmap & Changelog" [ref=f23e39] [cursor=pointer]:
+                          - img [ref=f23e40]
+                          - generic [ref=f23e41]: Roadmap & Changelog
+                        - text:   
+                      - button "Actions" [ref=f23e43] [cursor=pointer]:
+                        - text: Actions
+                        - generic: 
+                  - navigation [ref=f23e45]:
+                    - text: 
+                    - list [ref=f23e46]:
+                      - listitem [ref=f23e48]:
+                        - link "Informations générales" [ref=f23e49] [cursor=pointer]:
+                          - /url: https://manager.eu.ovhcloud.com/#/web-domains/domain/khedhiri.me/information
+                          - generic [ref=f23e50]: Informations générales
+                      - listitem [ref=f23e52]:
+                        - link "Zone DNS" [ref=f23e53] [cursor=pointer]:
+                          - /url: "#/domain/khedhiri.me/zone"
+                          - generic [ref=f23e54]: Zone DNS
+                      - listitem [ref=f23e56]:
+                        - link "Serveurs DNS" [ref=f23e57] [cursor=pointer]:
+                          - /url: https://manager.eu.ovhcloud.com/#/web-domains/domain/khedhiri.me/dns
+                          - generic [ref=f23e58]: Serveurs DNS
+                      - listitem [ref=f23e60]:
+                        - link "Redirection" [ref=f23e61] [cursor=pointer]:
+                          - /url: "#/domain/khedhiri.me/redirection"
+                          - generic [ref=f23e62]: Redirection
+                      - listitem [ref=f23e64]:
+                        - link "DynHost" [ref=f23e65] [cursor=pointer]:
+                          - /url: "#/domain/khedhiri.me/dynhost"
+                          - generic [ref=f23e66]: DynHost
+                      - listitem [ref=f23e68]:
+                        - link "Hôte" [ref=f23e69] [cursor=pointer]:
+                          - /url: https://manager.eu.ovhcloud.com/#/web-domains/domain/khedhiri.me/hosts
+                          - generic [ref=f23e70]: Hôte
+                      - listitem [ref=f23e72]:
+                        - link "DS Records" [ref=f23e73] [cursor=pointer]:
+                          - /url: https://manager.eu.ovhcloud.com/#/web-domains/domain/khedhiri.me/ds-records
+                          - generic [ref=f23e74]: DS Records
+                      - listitem [ref=f23e76]:
+                        - link "Gérer les contacts" [ref=f23e77] [cursor=pointer]:
+                          - /url: https://manager.eu.ovhcloud.com/#/web-domains/domain/khedhiri.me/contact-management
+                          - generic [ref=f23e78]: Gérer les contacts
+                    - text: 
+                - generic [ref=f23e82]:
+                  - generic [ref=f23e83]:
+                    - paragraph [ref=f23e84]: Vous pouvez voir ici la configuration des diverses entrées de votre domaine.
+                    - paragraph [ref=f23e85]: Vous avez également la possibilité de configurer ces entrées pour relier votre domaine à vos différents services (bouton « ajouter une entrée »).
+                    - generic [ref=f23e86]:
+                      - generic [ref=f23e90]:
+                        - generic [ref=f23e91]:
+                          - generic [ref=f23e92]: Filtrer domain_tab_ZONE_table_filter
+                          - generic [ref=f23e93]:
+                            - generic [ref=f23e95]: 
+                            - generic [ref=f23e96]:
+                              - combobox "Filtrer domain_tab_ZONE_table_filter" [ref=f23e97] [cursor=pointer]:
+                                - option "Tous" [selected]
+                                - option "A"
+                                - option "AAAA"
+                                - option "CAA"
+                                - option "CNAME"
+                                - option "DKIM"
+                                - option "DMARC"
+                                - option "DNAME"
+                                - option "HTTPS"
+                                - option "LOC"
+                                - option "MX"
+                                - option "NAPTR"
+                                - option "NS"
+                                - option "RP"
+                                - option "SPF"
+                                - option "SRV"
+                                - option "SSHFP"
+                                - option "SVCB"
+                                - option "TLSA"
+                                - option "TXT"
+                              - generic: 
+                        - generic [ref=f23e98]:
+                          - generic [ref=f23e99]: Rechercher domain_tab_ZONE_table_search
+                          - generic [ref=f23e100]:
+                            - textbox "Rechercher domain_tab_ZONE_table_search" [ref=f23e101]:
+                              - /placeholder: Recherche domaine…
+                            - generic [ref=f23e103]: 
+                      - table [ref=f23e105]:
+                        - rowgroup [ref=f23e106]:
+                          - row "Domaine TTL Type Cible" [ref=f23e107]:
+                            - columnheader [ref=f23e108]:
+                              - checkbox [ref=f23e110]
+                            - columnheader "Domaine" [ref=f23e111]
+                            - columnheader "TTL" [ref=f23e112]
+                            - columnheader "Type" [ref=f23e113]
+                            - columnheader "Cible" [ref=f23e114]
+                            - columnheader [ref=f23e115]:
+                              - button "Actualiser" [ref=f23e116] [cursor=pointer]:
+                                - generic [ref=f23e117]: 
+                        - rowgroup [ref=f23e118]:
+                          - row "khedhiri.me. 0 NS dns14.ovh.net." [ref=f23e119]:
+                            - cell "khedhiri.me." [ref=f23e120]:
+                              - checkbox "khedhiri.me." [ref=f23e121]
+                            - cell "khedhiri.me." [ref=f23e122]:
+                              - generic [ref=f23e123]: khedhiri.me.
+                            - cell "0" [ref=f23e124]
+                            - cell "NS" [ref=f23e125]
+                            - cell "dns14.ovh.net." [ref=f23e126]
+                            - cell [ref=f23e127]
+                          - row "khedhiri.me. 0 NS ns14.ovh.net." [ref=f23e128]:
+                            - cell "khedhiri.me." [ref=f23e129]:
+                              - checkbox "khedhiri.me." [ref=f23e130]
+                            - cell "khedhiri.me." [ref=f23e131]:
+                              - generic [ref=f23e132]: khedhiri.me.
+                            - cell "0" [ref=f23e133]
+                            - cell "NS" [ref=f23e134]
+                            - cell "ns14.ovh.net." [ref=f23e135]
+                            - cell [ref=f23e136]
+                          - row "khedhiri.me. 0 A 213.186.33.5 " [ref=f23e137]:
+                            - cell "khedhiri.me." [ref=f23e138]:
+                              - checkbox "khedhiri.me." [ref=f23e139]
+                            - cell "khedhiri.me." [ref=f23e140]:
+                              - generic [ref=f23e141]: khedhiri.me.
+                            - cell "0" [ref=f23e142]
+                            - cell "A" [ref=f23e143]
+                            - cell "213.186.33.5" [ref=f23e144]
+                            - cell "" [ref=f23e145]:
+                              - button "" [ref=f23e148] [cursor=pointer]:
+                                - generic [ref=f23e149]: 
+                          - row "www.khedhiri.me. 0 A 213.186.33.5 " [ref=f23e150]:
+                            - cell "www.khedhiri.me." [ref=f23e151]:
+                              - checkbox "www.khedhiri.me." [ref=f23e152]
+                            - cell "www.khedhiri.me." [ref=f23e153]:
+                              - generic [ref=f23e154]: www.khedhiri.me.
+                            - cell "0" [ref=f23e155]
+                            - cell "A" [ref=f23e156]
+                            - cell "213.186.33.5" [ref=f23e157]
+                            - cell "" [ref=f23e158]:
+                              - button "" [ref=f23e161] [cursor=pointer]:
+                                - generic [ref=f23e162]: 
+                          - row "ftp.khedhiri.me. 0 CNAME khedhiri.me. " [ref=f23e163]:
+                            - cell "ftp.khedhiri.me." [ref=f23e164]:
+                              - checkbox "ftp.khedhiri.me." [ref=f23e165]
+                            - cell "ftp.khedhiri.me." [ref=f23e166]:
+                              - generic [ref=f23e167]: ftp.khedhiri.me.
+                            - cell "0" [ref=f23e168]
+                            - cell "CNAME" [ref=f23e169]
+                            - cell "khedhiri.me." [ref=f23e170]
+                            - cell "" [ref=f23e171]:
+                              - button "" [ref=f23e174] [cursor=pointer]:
+                                - generic [ref=f23e175]: 
+                          - row "khedhiri.me. 0 SPF v=spf1 include:mx.ovh.com -all " [ref=f23e176]:
+                            - cell "khedhiri.me." [ref=f23e177]:
+                              - checkbox "khedhiri.me." [ref=f23e178]
+                            - cell "khedhiri.me." [ref=f23e179]:
+                              - generic [ref=f23e180]: khedhiri.me.
+                            - cell "0" [ref=f23e181]
+                            - cell "SPF" [ref=f23e182]
+                            - cell "v=spf1 include:mx.ovh.com -all" [ref=f23e183]
+                            - cell "" [ref=f23e184]:
+                              - button "" [ref=f23e187] [cursor=pointer]:
+                                - generic [ref=f23e188]: 
+                          - row "khedhiri.me. 0 TXT \"1|www.khedhiri.me\" " [ref=f23e189]:
+                            - cell "khedhiri.me." [ref=f23e190]:
+                              - checkbox "khedhiri.me." [ref=f23e191]
+                            - cell "khedhiri.me." [ref=f23e192]:
+                              - generic [ref=f23e193]: khedhiri.me.
+                            - cell "0" [ref=f23e194]
+                            - cell "TXT" [ref=f23e195]
+                            - cell "\"1|www.khedhiri.me\"" [ref=f23e196]
+                            - cell "" [ref=f23e197]:
+                              - button "" [ref=f23e200] [cursor=pointer]:
+                                - generic [ref=f23e201]: 
+                          - row "www.khedhiri.me. 0 TXT \"3|welcome\" " [ref=f23e202]:
+                            - cell "www.khedhiri.me." [ref=f23e203]:
+                              - checkbox "www.khedhiri.me." [ref=f23e204]
+                            - cell "www.khedhiri.me." [ref=f23e205]:
+                              - generic [ref=f23e206]: www.khedhiri.me.
+                            - cell "0" [ref=f23e207]
+                            - cell "TXT" [ref=f23e208]
+                            - cell "\"3|welcome\"" [ref=f23e209]
+                            - cell "" [ref=f23e210]:
+                              - button "" [ref=f23e213] [cursor=pointer]:
+                                - generic [ref=f23e214]: 
+                          - row "khedhiri.me. 0 MX 1 mx1.mail.ovh.net. " [ref=f23e215]:
+                            - cell "khedhiri.me." [ref=f23e216]:
+                              - checkbox "khedhiri.me." [ref=f23e217]
+                            - cell "khedhiri.me." [ref=f23e218]:
+                              - generic [ref=f23e219]: khedhiri.me.
+                            - cell "0" [ref=f23e220]
+                            - cell "MX" [ref=f23e221]
+                            - cell "1 mx1.mail.ovh.net." [ref=f23e222]
+                            - cell "" [ref=f23e223]:
+                              - button "" [ref=f23e226] [cursor=pointer]:
+                                - generic [ref=f23e227]: 
+                          - row "khedhiri.me. 0 MX 5 mx2.mail.ovh.net. " [ref=f23e228]:
+                            - cell "khedhiri.me." [ref=f23e229]:
+                              - checkbox "khedhiri.me." [ref=f23e230]
+                            - cell "khedhiri.me." [ref=f23e231]:
+                              - generic [ref=f23e232]: khedhiri.me.
+                            - cell "0" [ref=f23e233]
+                            - cell "MX" [ref=f23e234]
+                            - cell "5 mx2.mail.ovh.net." [ref=f23e235]
+                            - cell "" [ref=f23e236]:
+                              - button "" [ref=f23e239] [cursor=pointer]:
+                                - generic [ref=f23e240]: 
+                    - generic [ref=f23e242]:
+                      - list [ref=f23e243]:
+                        - listitem [ref=f23e244]:
+                          - link "" [ref=f23e245]:
+                            - /url: javascript:void(0)
+                            - generic [ref=f23e246]: 
+                        - listitem [ref=f23e247]:
+                          - link "" [ref=f23e248]:
+                            - /url: javascript:void(0)
+                            - generic [ref=f23e249]: 
+                        - listitem [ref=f23e250]:
+                          - link "1" [ref=f23e251]:
+                            - /url: javascript:void(0)
+                        - listitem [ref=f23e252]:
+                          - link "2" [ref=f23e253] [cursor=pointer]:
+                            - /url: javascript:void(0)
+                        - listitem [ref=f23e254]:
+                          - link "" [ref=f23e255] [cursor=pointer]:
+                            - /url: javascript:void(0)
+                            - generic [ref=f23e256]: 
+                        - listitem [ref=f23e257]:
+                          - link "" [ref=f23e258] [cursor=pointer]:
+                            - /url: javascript:void(0)
+                            - generic [ref=f23e259]: 
+                      - generic [ref=f23e260]:
+                        - combobox [ref=f23e262]:
+                          - option "Afficher" [disabled]
+                          - option "5"
+                          - option "10" [selected]
+                          - option "20"
+                          - option "40"
+                          - option "80"
+                          - option "100"
+                        - textbox "Page 1 / 2" [ref=f23e264]
+                        - button "OK" [ref=f23e265] [cursor=pointer]
+                  - generic [ref=f23e266]:
+                    - generic [ref=f23e267]:
+                      - button "Ajouter une entrée" [ref=f23e268] [cursor=pointer]
+                      - button "Modifier en mode textuel" [ref=f23e269] [cursor=pointer]
+                      - button "Modifier le TTL par défaut" [ref=f23e270] [cursor=pointer]
+                      - button "Voir l'historique de ma zone DNS" [ref=f23e271] [cursor=pointer]
+                      - button "Réinitialiser ma zone DNS" [ref=f23e272] [cursor=pointer]
+                    - generic [ref=f23e274]:
+                      - heading "Guides" [level=3] [ref=f23e275]
+                      - button "Zone DNS " [ref=f23e278] [cursor=pointer]:
+                        - generic [ref=f23e279]: Zone DNS
+                        - text: 
+                        - generic [ref=f23e280]: 
+              - dialog [ref=f23e286]:
+                - generic [active] [ref=f23e291]:
+                  - button "" [ref=f23e293] [cursor=pointer]
+                  - generic [ref=f23e294]:
+                    - heading "Modifier une entrée de la zone DNS" [level=3] [ref=f23e295]
+                    - generic [ref=f23e296]: Étape 2 sur 2
+                  - generic [ref=f23e297]:
+                    - generic:  *
+                    - generic [ref=f23e331]:
+                      - generic [ref=f23e334]:
+                        - paragraph [ref=f23e335]: "Vous allez ajouter l'entrée suivante dans votre zone DNS :"
+                        - generic [ref=f23e336]:
+                          - term [ref=f23e337]: Type de champ
+                          - definition [ref=f23e338]: A
+                          - term [ref=f23e339]: Domaine
+                          - definition [ref=f23e340]: khedhiri.me.
+                          - term [ref=f23e341]: Cible
+                          - definition [ref=f23e342]: 216.198.79.1
+                        - alert [ref=f23e343]: L’ajout sera immédiat dans la zone DNS, mais veuillez prendre en compte le temps de propagation (maximum 24h).
+                      - generic [ref=f23e344]:
+                        - button "Annuler" [ref=f23e345] [cursor=pointer]
+                        - button "Précédent" [ref=f23e346] [cursor=pointer]
+                        - button "Valider" [ref=f23e347] [cursor=pointer]
+  - button "Ouvrir l'assistant IA" [ref=e219] [cursor=pointer]:
+    - img [ref=e220]
+    - generic [ref=e224]: Ouvrir l'assistant IA

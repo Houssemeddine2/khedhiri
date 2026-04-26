@@ -1,0 +1,318 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - main [ref=e3]:
+    - generic [ref=e4]:
+      - generic [ref=e5]:
+        - generic [ref=e6]:
+          - generic [ref=e9]:
+            - link "houssemeddin-6161's projects Hobby" [ref=e10] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects
+              - img [ref=e11]
+              - generic [ref=e12]:
+                - generic [ref=e13]: houssemeddin-6161's projects
+                - generic [ref=e15]: Hobby
+            - button [ref=e16] [cursor=pointer]:
+              - img [ref=e18]
+          - button "Find… F" [ref=e21]:
+            - generic [ref=e23]:
+              - img [ref=e25]
+              - generic [ref=e27]: Find…
+              - generic [ref=e29]: F
+        - navigation [ref=e31]:
+          - generic [ref=e34]:
+            - link "Projects" [ref=e35] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects
+              - img [ref=e37]
+              - generic [ref=e40]: Projects
+            - link "Deployments" [ref=e41] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/deployments
+              - img [ref=e43]
+              - generic [ref=e46]: Deployments
+            - link "Logs" [ref=e47] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/logs
+              - img [ref=e49]
+              - generic [ref=e52]: Logs
+            - link "Analytics" [ref=e53] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/analytics
+              - img [ref=e55]
+              - generic [ref=e58]: Analytics
+            - link "Speed Insights" [ref=e59] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/speed-insights
+              - img [ref=e61]
+              - generic [ref=e64]: Speed Insights
+            - link "Observability" [ref=e65] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/observability
+              - img [ref=e67]
+              - generic [ref=e70]: Observability
+              - img [ref=e72]
+            - link "Firewall" [ref=e74] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/firewall
+              - img [ref=e76]
+              - generic [ref=e80]: Firewall
+            - link "CDN" [ref=e81] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/cdn
+              - img [ref=e83]
+              - generic [ref=e86]: CDN
+            - separator [ref=e87]
+            - link "Environment Variables" [ref=e88] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/settings/environment-variables
+              - img [ref=e90]
+              - generic [ref=e93]: Environment Variables
+            - link "Domains" [ref=e94] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/domains
+              - img [ref=e96]
+              - generic [ref=e99]: Domains
+            - link "Integrations" [ref=e100] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/integrations
+              - img [ref=e102]
+              - generic [ref=e105]: Integrations
+            - link "Storage" [ref=e106] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/stores
+              - img [ref=e108]
+              - generic [ref=e111]: Storage
+            - link "Flags" [ref=e112] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/experimentation/collections
+              - img [ref=e114]
+              - generic [ref=e117]: Flags
+            - link "Agent" [ref=e118] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/agent
+              - img [ref=e120]
+              - generic [ref=e123]: Agent
+              - img [ref=e125]
+            - link "AI Gateway" [ref=e127] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/ai-gateway
+              - img [ref=e129]
+              - generic [ref=e132]: AI Gateway
+              - img [ref=e134]
+            - link "Sandboxes" [ref=e136] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/sandboxes
+              - img [ref=e138]
+              - generic [ref=e141]: Sandboxes
+            - link "Workflows" [ref=e142] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/workflows
+              - img [ref=e144]
+              - generic [ref=e147]: Workflows
+            - separator [ref=e148]
+            - link "Usage" [ref=e149] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/usage
+              - img [ref=e151]
+              - generic [ref=e154]: Usage
+            - link "Support" [ref=e155] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/support
+              - img [ref=e157]
+              - generic [ref=e160]: Support
+            - link "Settings" [ref=e161] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/~/settings
+              - img [ref=e163]
+              - generic [ref=e166]: Settings
+              - img [ref=e168]
+        - generic [ref=e172]:
+          - button "Avatar for houssemeddin-6161 houssemeddin-6161" [disabled]:
+            - img "Avatar for houssemeddin-6161":
+              - img "Avatar for houssemeddin-6161"
+            - generic:
+              - generic: houssemeddin-6161
+            - generic:
+              - img
+          - img [ref=e175]
+      - button [ref=e178] [cursor=pointer]:
+        - img [ref=e179]
+    - generic [ref=e182]:
+      - generic [ref=e183]:
+        - button "All projects" [ref=e187] [cursor=pointer]:
+          - generic [ref=e188]: All projects
+          - img [ref=e190]
+        - generic [ref=e194]: Overview
+        - button "Open page actions menu" [ref=e196] [cursor=pointer]:
+          - img [ref=e198]
+      - generic [ref=e203]:
+        - generic [ref=e205]:
+          - generic [ref=e206]:
+            - searchbox "Search" [ref=e207]
+            - img [ref=e209]
+          - button "Filter and Sort Projects" [ref=e211] [cursor=pointer]:
+            - img [ref=e213]
+          - generic [ref=e215]:
+            - generic [ref=e216]:
+              - radio "grid" [checked] [ref=e217]
+              - generic [ref=e218] [cursor=pointer]:
+                - img [ref=e219]
+                - generic [ref=e221]: grid
+            - generic [ref=e222]:
+              - radio "list" [ref=e223]
+              - generic [ref=e224] [cursor=pointer]:
+                - img [ref=e225]
+                - generic [ref=e227]: list
+          - button "Add New..." [ref=e228] [cursor=pointer]:
+            - generic [ref=e229]: Add New...
+            - img [ref=e231]
+        - generic [ref=e233]:
+          - generic [ref=e236]:
+            - generic [ref=e237]:
+              - link "Usage" [ref=e239] [cursor=pointer]:
+                - /url: /houssemeddin-6161s-projects/~/usage
+              - generic [ref=e240]:
+                - generic [ref=e241]:
+                  - link "Last 30 days" [ref=e243] [cursor=pointer]:
+                    - /url: /houssemeddin-6161s-projects/~/usage
+                  - button "Upgrade" [ref=e244] [cursor=pointer]:
+                    - generic [ref=e245]: Upgrade
+                - list [ref=e246]:
+                  - listitem [ref=e247]:
+                    - link "0 Fast Data Transfer 0 / 100 GB 1 TB" [ref=e248] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/networking-fast-data-transfer
+                      - progressbar [ref=e249]:
+                        - img [ref=e250]
+                      - generic [ref=e253]:
+                        - generic [ref=e254]: Fast Data Transfer
+                        - img [ref=e257]
+                      - generic [ref=e260]:
+                        - text: 0 /
+                        - generic [ref=e261]: 100 GB
+                      - generic: 1 TB
+                  - listitem [ref=e262]:
+                    - link "0 Fast Origin Transfer 0 / 10 GB 100 GB" [ref=e263] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/networking-fast-origin-transfer
+                      - progressbar [ref=e264]:
+                        - img [ref=e265]
+                      - generic [ref=e268]:
+                        - generic [ref=e269]: Fast Origin Transfer
+                        - img [ref=e272]
+                      - generic [ref=e275]:
+                        - text: 0 /
+                        - generic [ref=e276]: 10 GB
+                      - generic: 100 GB
+                  - listitem [ref=e277]:
+                    - link "0 Edge Requests 0 / 1M 10M" [ref=e278] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/networking-edge-requests
+                      - progressbar [ref=e279]:
+                        - img [ref=e280]
+                      - generic [ref=e283]:
+                        - generic [ref=e284]: Edge Requests
+                        - img [ref=e287]
+                      - generic [ref=e290]:
+                        - text: 0 /
+                        - generic [ref=e291]: 1M
+                      - generic: 10M
+                  - listitem [ref=e292]:
+                    - link "0 Edge Request CPU Duration 0 / 1h" [ref=e293] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/networking-edge-request-cpu-duration
+                      - progressbar [ref=e294]:
+                        - img [ref=e295]
+                      - generic [ref=e298]:
+                        - generic [ref=e299]: Edge Request CPU Duration
+                        - img [ref=e302]
+                      - generic [ref=e305]: 0 / 1h
+                  - listitem [ref=e306]:
+                    - link "0 Microfrontends Routing 0 / 50K" [ref=e307] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/networking-microfrontends-routing
+                      - progressbar [ref=e308]:
+                        - img [ref=e309]
+                      - generic [ref=e312]:
+                        - generic [ref=e313]: Microfrontends Routing
+                        - img [ref=e316]
+                      - generic [ref=e319]: 0 / 50K
+                  - listitem [ref=e320]:
+                    - link "0 ISR Reads 0 / 1M 10M" [ref=e321] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/isr-reads
+                      - progressbar [ref=e322]:
+                        - img [ref=e323]
+                      - generic [ref=e326]:
+                        - generic [ref=e327]: ISR Reads
+                        - img [ref=e330]
+                      - generic [ref=e333]:
+                        - text: 0 /
+                        - generic [ref=e334]: 1M
+                      - generic: 10M
+                  - listitem [ref=e335]:
+                    - link "0 ISR Writes 0 / 200K 2M" [ref=e336] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/isr-writes
+                      - progressbar [ref=e337]:
+                        - img [ref=e338]
+                      - generic [ref=e341]:
+                        - generic [ref=e342]: ISR Writes
+                        - img [ref=e345]
+                      - generic [ref=e348]:
+                        - text: 0 /
+                        - generic [ref=e349]: 200K
+                      - generic: 2M
+                  - listitem [ref=e350]:
+                    - link "0 Function Invocations 0 / 1M" [ref=e351] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/vercel-functions-invocations
+                      - progressbar [ref=e352]:
+                        - img [ref=e353]
+                      - generic [ref=e356]:
+                        - generic [ref=e357]: Function Invocations
+                        - img [ref=e360]
+                      - generic [ref=e363]: 0 / 1M
+                  - listitem [ref=e364]:
+                    - link "0 Function Duration 0 / 100 GB-Hrs 1,000 GB-Hrs" [ref=e365] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/vercel-functions-duration
+                      - progressbar [ref=e366]:
+                        - img [ref=e367]
+                      - generic [ref=e370]:
+                        - generic [ref=e371]: Function Duration
+                        - img [ref=e374]
+                      - generic [ref=e377]:
+                        - text: 0 /
+                        - generic [ref=e378]: 100 GB-Hrs
+                      - generic: 1,000 GB-Hrs
+                  - listitem [ref=e379]:
+                    - link "0 Fluid Provisioned Memory 0 / 360 GB-Hrs 1,440 GB-Hrs" [ref=e380] [cursor=pointer]:
+                      - /url: /houssemeddin-6161s-projects/~/usage/vercel-functions-fluid-duration
+                      - progressbar [ref=e381]:
+                        - img [ref=e382]
+                      - generic [ref=e385]:
+                        - generic [ref=e386]: Fluid Provisioned Memory
+                        - img [ref=e389]
+                      - generic [ref=e392]:
+                        - text: 0 /
+                        - generic [ref=e393]: 360 GB-Hrs
+                      - generic: 1,440 GB-Hrs
+              - button "Show More Usage" [ref=e394] [cursor=pointer]:
+                - img [ref=e396]
+            - generic [ref=e398]:
+              - link "Alerts" [ref=e400] [cursor=pointer]:
+                - /url: /houssemeddin-6161s-projects/~/observability/alerts
+              - generic [ref=e405]:
+                - generic [ref=e406]:
+                  - generic [ref=e407]: Get alerted for anomalies
+                  - generic [ref=e408]: Automatically monitor your projects for anomalies and get notified.
+                - button "Enable Observability Plus" [ref=e409] [cursor=pointer]:
+                  - generic [ref=e410]: Enable Observability Plus
+            - generic [ref=e411]:
+              - generic [ref=e413]: Recent Previews
+              - list [ref=e414]:
+                - generic [ref=e416]:
+                  - img [ref=e418]
+                  - generic [ref=e421]: Preview deployments that you have recently visited or created will appear here.
+          - generic [ref=e423]:
+            - generic [ref=e425]: Projects
+            - generic [ref=e429]:
+              - img [ref=e431]
+              - generic [ref=e433]:
+                - generic [ref=e434]: Deploy your first project
+                - generic [ref=e435]: Start with one of our templates or create something new.
+              - generic [ref=e437]:
+                - generic [ref=e438]:
+                  - img [ref=e441]
+                  - generic [ref=e443]:
+                    - paragraph [ref=e444]: Import Project
+                    - paragraph [ref=e445]: Add a repo from your git provider
+                - link "Import" [ref=e447] [cursor=pointer]:
+                  - /url: ""
+                  - generic [ref=e448]: Import
+              - generic [ref=e490]:
+                - generic [ref=e491]:
+                  - paragraph [ref=e492]: Browse Templates
+                  - paragraph [ref=e493]: Jumpstart AI projects, ecommerce, and more
+                - generic [ref=e494]:
+                  - generic [ref=e495]:
+                    - img [ref=e497]
+                    - img [ref=e500]
+                    - img [ref=e504]
+                  - link "templates marketplace" [ref=e508] [cursor=pointer]:
+                    - /url: /templates
+                    - img [ref=e510]
+  - alert [ref=e512]

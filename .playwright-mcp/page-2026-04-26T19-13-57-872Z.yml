@@ -1,0 +1,101 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "Back to Dashboard" [ref=e123] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e124]
+        - generic [ref=e126]: Back
+      - generic [ref=e4]: New Project
+      - generic [ref=e127]:
+        - link "Team Settings" [ref=e129] [cursor=pointer]:
+          - /url: /houssemeddin-6161s-projects/~/settings
+          - img [ref=e130]
+        - button "Avatar for houssemeddin-6161" [ref=e134] [cursor=pointer]:
+          - img "Avatar for houssemeddin-6161" [ref=e135]:
+            - img "Avatar for houssemeddin-6161" [ref=e136]
+    - main [ref=e5]:
+      - generic [ref=e370]:
+        - generic [ref=e372]:
+          - heading "New Project" [level=3] [ref=e374]
+          - generic [ref=e375]:
+            - listitem [ref=e376]:
+              - generic [ref=e380]:
+                - paragraph [ref=e381]: importing from GitHub
+                - generic [ref=e382]:
+                  - link "github Houssemeddine2/khedhiri" [ref=e383] [cursor=pointer]:
+                    - /url: https://github.com/Houssemeddine2/khedhiri
+                    - img "github" [ref=e384]
+                    - generic "Houssemeddine2/khedhiri" [ref=e386]
+                  - link "main" [ref=e387] [cursor=pointer]:
+                    - /url: https://github.com/Houssemeddine2/khedhiri
+                    - img [ref=e388]
+                    - generic "main" [ref=e390]
+            - paragraph [ref=e391]: Choose where you want to create the project and give it a name.
+            - generic [ref=e395]:
+              - generic [ref=e396]:
+                - generic [ref=e397]:
+                  - generic [ref=e398]: Vercel Team
+                  - combobox [ref=e400]:
+                    - generic [ref=e401]:
+                      - generic:
+                        - img
+                      - searchbox "Select a Vercel Team" [disabled] [ref=e402]: houssemeddin-6161's projects
+                      - generic [ref=e406]: Hobby
+                      - button "Open menu" [disabled] [ref=e407]:
+                        - img [ref=e408]
+                - img "Slash Divider" [ref=e411]
+                - generic [ref=e412]:
+                  - generic [ref=e413]: Project Name
+                  - textbox "New Project Name" [disabled] [ref=e416]:
+                    - /placeholder: my-project
+                    - text: khedhiri
+              - separator [ref=e417]
+              - generic [ref=e418]:
+                - generic [ref=e419]:
+                  - generic [ref=e420]: Application Preset
+                  - combobox [ref=e422]:
+                    - generic [ref=e423]:
+                      - generic:
+                        - img
+                      - searchbox "Application Preset" [disabled] [ref=e424]: Next.js
+                      - button "Open menu" [disabled] [ref=e425]:
+                        - img [ref=e426]
+                - generic [ref=e428]:
+                  - generic [ref=e429]: Root Directory
+                  - generic [ref=e430]:
+                    - textbox "Root Directory" [disabled] [ref=e433]: ./
+                    - button "Edit" [disabled] [ref=e436]:
+                      - generic [ref=e437]: Edit
+                - generic [ref=e438]:
+                  - group [ref=e442]:
+                    - generic "Build and Output Settings" [ref=e443] [cursor=pointer]:
+                      - img [ref=e444]
+                      - text: Build and Output Settings
+                  - group [ref=e449]:
+                    - generic "Environment Variables" [ref=e450] [cursor=pointer]:
+                      - img [ref=e451]
+                      - text: Environment Variables
+                    - option "Production and Preview" [selected]
+                    - option "Production"
+                    - option "Preview"
+                    - option "Development"
+            - button "Deploying…" [disabled] [ref=e468]:
+              - generic [ref=e458]: Deploying…
+        - generic [ref=e460]:
+          - heading "Deployment" [level=3] [ref=e462]
+          - generic [ref=e463]: Once you're ready, start deploying to see the progress here…
+          - img "Globe" [ref=e464]
+        - generic [ref=e465]:
+          - link "Import a different Git Repository →" [ref=e466] [cursor=pointer]:
+            - /url: /new
+          - link "Browse Templates →" [ref=e467] [cursor=pointer]:
+            - /url: /new/templates
+      - text: $
+  - alert [ref=e120]: New Project – Vercel
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img
