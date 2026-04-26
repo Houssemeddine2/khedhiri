@@ -1,4 +1,9 @@
 import { login } from './actions'
+import { SubmitButton } from './submit-button'
+
+export const metadata = {
+  title: 'Connexion — khedhiri.me',
+}
 
 export default async function LoginPage({
   searchParams,
@@ -21,7 +26,7 @@ export default async function LoginPage({
       </p>
 
       {/* Carte de connexion */}
-      <div className="bg-white rounded-2xl shadow-lg p-8 max-w-sm w-full mt-8">
+      <div className="bg-jasmine rounded-2xl shadow-lg p-8 max-w-sm w-full mt-8">
         <form action={login} className="flex flex-col gap-5">
           {/* Champ email */}
           <div className="flex flex-col gap-1">
@@ -69,12 +74,7 @@ export default async function LoginPage({
           )}
 
           {/* Bouton de connexion */}
-          <button
-            type="submit"
-            className="bg-terracotta hover:bg-terracotta-deep text-white font-manrope font-semibold py-3 rounded-xl transition-colors cursor-pointer w-full text-base mt-1"
-          >
-            Entrer →
-          </button>
+          <SubmitButton />
         </form>
       </div>
 
