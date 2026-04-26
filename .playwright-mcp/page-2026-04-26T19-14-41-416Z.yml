@@ -1,0 +1,82 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "Back to Dashboard" [ref=e123] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e124]
+        - generic [ref=e126]: Back
+      - generic [ref=e4]: New Project
+      - generic [ref=e127]:
+        - link "Team Settings" [ref=e129] [cursor=pointer]:
+          - /url: /houssemeddin-6161s-projects/~/settings
+          - img [ref=e130]
+        - button "Avatar for houssemeddin-6161" [ref=e134] [cursor=pointer]:
+          - img "Avatar for houssemeddin-6161" [ref=e135]:
+            - img "Avatar for houssemeddin-6161" [ref=e136]
+    - main [ref=e5]:
+      - generic [ref=e545]:
+        - generic [ref=e547]:
+          - paragraph [ref=e548]: Congratulations!
+          - paragraph [ref=e549]:
+            - text: You just deployed a new project to
+            - img [ref=e550]
+            - text: houssemeddin-6161's projects.
+        - generic [ref=e552]:
+          - link "Visit Deployment" [ref=e557] [cursor=pointer]:
+            - /url: https://khedhiri.vercel.app
+            - img [ref=e560]
+          - generic [ref=e561]:
+            - generic [ref=e562]:
+              - paragraph [ref=e563]: Install Coding Agent Plugin
+              - generic [ref=e564]:
+                - generic [ref=e565]:
+                  - img [ref=e567]
+                  - img [ref=e569]
+                  - img [ref=e571]
+                - generic [ref=e572]: "|"
+                - button "Dismiss coding agent plugin notification" [ref=e573]:
+                  - img [ref=e574]
+            - paragraph [ref=e576]: Turn your coding agent into a Vercel expert. Simply copy and run this in your terminal to install the plugin. Available for Claude, Cursor and Codex.
+            - generic [ref=e578]:
+              - generic [ref=e579]: $ npx plugins add vercel/vercel-plugin
+              - button "Copy to clipboard" [ref=e580] [cursor=pointer]:
+                - generic [ref=e582]:
+                  - img [ref=e584]
+                  - img [ref=e587]
+          - generic [ref=e589]:
+            - heading "Next Steps" [level=4] [ref=e590]
+            - generic [ref=e592]:
+              - img [ref=e594]
+              - generic [ref=e596]:
+                - paragraph [ref=e597]: Instant Previews
+                - paragraph [ref=e598]: Push a new branch to preview changes instantly
+            - link "Add Domain Add a custom domain to your project" [ref=e600] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/settings/domains
+              - generic [ref=e601]:
+                - generic [ref=e602]:
+                  - img [ref=e604]
+                  - generic [ref=e606]:
+                    - paragraph [ref=e607]: Add Domain
+                    - paragraph [ref=e608]: Add a custom domain to your project
+                - img [ref=e609]
+            - link "Enable Speed Insights Track how users experience your site over time" [ref=e612] [cursor=pointer]:
+              - /url: /houssemeddin-6161s-projects/khedhiri/speed-insights
+              - generic [ref=e613]:
+                - generic [ref=e614]:
+                  - img [ref=e616]
+                  - generic [ref=e618]:
+                    - paragraph [ref=e619]: Enable Speed Insights
+                    - paragraph [ref=e620]: Track how users experience your site over time
+                - img [ref=e621]
+        - link "Continue to Dashboard" [ref=e623] [cursor=pointer]:
+          - /url: /houssemeddin-6161s-projects/khedhiri
+          - generic [ref=e624]: Continue to Dashboard
+      - text: $
+  - alert [ref=e120]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img

@@ -1,0 +1,138 @@
+- generic [active] [ref=e1]:
+  - link "Skip to content":
+    - /url: "#geist-skip-nav"
+  - generic [ref=e2]:
+    - generic [ref=e3]:
+      - link "Back to Dashboard" [ref=e123] [cursor=pointer]:
+        - /url: /dashboard
+        - img [ref=e124]
+        - generic [ref=e126]: Back
+      - generic [ref=e4]: New Project
+      - generic [ref=e127]:
+        - link "Team Settings" [ref=e129] [cursor=pointer]:
+          - /url: /houssemeddin-6161s-projects/~/settings
+          - img [ref=e130]
+        - button "Avatar for houssemeddin-6161" [ref=e134] [cursor=pointer]:
+          - img "Avatar for houssemeddin-6161" [ref=e135]:
+            - img "Avatar for houssemeddin-6161" [ref=e136]
+    - main [ref=e5]:
+      - generic [ref=e137]:
+        - generic [ref=e138]:
+          - generic [ref=e139]:
+            - heading "Let's build something new" [level=2] [ref=e140]
+            - button "Collaborate on Pro" [ref=e143] [cursor=pointer]:
+              - generic [ref=e145]:
+                - img [ref=e146]
+                - text: Collaborate on Pro
+          - generic [ref=e150]:
+            - generic [ref=e151]:
+              - textbox "v0 Prompt or Git Repository URL" [ref=e152]:
+                - /placeholder: Ask v0 to build or enter a Git repository URL…
+              - img [ref=e154]
+            - generic [ref=e156]:
+              - button "Contact Form" [ref=e157] [cursor=pointer]:
+                - generic [ref=e158]:
+                  - img [ref=e160]
+                  - text: Contact Form
+              - button "Image Editor" [ref=e162] [cursor=pointer]:
+                - generic [ref=e163]:
+                  - img [ref=e165]
+                  - text: Image Editor
+              - button "Mini Game" [ref=e167] [cursor=pointer]:
+                - generic [ref=e168]:
+                  - img [ref=e170]
+                  - text: Mini Game
+              - button "Finance Calculator" [ref=e172] [cursor=pointer]:
+                - generic [ref=e173]:
+                  - img [ref=e175]
+                  - text: Finance Calculator
+              - button "Refresh suggestions" [ref=e177] [cursor=pointer]:
+                - img [ref=e180]
+        - generic [ref=e182]:
+          - generic [ref=e183]:
+            - generic [ref=e185]:
+              - heading "Import Git Repository" [level=3] [ref=e186]
+              - generic [ref=e190]:
+                - paragraph [ref=e191]: Select a Git provider to import an existing project from a Git Repository.
+                - generic [ref=e193]:
+                  - button "github Continue with GitHub" [disabled] [ref=e195]:
+                    - generic [ref=e197]:
+                      - img "github" [ref=e198]
+                      - generic [ref=e200]: Continue with
+                      - text: GitHub
+                  - button "gitlab Continue with GitLab" [ref=e202] [cursor=pointer]:
+                    - generic [ref=e204]:
+                      - img "gitlab" [ref=e205]
+                      - generic [ref=e210]: Continue with
+                      - text: GitLab
+                  - button "Continue with Bitbucket" [ref=e212] [cursor=pointer]:
+                    - generic [ref=e214]:
+                      - img [ref=e215]
+                      - generic [ref=e218]: Continue with
+                      - text: Bitbucket
+                - paragraph [ref=e220]:
+                  - link "Manage Login Connections" [ref=e221] [cursor=pointer]:
+                    - /url: /account/authentication
+                    - text: Manage Login Connections
+                    - img [ref=e222]
+            - generic [ref=e225]:
+              - generic [ref=e226]:
+                - heading "Clone Template" [level=2] [ref=e227]
+                - generic [ref=e228]:
+                  - button "AI/Agent" [ref=e229] [cursor=pointer]:
+                    - generic [ref=e231]:
+                      - text: AI/Agent
+                      - img [ref=e232]
+                  - link "Browse All" [ref=e234] [cursor=pointer]:
+                    - /url: /new/templates?type=ai
+                    - generic [ref=e235]: Browse All
+                    - img [ref=e237]
+              - generic [ref=e239]:
+                - link "Vibe Coding Platform An end to end text-to-app coding platform Vibe Coding Platform" [ref=e240] [cursor=pointer]:
+                  - /url: /new/clone?demo-description=An%20end%20to%20end%20text-to-app%20coding%20platform&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2FWt6jnxAtBGWapPn2hphXX%2Ff482eba41754f65e70f4e05c2eb9544c%2Fimage.png&demo-title=Vibe%20Coding%20Platform%20&demo-url=https%3A%2F%2Foss-vibe-coding-platform.vercel.app%2F&from=templates&project-name=Vibe%20Coding%20Platform%20&project-names=Comma%20separated%20list%20of%20project%20names%2Cto%20match%20the%20root-directories&repository-name=vibe-coding-platform&repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fexamples%2Ftree%2Fmain%2Fapps%2Fvibe-coding-platform&root-directories=List%20of%20directory%20paths%20for%20the%20directories%20to%20clone%20into%20projects&skippable-integrations=1
+                  - generic [ref=e241]:
+                    - generic [ref=e242]:
+                      - heading "Vibe Coding Platform" [level=3] [ref=e243]
+                      - img [ref=e244]
+                    - generic [ref=e246]: An end to end text-to-app coding platform
+                  - img "Vibe Coding Platform" [ref=e247]
+                - link "AI Gateway Demo An open-source AI chatbot built with Next.js, the AI SDK, and the AI Gateway. AI Gateway Demo" [ref=e248] [cursor=pointer]:
+                  - /url: /new/clone?demo-description=An%20open-source%20AI%20chatbot%20built%20with%20Next.js%2C%20the%20AI%20SDK%2C%20and%20the%20AI%20Gateway.&demo-image=%2F%2Fimages.ctfassets.net%2Fe5382hct74si%2F5mz2JCK2z8hNLIiV0PkKux%2F4f4345c6d0a73e27d765a57c9cf1c44a%2Flight.png&demo-title=Vercel%20AI%20Gateway%20Demo&demo-url=https%3A%2F%2Fai-sdk-gateway-demo.labs.vercel.dev%2F&project-name=Vercel%20AI%20Gateway%20Demo&repository-name=vercel-ai-gateway-demo&repository-url=https%3A%2F%2Fgithub.com%2Fvercel-labs%2Fai-sdk-gateway-demo
+                  - generic [ref=e249]:
+                    - generic [ref=e250]:
+                      - heading "AI Gateway Demo" [level=3] [ref=e251]
+                      - img [ref=e252]
+                    - generic [ref=e254]: An open-source AI chatbot built with Next.js, the AI SDK, and the AI Gateway.
+                  - img "AI Gateway Demo" [ref=e255]
+                - generic [ref=e257]:
+                  - generic [ref=e258]:
+                    - paragraph [ref=e259]: Install Coding Agent Plugin
+                    - generic [ref=e260]:
+                      - generic [ref=e261]:
+                        - img [ref=e263]
+                        - img [ref=e265]
+                        - img [ref=e267]
+                      - generic [ref=e268]: "|"
+                      - button "Dismiss coding agent plugin notification" [ref=e269]:
+                        - img [ref=e270]
+                  - paragraph [ref=e272]: Turn your coding agent into a Vercel expert. Simply copy and run this in your terminal to install the plugin. Available for Claude, Cursor and Codex.
+                  - generic [ref=e274]:
+                    - generic [ref=e275]: $ npx plugins add vercel/vercel-plugin
+                    - button "Copy to clipboard" [ref=e276] [cursor=pointer]:
+                      - generic [ref=e278]:
+                        - img [ref=e280]
+                        - img [ref=e283]
+          - generic [ref=e288]:
+            - generic [ref=e289]:
+              - img [ref=e291]
+              - generic [ref=e293]:
+                - paragraph [ref=e294]: Create Empty Project
+                - paragraph [ref=e295]: Skip Git setup and instantly access Web Analytics, Speed Insights, and other Vercel products.
+            - button "Create Empty Project" [ref=e297] [cursor=pointer]:
+              - generic [ref=e298]: Create Empty Project
+  - alert [ref=e120]
+  - generic:
+    - generic:
+      - generic:
+        - generic:
+          - img

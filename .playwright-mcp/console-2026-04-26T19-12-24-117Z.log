@@ -1,0 +1,29 @@
+[    6008ms] [LOG] %c%s color: red; background: yellow; font-size: 24px; AVERTISSEMENT ! @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.fr.UT2CgsGvC10.es5.O/am=Kf8GAABCEUgGwP___zcAIACCaOB6FoAmEBkAAAAAAAAAALBAAAAaAQ/d=1/excm=_b,_tp,accountchooserview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlEB0r-KdDM_rg3m9KBhPSvnNz_IQQ/dti=1/m=_b,_tp:468
+[    6008ms] [LOG] %c%s font-size: 18px; En utilisant cette console, vous vous exposez au risque que des personnes malveillantes usurpent votre identité et volent vos informations grâce à une attaque appelée Self-XSS.
+Ne saisissez pas et ne copiez pas du code que vous ne comprenez pas. @ https://www.gstatic.com/_/mss/boq-identity/_/js/k=boq-identity.AccountsSignInUi.fr.UT2CgsGvC10.es5.O/am=Kf8GAABCEUgGwP___zcAIACCaOB6FoAmEBkAAAAAAAAAALBAAAAaAQ/d=1/excm=_b,_tp,accountchooserview/ed=1/dg=0/wt=2/ujg=1/rs=AOaEmlEB0r-KdDM_rg3m9KBhPSvnNz_IQQ/dti=1/m=_b,_tp:468
+[    7160ms] [WARNING] Blocked aria-hidden on an element because its descendant retained focus. The focus must not be hidden from assistive technology users. Avoid using aria-hidden on a focused element or its ancestor. Consider using the inert attribute instead, which will also prevent focus. For more details, see the aria-hidden section of the WAI-ARIA specification at https://w3c.github.io/aria/#aria-hidden.
+Element with focus: <div.sZwd7c B6Vhqe>
+Ancestor with aria-hidden: <div.TdwKnf> @ https://accounts.google.com/v3/signin/accountchooser?client_id=1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com&code_challenge=_rlVup11TKnFGBKPM29teSn4JNqFqtqyeU6LEN8L_a8&code_challenge_method=S256&nonce=c295248905ae8428a70dce9f029d1609&prompt=select_account&redirect_uri=https%3A%2F%2Fgithub.com%2Fsessions%2Fsocial%2Fgoogle%2Fcallback&response_type=code&scope=openid+email+profile&state=eaab907889e4f092eed79d19762762bf&dsh=S-1423910760%3A1777230750915788&o2v=2&service=lso&flowName=GeneralOAuthFlow&opparams=%253F&continue=https%3A%2F%2Faccounts.google.com%2Fsignin%2Foauth%2Fconsent%3Fauthuser%3Dunknown%26part%3DAJi8hAOkBNj2AvtVvf3GbC22coPFDPjVQeAoIBJjAU0jb7yfYHLdKCSefdSOYitZY8aMT2eqCdTQSfcQTd9AT6Pb20qkEh0aDBIJ_s_sgc6FnTLRL8A3weDzqA898-bumY13K3AMvjlyba-iNj5eq0IILPbFUTqXTt7ONNxOgV734filcO8oThQ02p3qG3Qz1t6dG5UqJHsvzm-R6x7jfaVSTJrWFH9XFBQT7T_aeCPzrojLKtO3TIou5S19wa6oOzyBZygwCTXLLUiYjXZX3MmzeiMfD5Rh7G0R0w6eMYwlCN2AkWe1sljrc_e_V6IjMUoccuwhOTxHrwF8OkslSE3MJ86Us_0GBSQkYHJ3N3KglflXRlcZf2nQ7eQ0WAJHInk65sRXmSTHDmALdYaV2nIZuSO_x3K8fSUzYLYW0F6cV5QKcgsGF1IHGRGeToiiSrn14qxVfsFyQ__NrLMZw7u3bZixs2DLdA%26flowName%3DGeneralOAuthFlow%26as%3DS-1423910760%253A1777230750915788%26client_id%3D1078992815106-brpsupgvhheqg35tupphbh0qk9c32nq8.apps.googleusercontent.com%26requestPath%3D%252Fsignin%252Foauth%252Fconsent%23&app_domain=https%3A%2F%2Fgithub.com:0
+[   13269ms] [LOG] %c
+▲
+
+    ____                               _ __
+   / __ \________  ____ _____ ___     (_) /_
+  / / / / ___/ _ \/ __ `/ __ `__ \   / / __/
+ / /_/ / /  /  __/ /_/ / / / / / /  / / /__
+/_____/_/   \___/\__,_/_/ /_/ /_/  /_/\__( )
+   _____ __    _          _ __           |/
+  / ___// /_  (_)___     (_) /_
+  \__ \/ __ \/ / __ \   / / __/
+ ___/ / / / / / /_/ /  / / /_
+/____/_/ /_/_/ .___/  /_/\__/
+            /_/
+  
+
+Hello!
+
+- Open Source https://vercel.com/oss
+- Careers https://vercel.com/careers
+- Status https://vercel-status.com
+
+ font-family: "Geist Mono", monospace; white-space: pre; line-height: 1; @ https://vercel.com/_next/static/chunks/0-ql08uahvm61.js?dpl=dpl_Go72LmjD8Ev2L4BffqagGfL8PLaD:78
