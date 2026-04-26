@@ -44,6 +44,7 @@ export default function ReactionBar({
             key={emoji}
             onClick={() => handleReaction(emoji)}
             disabled={isPending}
+            aria-label={`${isActive ? 'Retirer' : 'Ajouter'} la réaction ${emoji}${count > 0 ? ` (${count})` : ''}`}
             className={`rounded-full px-3 py-1 text-sm transition-colors ${
               isActive
                 ? 'bg-terracotta text-white'
