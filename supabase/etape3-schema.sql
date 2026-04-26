@@ -16,8 +16,12 @@ create table posts (
   type           text not null check (type in ('text', 'photo', 'audio')),
   content        text,
   media_url      text,
-  audio_duration integer,
-  created_at     timestamptz default now() not null
+  audio_duration integer check (audio_duration is null or audio_duration > 0),
+  created_at     timestamptz default now() not null,
+  constraint posts_type_data_coherence check (
+    (type = 'text'  and content   is not null) or
+    (type in ('photo', 'audio') and media_url is not null)
+  )
 );
 
 create table reactions (
@@ -59,6 +63,8 @@ alter publication supabase_realtime add table reactions;
 
 -- ─── STORAGE ─────────────────────────────────────────────────────────────────
 
+-- Note : bucket public pour simplicité (URLs non-devinables via UUID).
+-- Passer à public: false + signed URLs si la confidentialité doit être renforcée.
 insert into storage.buckets (id, name, public, file_size_limit, allowed_mime_types)
 values (
   'media',
