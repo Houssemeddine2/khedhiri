@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>khedhiri.me · Mur & Chat</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Caveat:wght@400;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C5563D;
+    --terracotta-deep: #9B3F2A;
+    --olive: #6B7B3F;
+    --azur: #2E5C8A;
+    --azur-deep: #1E3F62;
+    --sand: #F4E8D8;
+    --sand-warm: #EDD9BC;
+    --cream: #FAF4EA;
+    --ink: #2A1F18;
+    --ink-soft: #5A4A3F;
+    --gold: #D4A04C;
+    --rose: #E8A598;
+    --jasmine: #FFF8E7;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    background-image: radial-gradient(at 20% 10%, rgba(232, 165, 152, 0.15) 0px, transparent 50%), radial-gradient(at 80% 80%, rgba(46, 92, 138, 0.08) 0px, transparent 50%);
+  }
+  body::before {
+    content: ""; position: fixed; inset: 0; pointer-events: none; opacity: 0.3; z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.15'/%3E%3C/svg%3E");
+  }
+  .container { max-width: 1400px; margin: 0 auto; padding: 40px 30px; position: relative; z-index: 2; }
+  .header { text-align: center; margin-bottom: 40px; }
+  .header-eyebrow { font-family: 'Caveat', cursive; font-size: 26px; color: var(--terracotta); }
+  .header h1 { font-family: 'Fraunces', serif; font-size: 52px; line-height: 1; letter-spacing: -0.03em; font-weight: 500; }
+  .header h1 em {
+    font-style: italic;
+    background: linear-gradient(120deg, var(--terracotta), var(--gold));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .demo-note {
+    background: linear-gradient(135deg, var(--azur-deep), var(--azur));
+    color: var(--cream); padding: 14px 20px; border-radius: 14px; margin-bottom: 30px;
+    font-family: 'Caveat', cursive; font-size: 18px; text-align: center;
+  }
+  .layout { display: grid; grid-template-columns: 1fr 380px; gap: 30px; align-items: start; }
+  .wall { display: flex; flex-direction: column; gap: 18px; }
+  .section-title { font-family: 'Fraunces', serif; font-size: 30px; font-weight: 500; margin-bottom: 8px; }
+
+  /* Compose */
+  .compose { background: var(--jasmine); border-radius: 20px; padding: 20px; border: 1px solid rgba(197,86,61,0.1); box-shadow: 0 4px 20px -10px rgba(42,31,24,0.15); }
+  .compose-input { width: 100%; border: none; background: transparent; font-family: 'Manrope', sans-serif; font-size: 16px; color: var(--ink); padding: 8px; resize: none; outline: none; }
+  .compose-input::placeholder { color: var(--ink-soft); font-style: italic; }
+  .compose-actions { display: flex; justify-content: space-between; align-items: center; margin-top: 12px; padding-top: 12px; border-top: 1px dashed rgba(197,86,61,0.2); }
+  .compose-tools { display: flex; gap: 8px; }
+  .tool-btn { background: var(--sand); border: none; width: 38px; height: 38px; border-radius: 12px; cursor: pointer; font-size: 18px; transition: all 0.2s; }
+  .tool-btn:hover { background: var(--sand-warm); transform: translateY(-2px); }
+  .post-btn { background: var(--terracotta); color: white; border: none; padding: 10px 24px; border-radius: 100px; font-family: inherit; font-size: 14px; font-weight: 600; cursor: pointer; }
+  .post-btn:hover { background: var(--terracotta-deep); }
+
+  /* Posts */
+  .post { background: var(--jasmine); border-radius: 20px; padding: 22px; border: 1px solid rgba(197,86,61,0.08); animation: fadeUp 0.6s ease-out backwards; }
+  .post:nth-child(1) { animation-delay: 0.1s; }
+  .post:nth-child(2) { animation-delay: 0.2s; }
+  .post:nth-child(3) { animation-delay: 0.3s; }
+  .post-header { display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .avatar { width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; font-weight: 600; color: white; font-size: 18px; flex-shrink: 0; }
+  .avatar-papa { background: linear-gradient(135deg, var(--azur), var(--azur-deep)); }
+  .avatar-sandra { background: linear-gradient(135deg, var(--terracotta), var(--rose)); }
+  .avatar-sarah { background: linear-gradient(135deg, var(--olive), var(--gold)); }
+  .post-info { flex: 1; }
+  .post-author { font-family: 'Fraunces', serif; font-weight: 600; font-size: 16px; }
+  .post-meta { font-size: 12px; color: var(--ink-soft); display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .post-mood { font-family: 'Caveat', cursive; font-size: 17px; color: var(--terracotta); }
+  .post-content { font-size: 16px; line-height: 1.6; margin-bottom: 14px; }
+  .post-image { width: 100%; height: 240px; border-radius: 14px; margin-bottom: 14px; background: linear-gradient(135deg, var(--azur), var(--terracotta)); display: flex; align-items: center; justify-content: center; font-size: 60px; }
+  .post-actions { display: flex; align-items: center; gap: 12px; padding-top: 14px; border-top: 1px dashed rgba(197,86,61,0.15); flex-wrap: wrap; }
+  .reaction-btn { background: none; border: 1px solid rgba(197,86,61,0.2); padding: 6px 14px; border-radius: 100px; cursor: pointer; font-size: 14px; color: var(--ink-soft); font-family: inherit; transition: all 0.2s; }
+  .reaction-btn:hover { background: var(--sand); border-color: var(--terracotta); color: var(--terracotta); }
+  .reaction-btn.active { background: var(--terracotta); border-color: var(--terracotta); color: white; }
+  .reactions-summary { margin-left: auto; display: flex; align-items: center; font-size: 12px; color: var(--ink-soft); }
+  .mini-avatar { width: 22px; height: 22px; border-radius: 50%; border: 2px solid var(--jasmine); margin-left: -6px; font-family: 'Fraunces', serif; color: white; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: 600; }
+
+  /* Voice */
+  .voice-bubble { background: var(--sand); border-radius: 14px; padding: 12px; display: flex; align-items: center; gap: 12px; margin-bottom: 14px; }
+  .voice-play { width: 40px; height: 40px; border-radius: 50%; background: var(--terracotta); color: white; border: none; cursor: pointer; flex-shrink: 0; }
+  .voice-wave { flex: 1; display: flex; align-items: center; gap: 2px; height: 28px; }
+  .voice-wave .bar { flex: 1; background: var(--terracotta); opacity: 0.5; border-radius: 2px; min-width: 2px; }
+  .voice-time { font-size: 12px; color: var(--ink-soft); }
+
+  /* Chat */
+  .chat-sidebar { background: var(--jasmine); border-radius: 20px; border: 1px solid rgba(197,86,61,0.1); overflow: hidden; position: sticky; top: 30px; height: 700px; display: flex; flex-direction: column; }
+  .chat-tabs { display: flex; border-bottom: 1px solid rgba(197,86,61,0.1); background: var(--cream); }
+  .chat-tab { flex: 1; padding: 14px 8px; border: none; background: none; cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 600; color: var(--ink-soft); position: relative; }
+  .chat-tab.active { color: var(--terracotta); background: var(--jasmine); }
+  .chat-tab.active::after { content: ""; position: absolute; bottom: -1px; left: 20%; right: 20%; height: 2px; background: var(--terracotta); }
+  .chat-tab .badge { background: var(--terracotta); color: white; font-size: 10px; padding: 2px 6px; border-radius: 10px; margin-left: 4px; }
+
+  .chat-header { padding: 16px; border-bottom: 1px solid rgba(197,86,61,0.1); display: flex; align-items: center; gap: 12px; }
+  .group-avatars { position: relative; width: 44px; height: 44px; flex-shrink: 0; }
+  .group-avatars .mini { position: absolute; width: 26px; height: 26px; border-radius: 50%; border: 2px solid var(--jasmine); display: flex; align-items: center; justify-content: center; font-family: 'Fraunces', serif; color: white; font-size: 11px; font-weight: 600; }
+  .group-avatars .mini:nth-child(1) { top: 0; left: 0; }
+  .group-avatars .mini:nth-child(2) { top: 0; right: 0; }
+  .group-avatars .mini:nth-child(3) { bottom: 0; left: 9px; }
+  .chat-header h3 { font-family: 'Fraunces', serif; font-size: 16px; font-weight: 600; }
+  .chat-status { font-size: 11px; color: var(--olive); font-weight: 500; }
+
+  .chat-messages { flex: 1; padding: 16px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+  .msg { max-width: 80%; display: flex; flex-direction: column; gap: 3px; }
+  .msg.from-me { align-self: flex-end; align-items: flex-end; }
+  .msg.from-them { align-self: flex-start; }
+  .msg-bubble { padding: 10px 14px; border-radius: 18px; font-size: 14px; line-height: 1.4; }
+  .from-me .msg-bubble { background: var(--terracotta); color: white; border-bottom-right-radius: 4px; }
+  .from-them .msg-bubble { background: var(--sand); color: var(--ink); border-bottom-left-radius: 4px; }
+  .msg-meta { font-size: 10px; color: var(--ink-soft); padding: 0 4px; }
+  .msg-author { font-family: 'Fraunces', serif; font-weight: 600; }
+
+  .typing { display: flex; align-items: center; gap: 8px; padding: 10px 14px; background: var(--sand); border-radius: 18px; border-bottom-left-radius: 4px; width: fit-content; align-self: flex-start; }
+  .typing-dots { display: flex; gap: 3px; }
+  .typing-dots span { width: 6px; height: 6px; border-radius: 50%; background: var(--terracotta); animation: pulse 1.2s infinite; }
+  .typing-dots span:nth-child(2) { animation-delay: 0.2s; }
+  .typing-dots span:nth-child(3) { animation-delay: 0.4s; }
+  @keyframes pulse { 0%, 60%, 100% { transform: translateY(0); opacity: 0.4; } 30% { transform: translateY(-4px); opacity: 1; } }
+  .typing-text { font-size: 11px; color: var(--ink-soft); font-style: italic; }
+
+  .msg-special { align-self: center; background: linear-gradient(135deg, var(--gold), var(--terracotta)); color: white; padding: 8px 16px; border-radius: 100px; font-family: 'Caveat', cursive; font-size: 15px; }
+
+  .quick-reactions { display: flex; gap: 6px; padding: 8px 12px; background: var(--cream); border-top: 1px solid rgba(197,86,61,0.1); overflow-x: auto; }
+  .quick-reaction { flex-shrink: 0; background: var(--jasmine); border: 1px solid rgba(197,86,61,0.15); padding: 5px 10px; border-radius: 100px; font-size: 13px; cursor: pointer; transition: all 0.2s; white-space: nowrap; }
+  .quick-reaction:hover { background: var(--terracotta); color: white; transform: translateY(-2px); }
+
+  .chat-input { border-top: 1px solid rgba(197,86,61,0.1); padding: 12px; display: flex; gap: 8px; align-items: center; background: var(--cream); }
+  .chat-input input { flex: 1; border: none; background: var(--jasmine); padding: 10px 14px; border-radius: 100px; font-family: inherit; font-size: 14px; outline: none; color: var(--ink); }
+  .chat-input input:focus { box-shadow: 0 0 0 2px rgba(197,86,61,0.2); }
+  .chat-btn-circle { width: 36px; height: 36px; border-radius: 50%; border: none; cursor: pointer; font-size: 16px; transition: all 0.2s; display: flex; align-items: center; justify-content: center; }
+  .chat-btn-send { background: var(--terracotta); color: white; }
+  .chat-btn-send:hover { background: var(--terracotta-deep); transform: scale(1.05); }
+  .chat-btn-icon { background: var(--sand); }
+
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+
+  @media (max-width: 968px) {
+    .layout { grid-template-columns: 1fr; }
+    .chat-sidebar { position: static; height: 600px; }
+    .header h1 { font-size: 36px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="header">
+    <div class="header-eyebrow">Aperçu visuel</div>
+    <h1>Le mur & le <em>chat</em> de la famille</h1>
+  </div>
+
+  <div class="demo-note">✨ Voici à quoi pourrait ressembler la partie sociale de khedhiri.me</div>
+
+  <div class="layout">
+
+    <div class="wall">
+      <h2 class="section-title">📌 Notre mur</h2>
+
+      <div class="compose">
+        <textarea class="compose-input" rows="2" placeholder="Quoi de neuf, papa ? Raconte-leur ta journée à Lisbonne..."></textarea>
+        <div class="compose-actions">
+          <div class="compose-tools">
+            <button class="tool-btn" title="Photo">📷</button>
+            <button class="tool-btn" title="Vocal">🎙</button>
+            <button class="tool-btn" title="Dessin">🎨</button>
+            <button class="tool-btn" title="Humeur">😊</button>
+          </div>
+          <button class="post-btn">Publier</button>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-header">
+          <div class="avatar avatar-sarah">S</div>
+          <div class="post-info">
+            <div class="post-author">Sarah</div>
+            <div class="post-meta">
+              <span>il y a 12 minutes</span><span>·</span>
+              <span class="post-mood">heureuse comme un poisson 🐠</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">Regardez ce que j'ai fait à l'école aujourd'hui ! 🌸 Maîtresse a dit que c'était trrrès joli !</div>
+        <div class="post-image">🌸</div>
+        <div class="post-actions">
+          <button class="reaction-btn active">❤️ 2</button>
+          <button class="reaction-btn">🌟</button>
+          <button class="reaction-btn">💬 1</button>
+          <div class="reactions-summary">
+            <div class="mini-avatar avatar-papa">P</div>
+            <div class="mini-avatar avatar-sandra">S</div>
+            <span style="margin-left: 8px;">Papa & Sandra ont aimé</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-header">
+          <div class="avatar avatar-papa">P</div>
+          <div class="post-info">
+            <div class="post-author">Papa</div>
+            <div class="post-meta">
+              <span>ce matin · Lisbonne 🇵🇹</span><span>·</span>
+              <span class="post-mood">je pense à vous ♡</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">Bonjour mes cœurs ! Petit message vocal du matin pour vous deux. Écoutez avant l'école 🌅</div>
+        <div class="voice-bubble">
+          <button class="voice-play">▶</button>
+          <div class="voice-wave" id="wave1"></div>
+          <span class="voice-time">0:34</span>
+        </div>
+        <div class="post-actions">
+          <button class="reaction-btn">❤️</button>
+          <button class="reaction-btn active">🤗 2</button>
+          <button class="reaction-btn">💬 2</button>
+          <div class="reactions-summary">
+            <div class="mini-avatar avatar-sandra">S</div>
+            <div class="mini-avatar avatar-sarah">S</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="post">
+        <div class="post-header">
+          <div class="avatar avatar-sandra">S</div>
+          <div class="post-info">
+            <div class="post-author">Sandra</div>
+            <div class="post-meta">
+              <span>hier soir</span><span>·</span>
+              <span class="post-mood">fière de moi 💪</span>
+            </div>
+          </div>
+        </div>
+        <div class="post-content">PAPAAAA J'ai eu 18/20 en maths !! 🎉 Je voulais te le dire en premier. Tu seras là pour fêter ça quand tu viens en juin ?</div>
+        <div class="post-actions">
+          <button class="reaction-btn active">❤️ 2</button>
+          <button class="reaction-btn">🎉</button>
+          <button class="reaction-btn">💬 3</button>
+          <div class="reactions-summary">
+            <div class="mini-avatar avatar-papa">P</div>
+            <div class="mini-avatar avatar-sarah">S</div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="chat-sidebar">
+      <div class="chat-tabs">
+        <button class="chat-tab active">💬 Famille <span class="badge">3</span></button>
+        <button class="chat-tab">👤 Sandra</button>
+        <button class="chat-tab">👤 Sarah</button>
+      </div>
+
+      <div class="chat-header">
+        <div class="group-avatars">
+          <div class="mini avatar-papa">P</div>
+          <div class="mini avatar-sandra">S</div>
+          <div class="mini avatar-sarah">S</div>
+        </div>
+        <div>
+          <h3>Famille Khedhiri</h3>
+          <div class="chat-status">● Sandra et Sarah en ligne</div>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="messages">
+        <div class="msg-special">☀️ Bonne journée à vous trois !</div>
+        <div class="msg from-them">
+          <div class="msg-bubble">Papaaaa réveille-toi !! 🌞</div>
+          <div class="msg-meta"><span class="msg-author">Sarah</span> · 8h12</div>
+        </div>
+        <div class="msg from-them">
+          <div class="msg-bubble">Elle a déjà mangé 3 crêpes 😅</div>
+          <div class="msg-meta"><span class="msg-author">Sandra</span> · 8h14</div>
+        </div>
+        <div class="msg from-me">
+          <div class="msg-bubble">Bonjour mes cœurs 💛 Café en main, je pense à vous</div>
+          <div class="msg-meta">Papa · 8h20 · ✓✓</div>
+        </div>
+        <div class="msg from-them">
+          <div class="msg-bubble">📸 [photo]</div>
+          <div class="msg-meta"><span class="msg-author">Sarah</span> · 8h22</div>
+        </div>
+        <div class="msg from-me">
+          <div class="msg-bubble">Magnifiques ces fleurs ! Tu les as dessinées toi-même ?</div>
+          <div class="msg-meta">Papa · 8h23 · ✓✓</div>
+        </div>
+        <div class="typing">
+          <div class="typing-dots"><span></span><span></span><span></span></div>
+          <span class="typing-text">Sarah écrit...</span>
+        </div>
+      </div>
+
+      <div class="quick-reactions">
+        <button class="quick-reaction">❤️</button>
+        <button class="quick-reaction">🫒 Olivier</button>
+        <button class="quick-reaction">🇹🇳</button>
+        <button class="quick-reaction">🚋 Tram</button>
+        <button class="quick-reaction">🌅</button>
+        <button class="quick-reaction">🤗 Câlin</button>
+      </div>
+
+      <div class="chat-input">
+        <button class="chat-btn-circle chat-btn-icon">😊</button>
+        <input type="text" placeholder="Écris un message..." />
+        <button class="chat-btn-circle chat-btn-icon">🎙</button>
+        <button class="chat-btn-circle chat-btn-send">↑</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<script>
+  function makeWave(id) {
+    const c = document.getElementById(id);
+    if (!c) return;
+    for (let i = 0; i < 40; i++) {
+      const b = document.createElement('div');
+      b.className = 'bar';
+      b.style.height = (Math.random() * 24 + 4) + 'px';
+      c.appendChild(b);
+    }
+  }
+  makeWave('wave1');
+
+  document.querySelectorAll('.chat-tab').forEach(t => {
+    t.addEventListener('click', function() {
+      document.querySelectorAll('.chat-tab').forEach(x => x.classList.remove('active'));
+      this.classList.add('active');
+    });
+  });
+
+  document.querySelectorAll('.quick-reaction').forEach(b => {
+    b.addEventListener('click', function() {
+      const m = document.createElement('div');
+      m.className = 'msg from-me';
+      m.innerHTML = '<div class="msg-bubble">' + this.textContent + '</div><div class="msg-meta">Papa · maintenant · ✓</div>';
+      document.getElementById('messages').appendChild(m);
+      m.scrollIntoView({ behavior: 'smooth' });
+    });
+  });
+
+  document.querySelectorAll('.reaction-btn').forEach(b => {
+    b.addEventListener('click', function() { this.classList.toggle('active'); });
+  });
+</script>
+
+</body>
+</html>

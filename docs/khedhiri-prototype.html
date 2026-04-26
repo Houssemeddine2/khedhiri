@@ -1,0 +1,1277 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>khedhiri.me · Notre famille</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,300;9..144,400;9..144,500;9..144,600;9..144,700;9..144,900&family=Caveat:wght@400;600&family=Manrope:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --terracotta: #C5563D;
+    --terracotta-deep: #9B3F2A;
+    --olive: #6B7B3F;
+    --olive-deep: #4A5A28;
+    --azur: #2E5C8A;
+    --azur-deep: #1E3F62;
+    --sand: #F4E8D8;
+    --sand-warm: #EDD9BC;
+    --cream: #FAF4EA;
+    --ink: #2A1F18;
+    --ink-soft: #5A4A3F;
+    --gold: #D4A04C;
+    --rose: #E8A598;
+    --jasmine: #FFF8E7;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Manrope', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(at 20% 10%, rgba(232, 165, 152, 0.15) 0px, transparent 50%),
+      radial-gradient(at 80% 80%, rgba(46, 92, 138, 0.08) 0px, transparent 50%),
+      radial-gradient(at 50% 50%, rgba(212, 160, 76, 0.06) 0px, transparent 50%);
+  }
+
+  /* Grain texture overlay */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.4;
+    z-index: 1;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.15'/%3E%3C/svg%3E");
+  }
+
+  /* ====== NAVIGATION ====== */
+  nav {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    padding: 18px 40px;
+    background: rgba(250, 244, 234, 0.85);
+    backdrop-filter: blur(20px) saturate(140%);
+    border-bottom: 1px solid rgba(197, 86, 61, 0.15);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .logo {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--terracotta-deep);
+    letter-spacing: -0.02em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo-mark {
+    width: 32px;
+    height: 32px;
+    background: linear-gradient(135deg, var(--terracotta), var(--gold));
+    border-radius: 50%;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .logo-mark::after {
+    content: "";
+    position: absolute;
+    inset: 4px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 30% 30%, var(--jasmine), transparent 60%);
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 32px;
+    list-style: none;
+  }
+
+  .nav-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    transition: color 0.3s;
+    position: relative;
+  }
+
+  .nav-links a:hover { color: var(--terracotta); }
+
+  .nav-links a::after {
+    content: "";
+    position: absolute;
+    bottom: -4px;
+    left: 0;
+    width: 0;
+    height: 2px;
+    background: var(--terracotta);
+    transition: width 0.3s;
+  }
+
+  .nav-links a:hover::after { width: 100%; }
+
+  .profile-pills {
+    display: flex;
+    gap: 8px;
+  }
+
+  .profile-pill {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 2px solid var(--cream);
+    box-shadow: 0 0 0 1px var(--ink);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 14px;
+    color: white;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .profile-pill:hover { transform: scale(1.1); }
+
+  .pill-papa { background: var(--azur); }
+  .pill-sandra { background: var(--terracotta); }
+  .pill-sarah { background: var(--olive); }
+
+  /* ====== HERO ====== */
+  .hero {
+    min-height: 100vh;
+    padding: 120px 40px 60px;
+    display: grid;
+    grid-template-columns: 1.2fr 1fr;
+    gap: 60px;
+    align-items: center;
+    position: relative;
+    z-index: 2;
+  }
+
+  .hero-text {
+    position: relative;
+  }
+
+  .hero-eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 28px;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+    transform: rotate(-2deg);
+    display: inline-block;
+  }
+
+  .hero-title {
+    font-family: 'Fraunces', serif;
+    font-size: clamp(48px, 7vw, 96px);
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    font-weight: 500;
+    color: var(--ink);
+    margin-bottom: 28px;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    font-weight: 400;
+    color: var(--terracotta-deep);
+    background: linear-gradient(120deg, var(--terracotta) 0%, var(--gold) 100%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .hero-subtitle {
+    font-size: 18px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+    max-width: 480px;
+    margin-bottom: 40px;
+  }
+
+  /* Countdown */
+  .countdown-card {
+    background: linear-gradient(135deg, var(--ink) 0%, var(--azur-deep) 100%);
+    color: var(--cream);
+    padding: 32px;
+    border-radius: 24px;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 20px 60px -20px rgba(46, 92, 138, 0.4);
+  }
+
+  .countdown-card::before {
+    content: "";
+    position: absolute;
+    top: -50%;
+    right: -20%;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, var(--gold) 0%, transparent 60%);
+    opacity: 0.2;
+  }
+
+  .countdown-label {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--rose);
+    margin-bottom: 4px;
+  }
+
+  .countdown-title {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: 24px;
+  }
+
+  .countdown-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    position: relative;
+    z-index: 1;
+  }
+
+  .countdown-unit {
+    text-align: center;
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    padding: 16px 8px;
+    border-radius: 12px;
+    backdrop-filter: blur(10px);
+  }
+
+  .countdown-num {
+    font-family: 'Fraunces', serif;
+    font-size: 36px;
+    font-weight: 600;
+    color: var(--gold);
+    line-height: 1;
+    display: block;
+  }
+
+  .countdown-text {
+    font-size: 11px;
+    color: var(--cream);
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    margin-top: 6px;
+  }
+
+  /* Hero illustration / family card */
+  .hero-visual {
+    position: relative;
+    height: 520px;
+  }
+
+  .family-card {
+    position: absolute;
+    background: var(--jasmine);
+    border-radius: 20px;
+    padding: 20px;
+    box-shadow: 0 10px 40px -15px rgba(42, 31, 24, 0.25);
+    border: 1px solid rgba(197, 86, 61, 0.1);
+    transition: transform 0.4s ease;
+  }
+
+  .family-card:hover { transform: translateY(-8px) rotate(0deg) !important; }
+
+  .card-papa {
+    top: 20px;
+    right: 40px;
+    width: 220px;
+    transform: rotate(4deg);
+    z-index: 3;
+  }
+
+  .card-sandra {
+    top: 180px;
+    left: 0;
+    width: 200px;
+    transform: rotate(-5deg);
+    z-index: 2;
+  }
+
+  .card-sarah {
+    bottom: 20px;
+    right: 80px;
+    width: 200px;
+    transform: rotate(3deg);
+    z-index: 1;
+  }
+
+  .card-portrait {
+    width: 100%;
+    aspect-ratio: 1;
+    border-radius: 14px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-size: 60px;
+    font-weight: 600;
+    color: var(--cream);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card-portrait::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 20%, rgba(255,255,255,0.3), transparent 60%);
+  }
+
+  .portrait-papa { background: linear-gradient(135deg, var(--azur), var(--azur-deep)); }
+  .portrait-sandra { background: linear-gradient(135deg, var(--terracotta), var(--rose)); }
+  .portrait-sarah { background: linear-gradient(135deg, var(--olive), var(--gold)); }
+
+  .card-name {
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 2px;
+  }
+
+  .card-meta {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-family: 'Caveat', cursive;
+    font-size: 16px;
+  }
+
+  .heart-line {
+    position: absolute;
+    z-index: 0;
+    color: var(--terracotta);
+    opacity: 0.4;
+  }
+
+  /* ====== MAIN GRID DASHBOARD ====== */
+  .dashboard {
+    padding: 80px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+  }
+
+  .section-eyebrow {
+    font-family: 'Caveat', cursive;
+    font-size: 26px;
+    color: var(--terracotta);
+    margin-bottom: 4px;
+  }
+
+  .section-title {
+    font-family: 'Fraunces', serif;
+    font-size: 48px;
+    line-height: 1;
+    letter-spacing: -0.03em;
+    margin-bottom: 48px;
+    font-weight: 500;
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(12, 1fr);
+    gap: 20px;
+  }
+
+  .card {
+    background: var(--jasmine);
+    border-radius: 20px;
+    padding: 28px;
+    border: 1px solid rgba(197, 86, 61, 0.08);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 50px -20px rgba(42, 31, 24, 0.2);
+  }
+
+  .card-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 16px;
+    font-size: 24px;
+  }
+
+  .card h3 {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: -0.01em;
+  }
+
+  .card p {
+    color: var(--ink-soft);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* Mot du jour - large featured card */
+  .word-of-day {
+    grid-column: span 7;
+    background: linear-gradient(135deg, var(--terracotta) 0%, var(--terracotta-deep) 100%);
+    color: var(--cream);
+    padding: 40px;
+    position: relative;
+    min-height: 280px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+  }
+
+  .word-of-day::before {
+    content: """;
+    position: absolute;
+    top: -20px;
+    right: 30px;
+    font-family: 'Fraunces', serif;
+    font-size: 200px;
+    color: var(--gold);
+    opacity: 0.25;
+    line-height: 1;
+  }
+
+  .word-of-day-label {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: var(--rose);
+    margin-bottom: 8px;
+  }
+
+  .word-of-day h3 {
+    color: var(--cream);
+    font-size: 18px;
+    font-weight: 500;
+    margin-bottom: 16px;
+    opacity: 0.9;
+  }
+
+  .word-of-day-text {
+    font-family: 'Fraunces', serif;
+    font-style: italic;
+    font-size: 28px;
+    line-height: 1.4;
+    font-weight: 400;
+    margin-bottom: 24px;
+  }
+
+  .word-of-day-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-size: 14px;
+    opacity: 0.85;
+  }
+
+  /* Album */
+  .album-card {
+    grid-column: span 5;
+    padding: 0;
+    overflow: hidden;
+  }
+
+  .album-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    grid-template-rows: repeat(3, 80px);
+    gap: 4px;
+    padding: 4px;
+  }
+
+  .album-tile {
+    border-radius: 8px;
+    background-size: cover;
+    background-position: center;
+    transition: all 0.3s;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .album-tile:hover { transform: scale(1.05); z-index: 2; }
+
+  .tile-1 { grid-column: span 2; grid-row: span 2; background: linear-gradient(135deg, var(--azur), var(--olive)); }
+  .tile-2 { background: linear-gradient(135deg, var(--rose), var(--terracotta)); }
+  .tile-3 { background: linear-gradient(135deg, var(--gold), var(--terracotta)); }
+  .tile-4 { grid-column: span 1; background: linear-gradient(135deg, var(--olive), var(--azur)); }
+  .tile-5 { grid-column: span 2; background: linear-gradient(135deg, var(--terracotta-deep), var(--rose)); }
+  .tile-6 { background: linear-gradient(135deg, var(--azur-deep), var(--azur)); }
+
+  .album-tile::after {
+    content: "📷";
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 24px;
+    opacity: 0.5;
+  }
+
+  .album-info {
+    padding: 20px 28px 28px;
+  }
+
+  /* Activities row */
+  .activity-card {
+    grid-column: span 4;
+  }
+
+  .activity-card .card-icon { background: var(--sand-warm); }
+
+  .activity-stats {
+    display: flex;
+    gap: 16px;
+    margin-top: 16px;
+    padding-top: 16px;
+    border-top: 1px dashed rgba(197, 86, 61, 0.2);
+  }
+
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .stat-num {
+    font-family: 'Fraunces', serif;
+    font-size: 24px;
+    font-weight: 600;
+    color: var(--terracotta);
+  }
+
+  .stat-label {
+    font-size: 11px;
+    color: var(--ink-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  /* Calendar card */
+  .calendar-card {
+    grid-column: span 6;
+  }
+
+  .calendar-card .card-icon {
+    background: linear-gradient(135deg, var(--azur), var(--azur-deep));
+    color: white;
+  }
+
+  .events-list {
+    margin-top: 16px;
+  }
+
+  .event {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 14px 0;
+    border-bottom: 1px solid rgba(42, 31, 24, 0.06);
+  }
+
+  .event:last-child { border-bottom: none; }
+
+  .event-date {
+    flex-shrink: 0;
+    width: 56px;
+    text-align: center;
+    background: var(--sand);
+    border-radius: 10px;
+    padding: 6px 0;
+  }
+
+  .event-day {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--terracotta);
+    line-height: 1;
+  }
+
+  .event-month {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.15em;
+    color: var(--ink-soft);
+    margin-top: 2px;
+  }
+
+  .event-info h4 {
+    font-family: 'Fraunces', serif;
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 2px;
+  }
+
+  .event-info p {
+    font-size: 12px;
+    color: var(--ink-soft);
+  }
+
+  .event-tag {
+    margin-left: auto;
+    font-size: 11px;
+    padding: 4px 10px;
+    border-radius: 100px;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 600;
+  }
+
+  .tag-call { background: rgba(46, 92, 138, 0.15); color: var(--azur-deep); }
+  .tag-birthday { background: rgba(212, 160, 76, 0.2); color: var(--terracotta-deep); }
+  .tag-visit { background: rgba(107, 123, 63, 0.15); color: var(--olive-deep); }
+
+  /* Voice messages */
+  .voice-card {
+    grid-column: span 6;
+  }
+
+  .voice-card .card-icon {
+    background: linear-gradient(135deg, var(--olive), var(--olive-deep));
+    color: white;
+  }
+
+  .voice-message {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 12px;
+    background: var(--sand);
+    border-radius: 14px;
+    margin-top: 12px;
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .voice-message:hover {
+    background: var(--sand-warm);
+    transform: translateX(4px);
+  }
+
+  .voice-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Fraunces', serif;
+    font-weight: 600;
+    color: white;
+    font-size: 16px;
+  }
+
+  .voice-info {
+    flex: 1;
+  }
+
+  .voice-info h5 {
+    font-family: 'Fraunces', serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+
+  .voice-waveform {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    height: 24px;
+  }
+
+  .wave-bar {
+    width: 2px;
+    background: var(--terracotta);
+    border-radius: 2px;
+    opacity: 0.6;
+  }
+
+  .voice-duration {
+    font-size: 12px;
+    color: var(--ink-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  .play-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    background: var(--terracotta);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+
+  .play-btn:hover { transform: scale(1.1); }
+
+  /* Quiz card */
+  .quiz-card {
+    grid-column: span 6;
+    background: linear-gradient(135deg, var(--olive) 0%, var(--olive-deep) 100%);
+    color: var(--cream);
+  }
+
+  .quiz-card h3 { color: var(--cream); }
+  .quiz-card p { color: rgba(250, 244, 234, 0.85); }
+
+  .quiz-card .card-icon {
+    background: rgba(255, 255, 255, 0.15);
+    color: var(--gold);
+    backdrop-filter: blur(10px);
+  }
+
+  .quiz-question {
+    font-family: 'Fraunces', serif;
+    font-size: 22px;
+    font-weight: 500;
+    margin: 20px 0 16px;
+    line-height: 1.3;
+  }
+
+  .quiz-options {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+  }
+
+  .quiz-option {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: var(--cream);
+    padding: 12px 16px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-family: 'Manrope', sans-serif;
+    font-size: 14px;
+    text-align: left;
+    transition: all 0.3s;
+    backdrop-filter: blur(10px);
+  }
+
+  .quiz-option:hover {
+    background: var(--gold);
+    color: var(--ink);
+    border-color: var(--gold);
+    transform: translateY(-2px);
+  }
+
+  /* Drawing card */
+  .drawing-card {
+    grid-column: span 6;
+  }
+
+  .drawing-card .card-icon { background: var(--rose); color: white; }
+
+  .drawing-preview {
+    margin-top: 16px;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+  }
+
+  .drawing-thumb {
+    aspect-ratio: 1;
+    border-radius: 10px;
+    background: var(--sand);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    transition: transform 0.3s;
+    cursor: pointer;
+    border: 2px dashed rgba(197, 86, 61, 0.2);
+  }
+
+  .drawing-thumb:hover { transform: rotate(-5deg) scale(1.05); }
+
+  /* ====== JOURNAL ====== */
+  .journal-section {
+    padding: 80px 40px;
+    background: linear-gradient(180deg, transparent, var(--sand-warm) 50%, transparent);
+    position: relative;
+    z-index: 2;
+  }
+
+  .journal-container {
+    max-width: 800px;
+    margin: 0 auto;
+  }
+
+  .journal-entry {
+    background: var(--jasmine);
+    padding: 48px;
+    border-radius: 20px;
+    margin-bottom: 24px;
+    border-left: 4px solid var(--terracotta);
+    box-shadow: 0 10px 40px -20px rgba(42, 31, 24, 0.2);
+  }
+
+  .journal-date {
+    font-family: 'Caveat', cursive;
+    font-size: 24px;
+    color: var(--terracotta);
+    margin-bottom: 12px;
+  }
+
+  .journal-title {
+    font-family: 'Fraunces', serif;
+    font-size: 32px;
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    margin-bottom: 16px;
+  }
+
+  .journal-text {
+    font-size: 17px;
+    line-height: 1.7;
+    color: var(--ink-soft);
+    font-family: 'Fraunces', serif;
+    font-weight: 300;
+  }
+
+  .journal-text::first-letter {
+    font-size: 56px;
+    float: left;
+    line-height: 1;
+    margin: 4px 12px 0 0;
+    color: var(--terracotta);
+    font-weight: 600;
+  }
+
+  /* ====== FOOTER ====== */
+  footer {
+    padding: 60px 40px 40px;
+    text-align: center;
+    color: var(--ink-soft);
+    position: relative;
+    z-index: 2;
+    border-top: 1px solid rgba(42, 31, 24, 0.08);
+    margin-top: 60px;
+  }
+
+  .footer-mark {
+    font-family: 'Fraunces', serif;
+    font-size: 28px;
+    font-style: italic;
+    color: var(--terracotta);
+    margin-bottom: 8px;
+  }
+
+  .footer-text {
+    font-family: 'Caveat', cursive;
+    font-size: 22px;
+    color: var(--ink);
+  }
+
+  .footer-meta {
+    margin-top: 24px;
+    font-size: 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.2em;
+    color: var(--ink-soft);
+  }
+
+  /* Decorative elements */
+  .decoration {
+    position: absolute;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .deco-1 {
+    top: 200px;
+    left: -50px;
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(212, 160, 76, 0.15), transparent 70%);
+  }
+
+  .deco-2 {
+    top: 600px;
+    right: -100px;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(46, 92, 138, 0.08), transparent 70%);
+  }
+
+  /* Animations */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(30px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--rot, 0deg)); }
+    50% { transform: translateY(-10px) rotate(var(--rot, 0deg)); }
+  }
+
+  .hero-text > * { animation: fadeUp 0.8s ease-out backwards; }
+  .hero-eyebrow { animation-delay: 0.1s; }
+  .hero-title { animation-delay: 0.2s; }
+  .hero-subtitle { animation-delay: 0.3s; }
+  .countdown-card { animation: fadeUp 0.8s ease-out 0.4s backwards; }
+
+  .card-papa { --rot: 4deg; animation: fadeUp 0.8s ease-out 0.5s backwards, float 6s ease-in-out 1.3s infinite; }
+  .card-sandra { --rot: -5deg; animation: fadeUp 0.8s ease-out 0.6s backwards, float 6s ease-in-out 1.6s infinite; }
+  .card-sarah { --rot: 3deg; animation: fadeUp 0.8s ease-out 0.7s backwards, float 6s ease-in-out 1.9s infinite; }
+
+  /* Responsive */
+  @media (max-width: 968px) {
+    .hero { grid-template-columns: 1fr; padding-top: 100px; }
+    .hero-visual { height: 480px; }
+    .grid > * { grid-column: span 12 !important; }
+    .nav-links { display: none; }
+    nav { padding: 16px 20px; }
+    .dashboard, .journal-section { padding: 60px 20px; }
+    .section-title { font-size: 36px; }
+    .journal-entry { padding: 28px; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="logo">
+    <div class="logo-mark"></div>
+    khedhiri<span style="color: var(--ink-soft); font-weight: 400;">.me</span>
+  </div>
+  <ul class="nav-links">
+    <li><a href="#accueil">Accueil</a></li>
+    <li><a href="#journal">Journal</a></li>
+    <li><a href="#album">Album</a></li>
+    <li><a href="#jeux">Jeux</a></li>
+    <li><a href="#agenda">Agenda</a></li>
+  </ul>
+  <div class="profile-pills">
+    <div class="profile-pill pill-papa" title="Papa">P</div>
+    <div class="profile-pill pill-sandra" title="Sandra">S</div>
+    <div class="profile-pill pill-sarah" title="Sarah">S</div>
+  </div>
+</nav>
+
+<div class="decoration deco-1"></div>
+<div class="decoration deco-2"></div>
+
+<!-- ====== HERO ====== -->
+<section class="hero" id="accueil">
+  <div class="hero-text">
+    <div class="hero-eyebrow">Bienvenue à la maison ✦</div>
+    <h1 class="hero-title">Notre <em>petit monde</em>, entre Lisbonne et Tunis.</h1>
+    <p class="hero-subtitle">
+      Un espace rien qu'à nous trois — Papa, Sandra & Sarah — pour partager nos jours,
+      nos rires, nos câlins virtuels, et compter ensemble les heures qui nous séparent.
+    </p>
+
+    <div class="countdown-card">
+      <div class="countdown-label">Prochaines retrouvailles ✈</div>
+      <div class="countdown-title">On se revoit bientôt, mes cœurs</div>
+      <div class="countdown-grid">
+        <div class="countdown-unit">
+          <span class="countdown-num" id="days">42</span>
+          <div class="countdown-text">Jours</div>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="hours">14</span>
+          <div class="countdown-text">Heures</div>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="mins">37</span>
+          <div class="countdown-text">Minutes</div>
+        </div>
+        <div class="countdown-unit">
+          <span class="countdown-num" id="secs">22</span>
+          <div class="countdown-text">Secondes</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="hero-visual">
+    <svg class="heart-line" style="top: 80px; left: 50%; width: 100px; height: 100px;" viewBox="0 0 100 100">
+      <path d="M 20 30 Q 50 10, 80 30 T 80 70" stroke="currentColor" stroke-width="1.5" fill="none" stroke-dasharray="4,4"/>
+    </svg>
+
+    <div class="family-card card-papa">
+      <div class="card-portrait portrait-papa">P</div>
+      <div class="card-name">Papa</div>
+      <div class="card-meta">à Lisbonne 🇵🇹</div>
+    </div>
+
+    <div class="family-card card-sandra">
+      <div class="card-portrait portrait-sandra">S</div>
+      <div class="card-name">Sandra</div>
+      <div class="card-meta">12 ans · 14 nov.</div>
+    </div>
+
+    <div class="family-card card-sarah">
+      <div class="card-portrait portrait-sarah">S</div>
+      <div class="card-name">Sarah</div>
+      <div class="card-meta">8 ans · 14 déc.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ====== DASHBOARD ====== -->
+<section class="dashboard">
+  <div class="section-eyebrow">Notre quotidien</div>
+  <h2 class="section-title">Aujourd'hui chez nous</h2>
+
+  <div class="grid">
+
+    <!-- Mot du jour de Papa -->
+    <div class="card word-of-day">
+      <div>
+        <div class="word-of-day-label">Le mot de Papa ✿</div>
+        <h3>Mardi 22 avril</h3>
+        <div class="word-of-day-text">
+          Ce matin à Lisbonne, le soleil avait la couleur de vos sourires. J'ai pensé à vous en buvant mon café.
+        </div>
+      </div>
+      <div class="word-of-day-author">
+        <div class="profile-pill pill-papa" style="box-shadow: none; border: none;">P</div>
+        <span>Papa · il y a 2 heures</span>
+      </div>
+    </div>
+
+    <!-- Album -->
+    <div class="card album-card">
+      <div class="album-grid">
+        <div class="album-tile tile-1"></div>
+        <div class="album-tile tile-2"></div>
+        <div class="album-tile tile-3"></div>
+        <div class="album-tile tile-4"></div>
+        <div class="album-tile tile-5"></div>
+        <div class="album-tile tile-6"></div>
+      </div>
+      <div class="album-info">
+        <div class="card-icon" style="background: var(--rose); color: white;">📸</div>
+        <h3>Album partagé</h3>
+        <p>247 souvenirs · Sarah a ajouté 3 photos hier</p>
+      </div>
+    </div>
+
+    <!-- Quiz -->
+    <div class="card quiz-card">
+      <div class="card-icon">🎯</div>
+      <h3>Quiz du jour</h3>
+      <p>Connais-tu vraiment ta sœur ?</p>
+      <div class="quiz-question">Quelle est la couleur préférée de Sandra ?</div>
+      <div class="quiz-options">
+        <button class="quiz-option">🌸 Rose poudré</button>
+        <button class="quiz-option">💜 Violet</button>
+        <button class="quiz-option">🌊 Bleu océan</button>
+        <button class="quiz-option">🌿 Vert sauge</button>
+      </div>
+    </div>
+
+    <!-- Voice messages -->
+    <div class="card voice-card">
+      <div class="card-icon">🎙</div>
+      <h3>Messages vocaux</h3>
+      <p>Tes voix qui font du bien</p>
+      <div class="voice-message">
+        <div class="voice-avatar" style="background: var(--olive);">S</div>
+        <div class="voice-info">
+          <h5>Sarah</h5>
+          <div class="voice-waveform" id="wave1"></div>
+        </div>
+        <div class="voice-duration">0:24</div>
+        <button class="play-btn">▶</button>
+      </div>
+      <div class="voice-message">
+        <div class="voice-avatar" style="background: var(--terracotta);">S</div>
+        <div class="voice-info">
+          <h5>Sandra</h5>
+          <div class="voice-waveform" id="wave2"></div>
+        </div>
+        <div class="voice-duration">1:12</div>
+        <button class="play-btn">▶</button>
+      </div>
+    </div>
+
+    <!-- Calendar -->
+    <div class="card calendar-card">
+      <div class="card-icon">📅</div>
+      <h3>Notre agenda</h3>
+      <p>Les rendez-vous qui nous attendent</p>
+      <div class="events-list">
+        <div class="event">
+          <div class="event-date">
+            <div class="event-day">25</div>
+            <div class="event-month">Avr</div>
+          </div>
+          <div class="event-info">
+            <h4>Appel vidéo du dimanche</h4>
+            <p>20h · heure de Lisbonne</p>
+          </div>
+          <div class="event-tag tag-call">Appel</div>
+        </div>
+        <div class="event">
+          <div class="event-date">
+            <div class="event-day">03</div>
+            <div class="event-month">Juin</div>
+          </div>
+          <div class="event-info">
+            <h4>Vacances en Tunisie</h4>
+            <p>Papa arrive · 12 jours ensemble</p>
+          </div>
+          <div class="event-tag tag-visit">Visite</div>
+        </div>
+        <div class="event">
+          <div class="event-date">
+            <div class="event-day">14</div>
+            <div class="event-month">Nov</div>
+          </div>
+          <div class="event-info">
+            <h4>Anniversaire de Sandra 🎂</h4>
+            <p>13 ans déjà ! On organise une surprise.</p>
+          </div>
+          <div class="event-tag tag-birthday">Fête</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drawings -->
+    <div class="card drawing-card">
+      <div class="card-icon">🎨</div>
+      <h3>Atelier créatif</h3>
+      <p>Les dessins et créations de la semaine</p>
+      <div class="drawing-preview">
+        <div class="drawing-thumb">🌸</div>
+        <div class="drawing-thumb">🦋</div>
+        <div class="drawing-thumb">🌙</div>
+        <div class="drawing-thumb">⭐</div>
+        <div class="drawing-thumb">🐠</div>
+        <div class="drawing-thumb">+</div>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- ====== JOURNAL ====== -->
+<section class="journal-section" id="journal">
+  <div class="journal-container">
+    <div class="section-eyebrow">Lettres du Tage</div>
+    <h2 class="section-title">Journal de Papa</h2>
+
+    <article class="journal-entry">
+      <div class="journal-date">~ Lundi 21 avril, 22h ~</div>
+      <h3 class="journal-title">Le tramway 28 et vous</h3>
+      <p class="journal-text">
+        Aujourd'hui j'ai pris le vieux tramway 28 jusqu'à l'Alfama. Il grince, il
+        secoue, et j'ai souri en pensant que Sarah adorerait les virages serrés. Sandra,
+        toi tu aimerais les vues sur le fleuve depuis les hauteurs. J'ai photographié
+        une porte bleue qui m'a rappelé celles de Sidi Bou Saïd. Un jour, on prendra
+        ce tramway tous les trois — promesse de Papa.
+      </p>
+    </article>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-mark">khedhiri.me</div>
+  <div class="footer-text">Fait avec ♡ entre Lisbonne et Tunis</div>
+  <div class="footer-meta">Notre espace · Privé · Pour toujours</div>
+</footer>
+
+<script>
+  // Countdown — set a target date for next family reunion
+  // Example: June 3, 2026 (next visit to Tunisia)
+  const target = new Date('2026-06-03T10:00:00').getTime();
+
+  function updateCountdown() {
+    const now = new Date().getTime();
+    const distance = target - now;
+
+    if (distance < 0) {
+      document.getElementById('days').textContent = '0';
+      document.getElementById('hours').textContent = '0';
+      document.getElementById('mins').textContent = '0';
+      document.getElementById('secs').textContent = '0';
+      return;
+    }
+
+    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const mins = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+    const secs = Math.floor((distance % (1000 * 60)) / 1000);
+
+    document.getElementById('days').textContent = days;
+    document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+    document.getElementById('mins').textContent = String(mins).padStart(2, '0');
+    document.getElementById('secs').textContent = String(secs).padStart(2, '0');
+  }
+
+  updateCountdown();
+  setInterval(updateCountdown, 1000);
+
+  // Generate waveforms
+  function makeWaveform(id, count = 30) {
+    const container = document.getElementById(id);
+    if (!container) return;
+    for (let i = 0; i < count; i++) {
+      const bar = document.createElement('div');
+      bar.className = 'wave-bar';
+      bar.style.height = (Math.random() * 18 + 4) + 'px';
+      container.appendChild(bar);
+    }
+  }
+
+  makeWaveform('wave1');
+  makeWaveform('wave2');
+
+  // Quiz interaction
+  document.querySelectorAll('.quiz-option').forEach(btn => {
+    btn.addEventListener('click', function() {
+      this.style.background = 'var(--gold)';
+      this.style.color = 'var(--ink)';
+      setTimeout(() => {
+        alert('Bravo ! 💛 Tu connais bien ta sœur.');
+      }, 300);
+    });
+  });
+</script>
+
+</body>
+</html>
