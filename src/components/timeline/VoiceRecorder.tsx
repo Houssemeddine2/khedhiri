@@ -17,6 +17,8 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
   const mediaRecorder = useRef<MediaRecorder | null>(null)
   const chunks = useRef<Blob[]>([])
   const secondsRef = useRef<number>(0)
+  const streamRef = useRef<MediaStream | null>(null)
+  const cancelledRef = useRef<boolean>(false)
 
   // Minuterie : incrémente `seconds` chaque seconde pendant l'enregistrement
   useEffect(() => {
@@ -32,40 +34,50 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
   }, [isRecording])
 
   async function startRecording() {
-    const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ audio: true })
+      streamRef.current = stream
 
-    const mimeType = (typeof MediaRecorder !== 'undefined' &&
-      MediaRecorder.isTypeSupported('audio/webm;codecs=opus'))
-      ? 'audio/webm;codecs=opus'
-      : 'audio/mp4'
+      const mimeType = (typeof MediaRecorder !== 'undefined' &&
+        MediaRecorder.isTypeSupported('audio/webm;codecs=opus'))
+        ? 'audio/webm;codecs=opus'
+        : 'audio/mp4'
 
-    const recorder = new MediaRecorder(stream, { mimeType })
-    mediaRecorder.current = recorder
+      const recorder = new MediaRecorder(stream, { mimeType })
+      mediaRecorder.current = recorder
 
-    recorder.ondataavailable = (e) => {
-      if (e.data.size > 0) chunks.current.push(e.data)
-    }
-
-    recorder.onstop = async () => {
-      const blob = new Blob(chunks.current, { type: mimeType })
-      chunks.current = []
-      setIsPending(true)
-      try {
-        const formData = new FormData()
-        formData.append('file', blob, 'vocal.webm')
-        const mediaUrl = await uploadMedia(formData)
-        await createMediaPost('audio', mediaUrl, secondsRef.current)
-        setIsPending(false)
-        onDone()
-      } catch (err) {
-        setIsPending(false)
-        console.error('Erreur lors de l\'envoi du message vocal :', err)
+      recorder.ondataavailable = (e) => {
+        if (e.data.size > 0) chunks.current.push(e.data)
       }
-    }
 
-    secondsRef.current = 0
-    recorder.start()
-    setIsRecording(true)
+      recorder.onstop = async () => {
+        if (cancelledRef.current) { cancelledRef.current = false; return }
+        const blob = new Blob(chunks.current, { type: mimeType })
+        chunks.current = []
+        setIsPending(true)
+        try {
+          const formData = new FormData()
+          formData.append('file', blob, 'vocal.webm')
+          const mediaUrl = await uploadMedia(formData)
+          await createMediaPost('audio', mediaUrl, secondsRef.current)
+          setIsPending(false)
+          onDone()
+        } catch (err) {
+          setIsPending(false)
+          console.error('Erreur lors de l\'envoi du message vocal :', err)
+        }
+        streamRef.current?.getTracks().forEach(t => t.stop()); streamRef.current = null
+      }
+
+      secondsRef.current = 0
+      setSeconds(0)
+      cancelledRef.current = false
+      recorder.start()
+      setIsRecording(true)
+    } catch (err) {
+      console.error('Impossible d\'accéder au microphone:', err)
+      alert('Impossible d\'accéder au microphone. Vérifiez les permissions.')
+    }
   }
 
   function stopRecording() {
@@ -74,7 +86,9 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
   }
 
   function handleCancel() {
+    cancelledRef.current = true
     mediaRecorder.current?.stop()
+    streamRef.current?.getTracks().forEach(t => t.stop()); streamRef.current = null
     chunks.current = []
     secondsRef.current = 0
     onCancel()
