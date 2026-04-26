@@ -94,7 +94,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 ### Fondations critiques (étapes 1-5)
 - [x] **Étape 1** — Fondations (Next.js, Vercel, domaine)
 - [x] **Étape 2** — Authentification + 3 comptes
-- [ ] **Étape 3** — Timeline familiale temps réel + vocaux (cœur du projet)
+- [x] **Étape 3** — Timeline familiale temps réel + vocaux (cœur du projet)
 - [ ] **Étape 4** — Chats individuels temps réel (Papa↔Sandra, Papa↔Sarah, Sandra↔Sarah)
 - [ ] **Étape 5** — PWA installable + Notifications push mobile
 
@@ -283,6 +283,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Conception initiale | Vision, roadmap 20 étapes, Manifesto, prototype |
 | Avril 2026 | Étape 1 | Next.js 15 initialisé, système de design configuré (palette + Fraunces/Manrope/Caveat), page d'accueil, déployé sur khedhiri.me |
 | Avril 2026 | Étape 2 | Supabase SSR, middleware de protection des routes, page de connexion stylisée, page d'accueil personnalisée, 3 comptes créés (houssem/sandra/sarah@khedhiri.me), variables d'env Vercel configurées, déployé sur khedhiri.me |
+| Avril 2026 | Étape 3 | Timeline familiale temps réel : schéma Supabase (posts/réactions/profils/storage), server actions, composants VoicePlayer/ReactionBar/PostCard/VoiceRecorder/ComposeBar/Timeline, Realtime subscriptions, SSR initial posts, déployé sur khedhiri.me |
 
 ---
 
