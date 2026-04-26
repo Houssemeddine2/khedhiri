@@ -16,12 +16,17 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
 
   const mediaRecorder = useRef<MediaRecorder | null>(null)
   const chunks = useRef<Blob[]>([])
+  const secondsRef = useRef<number>(0)
 
   // Minuterie : incrémente `seconds` chaque seconde pendant l'enregistrement
   useEffect(() => {
     if (!isRecording) return
     const interval = setInterval(() => {
-      setSeconds((s) => s + 1)
+      setSeconds((s) => {
+        const next = s + 1
+        secondsRef.current = next
+        return next
+      })
     }, 1000)
     return () => clearInterval(interval)
   }, [isRecording])
@@ -49,7 +54,7 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
         const formData = new FormData()
         formData.append('file', blob, 'vocal.webm')
         const mediaUrl = await uploadMedia(formData)
-        await createMediaPost('audio', mediaUrl, seconds)
+        await createMediaPost('audio', mediaUrl, secondsRef.current)
         setIsPending(false)
         onDone()
       } catch (err) {
@@ -58,6 +63,7 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
       }
     }
 
+    secondsRef.current = 0
     recorder.start()
     setIsRecording(true)
   }
@@ -70,6 +76,7 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
   function handleCancel() {
     mediaRecorder.current?.stop()
     chunks.current = []
+    secondsRef.current = 0
     onCancel()
   }
 
