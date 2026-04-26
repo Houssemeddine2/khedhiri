@@ -1,15 +1,16 @@
 'use client'
 
 import { useState, useRef, useEffect } from 'react'
-import { uploadMedia, createMediaPost } from '@/app/actions/posts'
+import { uploadMedia } from '@/app/actions/posts'
 import { formatDuree } from '@/lib/avatar'
 
 interface VoiceRecorderProps {
   onDone: () => void
   onCancel: () => void
+  onRecorded: (url: string, duration: number) => Promise<void>
 }
 
-export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) {
+export default function VoiceRecorder({ onDone, onCancel, onRecorded }: VoiceRecorderProps) {
   const [isRecording, setIsRecording] = useState(false)
   const [seconds, setSeconds] = useState(0)
   const [isPending, setIsPending] = useState(false)
@@ -59,7 +60,7 @@ export default function VoiceRecorder({ onDone, onCancel }: VoiceRecorderProps) 
           const formData = new FormData()
           formData.append('file', blob, 'vocal.webm')
           const mediaUrl = await uploadMedia(formData)
-          await createMediaPost('audio', mediaUrl, secondsRef.current)
+          await onRecorded(mediaUrl, secondsRef.current)
           setIsPending(false)
           onDone()
         } catch (err) {

@@ -1,6 +1,7 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import Timeline from '@/components/timeline/Timeline'
+import NavBar from '@/components/NavBar'
 import type { Post, CurrentUser } from '@/types/post'
 
 export default async function AccueilPage() {
@@ -30,11 +31,14 @@ export default async function AccueilPage() {
   const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
   return (
-    <Timeline
-      initialPosts={(initialPosts ?? []) as Post[]}
-      currentUser={currentUser}
-      supabaseUrl={supabaseUrl}
-      supabaseAnonKey={supabaseAnonKey}
-    />
+    <>
+      <NavBar />
+      <Timeline
+        initialPosts={(initialPosts ?? []) as Post[]}
+        currentUser={currentUser}
+        supabaseUrl={supabaseUrl}
+        supabaseAnonKey={supabaseAnonKey}
+      />
+    </>
   )
 }
