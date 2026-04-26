@@ -67,12 +67,15 @@ export async function toggleReaction(postId: string, emoji: string): Promise<voi
 
   if (existing) {
     if (existing.emoji === emoji) {
-      await supabase.from('reactions').delete().eq('id', existing.id)
+      const { error } = await supabase.from('reactions').delete().eq('id', existing.id)
+      if (error) throw new Error(error.message)
     } else {
-      await supabase.from('reactions').update({ emoji }).eq('id', existing.id)
+      const { error } = await supabase.from('reactions').update({ emoji }).eq('id', existing.id)
+      if (error) throw new Error(error.message)
     }
   } else {
-    await supabase.from('reactions').insert({ post_id: postId, user_id: user.id, emoji })
+    const { error } = await supabase.from('reactions').insert({ post_id: postId, user_id: user.id, emoji })
+    if (error) throw new Error(error.message)
   }
 }
 
