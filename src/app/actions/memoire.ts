@@ -51,10 +51,12 @@ export async function supprimerSouvenir(id: string): Promise<void> {
   if (!user) throw new Error('Non authentifié')
 
   const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
-  const query = supabase.from('memoires').delete().eq('id', id)
-  const { error } = user.id === PAPA_ID
-    ? await query
-    : await query.eq('user_id', user.id)
-  if (error) throw new Error(error.message)
+  if (user.id === PAPA_ID) {
+    const { error } = await supabase.from('memoires').delete().eq('id', id)
+    if (error) throw new Error(error.message)
+  } else {
+    const { error } = await supabase.from('memoires').delete().eq('id', id).eq('user_id', user.id)
+    if (error) throw new Error(error.message)
+  }
   revalidatePath('/memoire')
 }
