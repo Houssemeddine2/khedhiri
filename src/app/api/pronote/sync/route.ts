@@ -15,7 +15,9 @@ const FILLES_IDS = [
 
 async function decrypt(encrypted: string): Promise<string> {
   const { subtle } = await import('crypto')
-  const keyRaw = Buffer.from(process.env.PRONOTE_ENCRYPTION_KEY!, 'hex')
+  const keyHex = process.env.PRONOTE_ENCRYPTION_KEY
+  if (!keyHex || keyHex.length !== 64) throw new Error('PRONOTE_ENCRYPTION_KEY manquante ou invalide')
+  const keyRaw = Buffer.from(keyHex, 'hex')
   const key = await subtle.importKey('raw', keyRaw, 'AES-GCM', false, ['decrypt'])
   const combined = Buffer.from(encrypted, 'base64')
   const iv = combined.subarray(0, 12)
@@ -30,7 +32,7 @@ type AdminClient = SupabaseClient<any, any, any>
 async function syncFille(
   admin: AdminClient,
   userId: string,
-): Promise<{ synced?: boolean; skipped?: boolean; reason?: string; counts?: object; error?: string }> {
+): Promise<{ synced?: boolean; skipped?: boolean; reason?: string; counts?: { notes: number; devoirs: number; absences: number; observations: number; evenements: number }; error?: string }> {
   const { data: profile } = await admin
     .from('profiles')
     .select('pronote_url, pronote_username, pronote_password_encrypted')
@@ -53,54 +55,25 @@ async function syncFille(
     admin.from('pronote_evenements').delete().eq('user_id', userId),
   ])
 
-  await Promise.all([
-    donnees.notes.length && admin.from('pronote_notes').insert(
-      donnees.notes.map(n => ({
-        user_id: userId,
-        matiere: n.matiere,
-        note: n.note,
-        note_max: n.noteMax,
-        date: n.date.split('T')[0],
-        commentaire: n.commentaire ?? null,
-      }))
-    ),
-    donnees.devoirs.length && admin.from('pronote_devoirs').insert(
-      donnees.devoirs.map(d => ({
-        user_id: userId,
-        matiere: d.matiere,
-        description: d.description,
-        date_rendu: d.dateRendu.split('T')[0],
-        fait: d.fait,
-      }))
-    ),
-    donnees.absences.length && admin.from('pronote_absences').insert(
-      donnees.absences.map(a => ({
-        user_id: userId,
-        date_debut: a.dateDebut,
-        date_fin: a.dateFin,
-        justifiee: a.justifiee,
-        cours: a.cours ?? null,
-      }))
-    ),
-    donnees.observations.length && admin.from('pronote_observations').insert(
-      donnees.observations.map(o => ({
-        user_id: userId,
-        prof: o.prof ?? null,
-        matiere: o.matiere ?? null,
-        contenu: o.contenu,
-        date: o.date.split('T')[0],
-      }))
-    ),
-    donnees.evenements.length && admin.from('pronote_evenements').insert(
-      donnees.evenements.map(e => ({
-        user_id: userId,
-        titre: e.titre,
-        type: e.type,
-        date_debut: e.dateDebut,
-        date_fin: e.dateFin ?? null,
-      }))
-    ),
+  const insertResults = await Promise.all([
+    donnees.notes.length ? admin.from('pronote_notes').insert(
+      donnees.notes.map(n => ({ user_id: userId, matiere: n.matiere, note: n.note, note_max: n.noteMax, date: n.date.split('T')[0], commentaire: n.commentaire ?? null }))
+    ) : Promise.resolve({ error: null }),
+    donnees.devoirs.length ? admin.from('pronote_devoirs').insert(
+      donnees.devoirs.map(d => ({ user_id: userId, matiere: d.matiere, description: d.description, date_rendu: d.dateRendu.split('T')[0], fait: d.fait }))
+    ) : Promise.resolve({ error: null }),
+    donnees.absences.length ? admin.from('pronote_absences').insert(
+      donnees.absences.map(a => ({ user_id: userId, date_debut: a.dateDebut, date_fin: a.dateFin, justifiee: a.justifiee, cours: a.cours ?? null }))
+    ) : Promise.resolve({ error: null }),
+    donnees.observations.length ? admin.from('pronote_observations').insert(
+      donnees.observations.map(o => ({ user_id: userId, prof: o.prof ?? null, matiere: o.matiere ?? null, contenu: o.contenu, date: o.date.split('T')[0] }))
+    ) : Promise.resolve({ error: null }),
+    donnees.evenements.length ? admin.from('pronote_evenements').insert(
+      donnees.evenements.map(e => ({ user_id: userId, titre: e.titre, type: e.type, date_debut: e.dateDebut, date_fin: e.dateFin ?? null }))
+    ) : Promise.resolve({ error: null }),
   ])
+  const insertErrors = insertResults.filter(r => r?.error).map(r => r!.error!.message)
+  if (insertErrors.length) throw new Error(`Erreurs insertion : ${insertErrors.join(', ')}`)
 
   return {
     synced: true,
@@ -116,7 +89,8 @@ async function syncFille(
 
 export async function POST(request: Request) {
   const authHeader = request.headers.get('authorization')
-  const isCron = authHeader === `Bearer ${process.env.CRON_SECRET}`
+  const cronSecret = process.env.CRON_SECRET
+  const isCron = !!cronSecret && authHeader === `Bearer ${cronSecret}`
 
   if (!isCron) {
     const { createClient } = await import('@/lib/supabase/server')
