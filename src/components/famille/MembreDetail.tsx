@@ -17,23 +17,28 @@ interface MembreDetailProps {
 
 export default function MembreDetail({ membre, anecdotes, currentUserId, isPapa, onClose }: MembreDetailProps) {
   const router = useRouter()
-  const [isPending, setIsPending] = useState(false)
+  const [isDeletingMembre, setIsDeletingMembre] = useState(false)
+  const [deletingAnecdoteId, setDeletingAnecdoteId] = useState<string | null>(null)
 
   async function handleSupprimerMembre() {
     if (!confirm(`Supprimer ${membre.prenom} de l'arbre ?`)) return
-    setIsPending(true)
-    await supprimerMembre(membre.id)
-    router.refresh()
-    onClose()
+    setIsDeletingMembre(true)
+    try {
+      await supprimerMembre(membre.id)
+      router.refresh()
+      onClose()
+    } finally {
+      setIsDeletingMembre(false)
+    }
   }
 
   async function handleSupprimerAnecdote(id: string) {
-    setIsPending(true)
+    setDeletingAnecdoteId(id)
     try {
       await supprimerAnecdote(id)
       router.refresh()
     } finally {
-      setIsPending(false)
+      setDeletingAnecdoteId(null)
     }
   }
 
@@ -98,7 +103,7 @@ export default function MembreDetail({ membre, anecdotes, currentUserId, isPapa,
                       {peutSupprimer && (
                         <button
                           onClick={() => handleSupprimerAnecdote(a.id)}
-                          disabled={isPending}
+                          disabled={deletingAnecdoteId === a.id}
                           className="font-manrope text-xs text-terracotta hover:underline disabled:opacity-50"
                         >
                           Supprimer
@@ -118,7 +123,7 @@ export default function MembreDetail({ membre, anecdotes, currentUserId, isPapa,
           <div className="mt-4 pt-4 border-t border-sand-warm">
             <button
               onClick={handleSupprimerMembre}
-              disabled={isPending}
+              disabled={isDeletingMembre}
               className="font-manrope text-sm text-terracotta hover:underline disabled:opacity-50"
             >
               Supprimer ce membre de l'arbre

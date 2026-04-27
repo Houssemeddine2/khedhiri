@@ -23,6 +23,9 @@ export default async function FamillePage() {
       .order('created_at', { ascending: true }),
   ])
 
+  if (membresRes.error) console.error('famille_membres:', membresRes.error.message)
+  if (anecdotesRes.error) console.error('famille_anecdotes:', anecdotesRes.error.message)
+
   return (
     <>
       <NavBar />
