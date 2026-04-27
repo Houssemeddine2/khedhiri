@@ -1,6 +1,7 @@
 import type { Metadata, Viewport } from 'next'
 import { Fraunces, Manrope, Caveat } from 'next/font/google'
 import PushRegistrar from '@/components/PushRegistrar'
+import TuteurWidgetWrapper from '@/components/tutor-widget/TuteurWidgetWrapper'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -45,6 +46,7 @@ export default function RootLayout({
       <body className="font-manrope antialiased">
         <PushRegistrar />
         {children}
+        <TuteurWidgetWrapper />
       </body>
     </html>
   )
