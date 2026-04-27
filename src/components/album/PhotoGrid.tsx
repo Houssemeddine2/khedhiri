@@ -3,13 +3,14 @@
 import { useState, useEffect, useTransition } from 'react'
 import { deletePost } from '@/app/actions/posts'
 import { avatarFromEmail, tempsRelatif } from '@/lib/avatar'
+import AvatarCircle from '@/components/ui/AvatarCircle'
 
 type Photo = {
   id: string
   author_id: string
   media_url: string
   created_at: string
-  profiles: { email: string; nom: string } | null
+  profiles: { email: string; nom: string; avatar_url?: string | null; couleur?: string | null } | null
 }
 
 interface PhotoGridProps {
@@ -68,9 +69,13 @@ export default function PhotoGrid({ photos, currentUserId }: PhotoGridProps) {
               </button>
 
               <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/50 rounded-full px-2 py-0.5 pointer-events-none">
-                <span className={`w-4 h-4 rounded-full ${avatar.couleurBg} flex items-center justify-center text-white text-xs font-bold`}>
-                  {avatar.initiale}
-                </span>
+                <AvatarCircle
+                  email={photo.profiles?.email ?? ''}
+                  nom={photo.profiles?.nom}
+                  avatarUrl={photo.profiles?.avatar_url}
+                  couleur={photo.profiles?.couleur}
+                  size="xs"
+                />
                 <span className="font-manrope text-white text-xs">{avatar.nom}</span>
               </div>
 
@@ -113,9 +118,13 @@ export default function PhotoGrid({ photos, currentUserId }: PhotoGridProps) {
                 const av = avatarFromEmail(selected.profiles?.email ?? '')
                 return (
                   <div className="flex items-center gap-2">
-                    <span className={`w-8 h-8 rounded-full ${av.couleurBg} flex items-center justify-center text-white text-sm font-bold`}>
-                      {av.initiale}
-                    </span>
+                    <AvatarCircle
+                      email={selected.profiles?.email ?? ''}
+                      nom={selected.profiles?.nom}
+                      avatarUrl={selected.profiles?.avatar_url}
+                      couleur={selected.profiles?.couleur}
+                      size="md"
+                    />
                     <div>
                       <p className="font-manrope text-white text-sm font-semibold">{av.nom}</p>
                       <p className="font-manrope text-white/60 text-xs">{tempsRelatif(selected.created_at)}</p>

@@ -10,7 +10,7 @@ export default async function AlbumPage() {
 
   const { data: photos } = await supabase
     .from('posts')
-    .select('id, author_id, media_url, created_at, profiles(email, nom)')
+    .select('id, author_id, media_url, created_at, profiles(email, nom, avatar_url, couleur)')
     .eq('type', 'photo')
     .order('created_at', { ascending: false })
 

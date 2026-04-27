@@ -11,7 +11,7 @@ export default async function AtelierPage() {
 
   const { data: creations } = await supabase
     .from('creations')
-    .select('id, author_id, title, media_url, created_at, profiles(email, nom)')
+    .select('id, author_id, title, media_url, created_at, profiles(email, nom, avatar_url, couleur)')
     .order('created_at', { ascending: false })
 
   return (

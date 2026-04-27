@@ -3,6 +3,7 @@
 import { useTransition } from 'react'
 import { deletePost } from '@/app/actions/posts'
 import { avatarFromEmail, tempsRelatif } from '@/lib/avatar'
+import AvatarCircle from '@/components/ui/AvatarCircle'
 import VoicePlayer from './VoicePlayer'
 import ReactionBar from './ReactionBar'
 import type { Post, CurrentUser } from '@/types/post'
@@ -17,6 +18,7 @@ export default function PostCard({ post, currentUser }: PostCardProps) {
 
   const avatar = avatarFromEmail(post.profiles?.email ?? '')
   const isAuthor = post.author_id === currentUser.id
+  const profiles = post.profiles
 
   const handleDelete = () => {
     if (confirm('Êtes-vous sûr de vouloir supprimer ce message ?')) {
@@ -32,11 +34,13 @@ export default function PostCard({ post, currentUser }: PostCardProps) {
       <div className="flex items-start justify-between mb-3">
         <div className="flex items-center gap-3">
           {/* Avatar */}
-          <div
-            className={`w-10 h-10 rounded-full ${avatar.couleurBg} flex items-center justify-center text-white font-bold text-sm flex-shrink-0`}
-          >
-            {avatar.initiale}
-          </div>
+          <AvatarCircle
+            email={profiles?.email ?? ''}
+            nom={profiles?.nom}
+            avatarUrl={profiles?.avatar_url}
+            couleur={profiles?.couleur}
+            size="lg"
+          />
 
           {/* Nom et temps relatif */}
           <div className="flex flex-col">

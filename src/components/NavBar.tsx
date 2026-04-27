@@ -2,6 +2,7 @@ import Link from 'next/link'
 import { createClient } from '@/lib/supabase/server'
 import { MEMBRES } from '@/lib/membres'
 import { avatarFromEmail } from '@/lib/avatar'
+import AvatarCircle from '@/components/ui/AvatarCircle'
 
 export default async function NavBar() {
   const supabase = await createClient()
@@ -9,6 +10,16 @@ export default async function NavBar() {
   if (!user) return null
 
   const autresMembres = MEMBRES.filter(m => m.id !== user.id)
+
+  // Fetch profiles for all members (own + others for chat avatars)
+  const allIds = MEMBRES.map(m => m.id)
+  const { data: profiles } = await supabase
+    .from('profiles')
+    .select('id, email, nom, avatar_url, couleur')
+    .in('id', allIds)
+
+  const profileMap = Object.fromEntries((profiles ?? []).map(p => [p.id, p]))
+  const ownProfile = profileMap[user.id]
 
   return (
     <nav className="sticky top-0 z-50 bg-cream border-b border-terracotta/20 shadow-sm">
@@ -70,29 +81,46 @@ export default async function NavBar() {
           <span className="text-xs font-manrope hidden sm:inline">Agenda</span>
         </Link>
 
-        {/* Chats des autres membres */}
+        {/* Chats des autres membres + Mon profil */}
         <div className="flex items-center gap-3 ml-auto">
           {autresMembres.map(membre => {
-            const avatar = avatarFromEmail(membre.email)
+            const p = profileMap[membre.id]
+            const av = avatarFromEmail(membre.email)
             return (
               <Link
                 key={membre.id}
                 href={`/chats/${membre.id}`}
                 className="flex items-center gap-2 hover:opacity-80 transition-opacity"
-                aria-label={`Chat avec ${avatar.nom}`}
+                aria-label={`Chat avec ${p?.nom ?? av.nom}`}
               >
-                <span
-                  className={`w-8 h-8 rounded-full flex items-center justify-center text-white text-sm font-bold font-manrope ${avatar.couleurBg}`}
-                  aria-hidden="true"
-                >
-                  {avatar.initiale}
-                </span>
+                <AvatarCircle
+                  email={membre.email}
+                  nom={p?.nom}
+                  avatarUrl={p?.avatar_url}
+                  couleur={p?.couleur}
+                  size="sm"
+                />
                 <span className="text-sm font-manrope text-ink hidden sm:inline">
-                  {avatar.nom}
+                  {p?.nom ?? av.nom}
                 </span>
               </Link>
             )
           })}
+
+          {/* Mon profil */}
+          <Link
+            href="/profil"
+            aria-label="Mon profil"
+            className="hover:opacity-80 transition-opacity"
+          >
+            <AvatarCircle
+              email={user.email ?? ''}
+              nom={ownProfile?.nom}
+              avatarUrl={ownProfile?.avatar_url}
+              couleur={ownProfile?.couleur}
+              size="sm"
+            />
+          </Link>
         </div>
       </div>
     </nav>

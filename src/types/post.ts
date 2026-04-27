@@ -11,6 +11,8 @@ export type Reaction = {
 export type PostProfile = {
   email: string
   nom: string
+  avatar_url?: string | null
+  couleur?: string | null
 }
 
 export type Post = {

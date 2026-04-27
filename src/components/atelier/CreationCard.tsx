@@ -3,6 +3,7 @@
 import { useTransition } from 'react'
 import { deleteCreation } from '@/app/actions/atelier'
 import { avatarFromEmail, tempsRelatif } from '@/lib/avatar'
+import AvatarCircle from '@/components/ui/AvatarCircle'
 import type { Creation } from '@/types/creation'
 
 interface CreationCardProps {
@@ -40,9 +41,13 @@ export default function CreationCard({ creation, currentUserId, onDeleted }: Cre
       )}
 
       <div className="absolute bottom-2 left-2 flex items-center gap-1 bg-black/50 rounded-full px-2 py-0.5 pointer-events-none">
-        <span className={`w-4 h-4 rounded-full ${avatar.couleurBg} flex items-center justify-center text-white text-xs font-bold`}>
-          {avatar.initiale}
-        </span>
+        <AvatarCircle
+          email={creation.profiles?.email ?? ''}
+          nom={creation.profiles?.nom}
+          avatarUrl={creation.profiles?.avatar_url}
+          couleur={creation.profiles?.couleur}
+          size="xs"
+        />
         <span className="font-manrope text-white text-xs">{tempsRelatif(creation.created_at)}</span>
       </div>
 

@@ -16,7 +16,7 @@ export default async function AccueilPage() {
   // Récupération des posts initiaux côté serveur (SSR)
   const { data: initialPosts } = await supabase
     .from('posts')
-    .select('*, reactions(*), profiles(email, nom)')
+    .select('*, reactions(*), profiles(email, nom, avatar_url, couleur)')
     .order('created_at', { ascending: false })
     .limit(50)
 
