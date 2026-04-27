@@ -1,7 +1,7 @@
 // src/components/tutor/VocalButton.tsx
 'use client'
 
-import { useEffect, useRef } from 'react'
+import { useCallback, useEffect, useRef } from 'react'
 
 interface VocalButtonProps {
   isListening: boolean
@@ -20,16 +20,16 @@ export default function VocalButton({ isListening, onStart, onStop, disabled }: 
     onStart()
   }
 
-  function handlePointerUp() {
+  const handlePointerUp = useCallback(() => {
     if (!pressRef.current) return
     pressRef.current = false
     onStop()
-  }
+  }, [onStop])
 
   useEffect(() => {
     window.addEventListener('pointerup', handlePointerUp)
     return () => window.removeEventListener('pointerup', handlePointerUp)
-  })
+  }, [handlePointerUp])
 
   return (
     <button
@@ -50,11 +50,11 @@ export default function VocalButton({ isListening, onStart, onStop, disabled }: 
       <span>{isListening ? 'Écoute…' : 'Maintiens pour parler'}</span>
       {isListening && (
         <span className="flex gap-0.5 items-end ml-1">
-          {[0, 150, 300].map(delay => (
+          {[8, 14, 10].map((h, i) => (
             <span
-              key={delay}
+              key={i}
               className="w-1 bg-white/80 rounded-full animate-bounce"
-              style={{ height: 8 + Math.random() * 8, animationDelay: `${delay}ms` }}
+              style={{ height: h, animationDelay: `${i * 150}ms` }}
             />
           ))}
         </span>

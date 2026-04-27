@@ -37,6 +37,7 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
   const bottomRef = useRef<HTMLDivElement>(null)
   const fileRef   = useRef<HTMLInputElement>(null)
   const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const inputRef = useRef('')
 
   const [modeVocal, setModeVocal] = useState(() => {
     if (typeof window === 'undefined') return false
@@ -53,6 +54,10 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
   useEffect(() => {
     if (transcript) setInput(transcript)
   }, [transcript])
+
+  useEffect(() => {
+    inputRef.current = input
+  }, [input])
 
   async function ensureSession(): Promise<string> {
     if (sessionId) return sessionId
@@ -243,7 +248,7 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
               <VocalButton
                 isListening={isListening}
                 onStart={() => startListening()}
-                onStop={() => { stopListening(); setTimeout(() => { if (input.trim()) handleSend() }, 300) }}
+                onStop={() => { stopListening(); setTimeout(() => { if (inputRef.current.trim()) handleSend() }, 300) }}
                 disabled={loading}
               />
               <button

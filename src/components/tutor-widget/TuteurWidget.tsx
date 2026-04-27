@@ -53,6 +53,8 @@ export default function TuteurWidget({ prenom }: TuteurWidgetProps) {
       const { reply } = await res.json() as { reply?: string }
       setMessages(prev => [...prev, { role: 'assistant', content: reply ?? 'Désolé…' }])
       if (modeVocal && reply) speak(reply)
+    } catch {
+      setMessages(prev => [...prev, { role: 'assistant', content: 'Oups ! Je n\'arrive pas à te répondre. Réessaie !' }])
     } finally {
       setLoading(false)
     }

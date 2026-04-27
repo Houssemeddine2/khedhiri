@@ -21,10 +21,7 @@ export default async function TuteurPage() {
       process.env.SUPABASE_SERVICE_ROLE_KEY!,
     )
 
-    const filleIds = [
-      '1a0967e9-91e0-48f6-a3da-752255274153', // Sandra
-      '617eff77-47ed-40e0-b784-c027183c9bee', // Sarah
-    ]
+    const filleIds = MEMBRES.filter(m => m.email !== 'houssem@khedhiri.me').map(m => m.id)
 
     const [sessionsRes, analysesRes, notesRes, devoirsRes, absencesRes, observationsRes, evenementsRes] = await Promise.allSettled([
       supabase.from('tutor_sessions').select('*').in('user_id', filleIds).order('updated_at', { ascending: false }),
