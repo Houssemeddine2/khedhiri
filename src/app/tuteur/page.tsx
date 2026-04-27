@@ -16,26 +16,41 @@ export default async function TuteurPage() {
   const isPapa = user.email === 'houssem@khedhiri.me'
 
   if (isPapa) {
-    // Papa voit l'historique de toutes les sessions (admin client)
     const admin = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     )
 
-    const filles = MEMBRES.filter(m => m.email !== 'houssem@khedhiri.me')
-    const fillesIds = filles.map(f => f.id)
+    const filleIds = [
+      '1a0967e9-91e0-48f6-a3da-752255274153', // Sandra
+      '617eff77-47ed-40e0-b784-c027183c9bee', // Sarah
+    ]
 
-    const { data: sessions } = await admin
-      .from('tutor_sessions')
-      .select('*, tutor_messages(count)')
-      .in('user_id', fillesIds)
-      .order('updated_at', { ascending: false })
-      .limit(50)
+    const [sessionsRes, analysesRes, notesRes, devoirsRes, absencesRes, observationsRes, evenementsRes] = await Promise.allSettled([
+      supabase.from('tutor_sessions').select('*').in('user_id', filleIds).order('updated_at', { ascending: false }),
+      admin.from('tutor_analyses').select('*').in('user_id', filleIds).order('created_at', { ascending: false }),
+      admin.from('pronote_notes').select('*').in('user_id', filleIds).order('date', { ascending: false }),
+      admin.from('pronote_devoirs').select('*').in('user_id', filleIds).order('date_rendu', { ascending: true }),
+      admin.from('pronote_absences').select('*').in('user_id', filleIds).order('date_debut', { ascending: false }),
+      admin.from('pronote_observations').select('*').in('user_id', filleIds).order('date', { ascending: false }),
+      admin.from('pronote_evenements').select('*').in('user_id', filleIds).order('date_debut', { ascending: true }),
+    ])
+
+    const filles = MEMBRES.filter(m => filleIds.includes(m.id))
 
     return (
       <>
         <NavBar />
-        <TuteurPapa sessions={(sessions ?? []) as TutorSession[]} filles={filles} />
+        <TuteurPapa
+          sessions={sessionsRes.status === 'fulfilled' ? (sessionsRes.value.data ?? []) as TutorSession[] : []}
+          filles={filles}
+          analyses={analysesRes.status === 'fulfilled' ? (analysesRes.value.data ?? []) : []}
+          notes={notesRes.status === 'fulfilled' ? (notesRes.value.data ?? []) : []}
+          devoirs={devoirsRes.status === 'fulfilled' ? (devoirsRes.value.data ?? []) : []}
+          absences={absencesRes.status === 'fulfilled' ? (absencesRes.value.data ?? []) : []}
+          observations={observationsRes.status === 'fulfilled' ? (observationsRes.value.data ?? []) : []}
+          evenements={evenementsRes.status === 'fulfilled' ? (evenementsRes.value.data ?? []) : []}
+        />
       </>
     )
   }
