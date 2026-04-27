@@ -2,6 +2,8 @@
 
 import { createClient } from '@/lib/supabase/server'
 import { conversationId } from '@/lib/conversation'
+import { sendNotificationToUsers } from '@/lib/push-server'
+import { membreById } from '@/lib/membres'
 
 export async function sendTextMessage(otherUserId: string, content: string): Promise<void> {
   if (!content.trim()) return
@@ -17,6 +19,15 @@ export async function sendTextMessage(otherUserId: string, content: string): Pro
     content:         content.trim(),
   })
   if (error) throw new Error(error.message)
+
+  if (membreById(otherUserId)) {
+    const prenom = user.email!.split('@')[0]
+    sendNotificationToUsers([otherUserId], {
+      title: `Message de ${prenom}`,
+      body:  content.trim().slice(0, 80),
+      url:   `/chats/${user.id}`,
+    }).catch(console.error)
+  }
 }
 
 export async function sendMediaMessage(
@@ -38,6 +49,16 @@ export async function sendMediaMessage(
     audio_duration:  audioDuration ?? null,
   })
   if (error) throw new Error(error.message)
+
+  if (membreById(otherUserId)) {
+    const prenom = user.email!.split('@')[0]
+    const label = type === 'photo' ? 'une photo' : 'un message vocal'
+    sendNotificationToUsers([otherUserId], {
+      title: `Message de ${prenom}`,
+      body:  `${prenom} t'a envoyé ${label}`,
+      url:   `/chats/${user.id}`,
+    }).catch(console.error)
+  }
 }
 
 export async function deleteMessage(messageId: string): Promise<void> {

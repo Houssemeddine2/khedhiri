@@ -1,7 +1,8 @@
-// src/app/actions/posts.ts
 'use server'
 
 import { createClient } from '@/lib/supabase/server'
+import { sendNotificationToUsers } from '@/lib/push-server'
+import { MEMBRES } from '@/lib/membres'
 
 export async function createTextPost(content: string): Promise<void> {
   if (!content.trim()) return
@@ -15,6 +16,14 @@ export async function createTextPost(content: string): Promise<void> {
     content: content.trim(),
   })
   if (error) throw new Error(error.message)
+
+  const autresIds = MEMBRES.filter(m => m.id !== user.id).map(m => m.id)
+  const prenom = user.email!.split('@')[0]
+  sendNotificationToUsers(autresIds, {
+    title: 'khedhiri.me',
+    body: `${prenom} a partagé un message`,
+    url: '/',
+  }).catch(console.error)
 }
 
 export async function uploadMedia(formData: FormData): Promise<string> {
@@ -51,6 +60,15 @@ export async function createMediaPost(
     audio_duration: audioDuration ?? null,
   })
   if (error) throw new Error(error.message)
+
+  const autresIds = MEMBRES.filter(m => m.id !== user.id).map(m => m.id)
+  const prenom = user.email!.split('@')[0]
+  const label = type === 'photo' ? 'une photo' : 'un vocal'
+  sendNotificationToUsers(autresIds, {
+    title: 'khedhiri.me',
+    body: `${prenom} a partagé ${label}`,
+    url: '/',
+  }).catch(console.error)
 }
 
 export async function toggleReaction(postId: string, emoji: string): Promise<void> {

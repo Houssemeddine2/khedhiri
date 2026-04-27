@@ -1,5 +1,6 @@
-import type { Metadata } from 'next'
+import type { Metadata, Viewport } from 'next'
 import { Fraunces, Manrope, Caveat } from 'next/font/google'
+import PushRegistrar from '@/components/PushRegistrar'
 import './globals.css'
 
 const fraunces = Fraunces({
@@ -25,6 +26,12 @@ export const metadata: Metadata = {
   description: 'Notre petit monde entre Lisbonne et Tunis',
 }
 
+export const viewport: Viewport = {
+  themeColor: '#C5563D',
+  width: 'device-width',
+  initialScale: 1,
+}
+
 export default function RootLayout({
   children,
 }: {
@@ -36,6 +43,7 @@ export default function RootLayout({
       className={`${fraunces.variable} ${manrope.variable} ${caveat.variable}`}
     >
       <body className="font-manrope antialiased">
+        <PushRegistrar />
         {children}
       </body>
     </html>
