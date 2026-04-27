@@ -3,6 +3,8 @@
 import { revalidatePath } from 'next/cache'
 import { createClient } from '@/lib/supabase/server'
 
+const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
+
 export async function uploadFichierSouvenir(formData: FormData, type: 'photo' | 'audio'): Promise<string> {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -50,7 +52,6 @@ export async function supprimerSouvenir(id: string): Promise<void> {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) throw new Error('Non authentifié')
 
-  const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
   if (user.id === PAPA_ID) {
     const { error } = await supabase.from('memoires').delete().eq('id', id)
     if (error) throw new Error(error.message)
