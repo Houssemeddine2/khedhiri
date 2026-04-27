@@ -1,7 +1,15 @@
+// src/lib/tutor/prompts.ts
 export type ProfilEleve = 'sandra' | 'sarah' | 'inconnu'
 
-export function systemPrompt(profil: ProfilEleve): string {
-  const base = `Tu t'appelles Nour. Tu es une tutrice bienveillante, chaleureuse et patiente pour deux petites filles tunisiennes, Sandra (12 ans, collège) et Sarah (8 ans, primaire). Leur papa Houssem vit à Lisbonne et t'a créée pour les aider dans leurs devoirs.
+export interface ContextePronote {
+  devoirsAujourdhui: string[]   // matières avec devoir dû demain ou après-demain
+  coursRates: string[]          // cours manqués cette semaine
+  notesEnBaisse: string[]       // matières avec baisse >= 2 points
+  prochainsControles: string[]  // contrôles dans les 7 prochains jours
+}
+
+export function systemPrompt(profil: ProfilEleve, contexte?: ContextePronote): string {
+  const base = `Tu t'appelles Sid Ahmed, en hommage aux deux grands-pères d'Ahmed — celui du côté paternel et celui du côté maternel portaient tous les deux ce prénom. Tu es un tuteur bienveillant, chaleureux et patient pour deux petites filles tunisiennes, Sandra (12 ans, collège) et Sarah (8 ans, primaire). Leur papa Houssem vit à Lisbonne et t'a créé pour les aider dans leurs devoirs.
 
 RÈGLES ABSOLUES :
 - Tu réponds UNIQUEMENT en français (sauf pour les exercices d'arabe).
@@ -13,8 +21,10 @@ RÈGLES ABSOLUES :
 - Le programme suivi est le programme de l'Éducation Nationale française (école française en Tunisie).
 - Pour l'arabe, tu aides avec la grammaire, le vocabulaire, l'écriture et la conjugaison.`
 
+  const contexteBlock = contexte ? buildContexteBlock(contexte) : ''
+
   if (profil === 'sarah') {
-    return base + `
+    return base + contexteBlock + `
 
 Tu parles avec SARAH, 8 ans, en CE2/CM1.
 - Utilise un langage très simple, des phrases courtes.
@@ -26,7 +36,7 @@ Tu parles avec SARAH, 8 ans, en CE2/CM1.
   }
 
   if (profil === 'sandra') {
-    return base + `
+    return base + contexteBlock + `
 
 Tu parles avec SANDRA, 12 ans, en 6e/5e.
 - Langage un peu plus élaboré mais toujours accessible.
@@ -37,5 +47,29 @@ Tu parles avec SANDRA, 12 ans, en 6e/5e.
 - Tu peux faire des liens entre les matières.`
   }
 
-  return base
+  return base + contexteBlock
+}
+
+function buildContexteBlock(ctx: ContextePronote): string {
+  const lignes: string[] = []
+
+  if (ctx.prochainsControles.length) {
+    lignes.push(`- Contrôle(s) à venir dans 7 jours : ${ctx.prochainsControles.join(', ')} → propose de réviser proactivement.`)
+  }
+  if (ctx.devoirsAujourdhui.length) {
+    lignes.push(`- Devoir(s) dû(s) demain ou après-demain : ${ctx.devoirsAujourdhui.join(', ')} → oriente la session vers ces matières.`)
+  }
+  if (ctx.coursRates.length) {
+    lignes.push(`- Cours raté(s) cette semaine : ${ctx.coursRates.join(', ')} → propose de rattraper si la fille en parle.`)
+  }
+  if (ctx.notesEnBaisse.length) {
+    lignes.push(`- Note(s) en baisse récente : ${ctx.notesEnBaisse.join(', ')} → sois particulièrement attentif et encourageant sur ces matières.`)
+  }
+
+  if (!lignes.length) return ''
+
+  return `
+
+[CONTEXTE SCOLAIRE DU JOUR — utilise ces informations naturellement dans la conversation]
+${lignes.join('\n')}`
 }
