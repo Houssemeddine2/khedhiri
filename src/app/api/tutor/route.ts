@@ -171,6 +171,12 @@ export async function POST(request: Request) {
     content: reply,
   })
 
+  // Déclencher l'analyse en arrière-plan (non bloquant)
+  if (chatHistory.length >= 4) {
+    const { analyserSession } = await import('@/app/actions/tutor')
+    analyserSession(sessionId).catch(() => {})
+  }
+
   // Met à jour le titre de la session si pas encore défini
   await supabase
     .from('tutor_sessions')
