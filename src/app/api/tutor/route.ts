@@ -114,31 +114,37 @@ export async function POST(request: Request) {
   const disponible = await provider.available()
 
   if (!disponible) {
-    const admin = createAdminClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    )
-    const { data: papaProfile } = await admin
-      .from('profiles')
-      .select('last_tutor_unavail_notif_at')
-      .eq('id', PAPA_ID)
-      .single()
-
-    const dernierEnvoi = papaProfile?.last_tutor_unavail_notif_at
-      ? new Date(papaProfile.last_tutor_unavail_notif_at).getTime()
-      : 0
-
-    if (Date.now() - dernierEnvoi > UNE_HEURE_MS) {
-      const prenomFille = profil === 'sandra' ? 'Sandra' : profil === 'sarah' ? 'Sarah' : 'Une de tes filles'
-      await sendNotificationToUsers([PAPA_ID], {
-        title: `📚 ${prenomFille} veut travailler avec Sid Ahmed`,
-        body: 'Elle attend — allume le serveur à Lisbonne !',
-        url: '/tuteur',
-      })
-      await admin
+    const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY
+    if (serviceKey) {
+      const admin = createAdminClient(
+        process.env.NEXT_PUBLIC_SUPABASE_URL!,
+        serviceKey,
+      )
+      const { data: papaProfile } = await admin
         .from('profiles')
-        .update({ last_tutor_unavail_notif_at: new Date().toISOString() })
+        .select('last_tutor_unavail_notif_at')
         .eq('id', PAPA_ID)
+        .single()
+
+      const dernierEnvoi = papaProfile?.last_tutor_unavail_notif_at
+        ? new Date(papaProfile.last_tutor_unavail_notif_at).getTime()
+        : 0
+
+      if (Date.now() - dernierEnvoi > UNE_HEURE_MS) {
+        const prenomFille = profil === 'sandra' ? 'Sandra' : profil === 'sarah' ? 'Sarah' : 'Une de tes filles'
+        await sendNotificationToUsers([PAPA_ID], {
+          title: `📚 ${prenomFille} veut travailler avec Sid Ahmed`,
+          body: 'Elle attend — allume le serveur à Lisbonne !',
+          url: '/tuteur',
+        })
+        const { error: updateError } = await admin
+          .from('profiles')
+          .update({ last_tutor_unavail_notif_at: new Date().toISOString() })
+          .eq('id', PAPA_ID)
+        if (updateError) {
+          console.error('[tutor] Échec mise à jour last_tutor_unavail_notif_at :', updateError.message)
+        }
+      }
     }
 
     reply = 'Sid Ahmed dort pour l\'instant 😴 Papa doit allumer le serveur à Lisbonne. Reviens un peu plus tard !'
