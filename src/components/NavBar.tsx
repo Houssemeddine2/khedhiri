@@ -10,6 +10,7 @@ export default async function NavBar() {
   if (!user) return null
 
   const autresMembres = MEMBRES.filter(m => m.id !== user.id)
+  const isPapa = user.email === 'houssem@khedhiri.me'
 
   // Fetch profiles for all members (own + others for chat avatars)
   const allIds = MEMBRES.map(m => m.id)
@@ -94,6 +95,21 @@ export default async function NavBar() {
           </svg>
           <span className="text-xs font-manrope hidden sm:inline">Villes</span>
         </Link>
+
+        {/* Journal intime — filles uniquement */}
+        {!isPapa && (
+          <Link
+            href="/journal"
+            className="flex items-center gap-1 text-ink-soft hover:text-terracotta transition-colors"
+            aria-label="Mon journal intime"
+          >
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+              <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/>
+              <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>
+            </svg>
+            <span className="text-xs font-manrope hidden sm:inline">Journal</span>
+          </Link>
+        )}
 
         {/* Chats des autres membres + Mon profil */}
         <div className="flex items-center gap-3 ml-auto">
