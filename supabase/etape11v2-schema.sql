@@ -127,3 +127,34 @@ DO $$ BEGIN
     CREATE POLICY insert_service ON tutor_analyses FOR INSERT WITH CHECK (true);
   END IF;
 END $$;
+
+-- DELETE policies pour le nettoyage lors de la sync (Task 5)
+DO $$ BEGIN
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='pronote_notes' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON pronote_notes FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='pronote_devoirs' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON pronote_devoirs FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='pronote_absences' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON pronote_absences FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='pronote_observations' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON pronote_observations FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='pronote_evenements' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON pronote_evenements FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+  IF NOT EXISTS (SELECT 1 FROM pg_policies WHERE tablename='tutor_analyses' AND policyname='delete_sync') THEN
+    CREATE POLICY delete_sync ON tutor_analyses FOR DELETE USING (auth.uid() = 'b6025d5f-77d5-4208-b489-bcc717ebc01c');
+  END IF;
+END $$;
+
+-- Index pour les requêtes du dashboard Papa (Task 13)
+CREATE INDEX IF NOT EXISTS idx_pronote_notes_user_id         ON pronote_notes(user_id);
+CREATE INDEX IF NOT EXISTS idx_pronote_devoirs_user_id        ON pronote_devoirs(user_id);
+CREATE INDEX IF NOT EXISTS idx_pronote_absences_user_id       ON pronote_absences(user_id);
+CREATE INDEX IF NOT EXISTS idx_pronote_observations_user_id   ON pronote_observations(user_id);
+CREATE INDEX IF NOT EXISTS idx_pronote_evenements_user_id     ON pronote_evenements(user_id);
+CREATE INDEX IF NOT EXISTS idx_tutor_analyses_user_id         ON tutor_analyses(user_id);
+CREATE INDEX IF NOT EXISTS idx_tutor_analyses_session_id      ON tutor_analyses(session_id);
