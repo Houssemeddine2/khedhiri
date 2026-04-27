@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createAdminClient } from '@supabase/supabase-js'
 import { getTutorProvider } from '@/lib/tutor'
 import { systemPrompt, type ProfilEleve, type ContextePronote } from '@/lib/tutor/prompts'
 import type { ChatMessage } from '@/types/tutor'
+import { sendNotificationToUsers } from '@/lib/push-server'
 
 async function getContextePronote(
   supabase: Awaited<ReturnType<typeof createClient>>,
@@ -41,6 +43,9 @@ async function getContextePronote(
     prochainsControles: controlesData.map(e => e.titre),
   }
 }
+
+const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
+const UNE_HEURE_MS = 60 * 60 * 1000
 
 export const maxDuration = 60
 
@@ -105,18 +110,51 @@ export async function POST(request: Request) {
 
   // Appel au LLM
   let reply: string
-  let contexte: ContextePronote | undefined
-  try {
-    contexte = await getContextePronote(supabase, user.id)
-  } catch (err) {
-    console.warn('Contexte Pronote indisponible :', err)
-  }
-  try {
-    const provider = getTutorProvider()
-    reply = await provider.chat(systemPrompt(profil, contexte), chatHistory)
-  } catch (err) {
-    console.error('Tutor LLM error:', err)
-    reply = 'Oups, je n\'arrive pas à répondre maintenant 😕 Réessaie dans quelques instants !'
+  const provider = getTutorProvider()
+  const disponible = await provider.available()
+
+  if (!disponible) {
+    const admin = createAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
+    )
+    const { data: papaProfile } = await admin
+      .from('profiles')
+      .select('last_tutor_unavail_notif_at')
+      .eq('id', PAPA_ID)
+      .single()
+
+    const dernierEnvoi = papaProfile?.last_tutor_unavail_notif_at
+      ? new Date(papaProfile.last_tutor_unavail_notif_at).getTime()
+      : 0
+
+    if (Date.now() - dernierEnvoi > UNE_HEURE_MS) {
+      const prenomFille = profil === 'sandra' ? 'Sandra' : profil === 'sarah' ? 'Sarah' : 'Une de tes filles'
+      await sendNotificationToUsers([PAPA_ID], {
+        title: `📚 ${prenomFille} veut travailler avec Sid Ahmed`,
+        body: 'Elle attend — allume le serveur à Lisbonne !',
+        url: '/tuteur',
+      })
+      await admin
+        .from('profiles')
+        .update({ last_tutor_unavail_notif_at: new Date().toISOString() })
+        .eq('id', PAPA_ID)
+    }
+
+    reply = 'Sid Ahmed dort pour l\'instant 😴 Papa doit allumer le serveur à Lisbonne. Reviens un peu plus tard !'
+  } else {
+    let contexte: ContextePronote | undefined
+    try {
+      contexte = await getContextePronote(supabase, user.id)
+    } catch (err) {
+      console.warn('Contexte Pronote indisponible :', err)
+    }
+    try {
+      reply = await provider.chat(systemPrompt(profil, contexte), chatHistory)
+    } catch (err) {
+      console.error('Tutor LLM error:', err)
+      reply = 'Oups, je n\'arrive pas à répondre maintenant 😕 Réessaie dans quelques instants !'
+    }
   }
 
   // Sauvegarde la réponse
