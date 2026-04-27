@@ -273,6 +273,66 @@ export default function TuteurPapa({ sessions, filles, analyses, notes, devoirs,
           })
         })()}
       </div>
+
+      {/* Configuration Pronote */}
+      <div className="bg-white border border-sand-warm rounded-2xl p-4 space-y-3">
+        <h2 className="font-fraunces font-bold text-ink text-sm">⚙️ Configuration Pronote</h2>
+        <PronoteForm filleId={filleActive} filleNom={filles.find(f => f.id === filleActive)?.nom ?? ''} />
+      </div>
     </main>
+  )
+}
+
+function PronoteForm({ filleId, filleNom }: { filleId: string; filleNom: string }) {
+  const [url, setUrl] = useState('')
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [loading, setLoading] = useState(false)
+  const [msg, setMsg] = useState('')
+
+  async function handleSubmit(e: React.FormEvent) {
+    e.preventDefault()
+    setLoading(true)
+    setMsg('')
+    const res = await fetch('/api/pronote/credentials', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId: filleId, url, username, password }),
+    })
+    const data = await res.json() as { ok?: boolean; error?: string }
+    setMsg(data.ok ? '✓ Credentials sauvegardés !' : `✗ ${data.error}`)
+    setLoading(false)
+    if (data.ok) { setUrl(''); setUsername(''); setPassword('') }
+  }
+
+  return (
+    <form onSubmit={handleSubmit} className="space-y-2">
+      <p className="font-manrope text-xs text-ink-soft">Saisir les identifiants Pronote de <strong>{filleNom}</strong></p>
+      {[
+        { label: 'URL Pronote', val: url, set: setUrl, type: 'url', placeholder: 'https://pronote.ecole.tn/pronote/' },
+        { label: 'Identifiant', val: username, set: setUsername, type: 'text', placeholder: 'prenom.nom' },
+        { label: 'Mot de passe', val: password, set: setPassword, type: 'password', placeholder: '••••••••' },
+      ].map(({ label, val, set, type, placeholder }) => (
+        <div key={label}>
+          <label className="font-manrope text-xs text-ink-soft block mb-0.5">{label}</label>
+          <input
+            type={type}
+            value={val}
+            onChange={e => set(e.target.value)}
+            placeholder={placeholder}
+            required
+            className="w-full border border-sand-warm rounded-xl px-3 py-1.5 font-manrope text-sm text-ink bg-sand focus:outline-none focus:ring-1 focus:ring-olive"
+          />
+        </div>
+      ))}
+      <button
+        type="submit"
+        disabled={loading}
+        className="w-full bg-olive text-white font-manrope text-sm py-2 rounded-xl disabled:opacity-50"
+      >
+        {loading ? 'Sauvegarde…' : 'Sauvegarder les identifiants'}
+      </button>
+      {msg && <p className="font-manrope text-xs text-center text-ink-soft">{msg}</p>}
+    </form>
   )
 }
