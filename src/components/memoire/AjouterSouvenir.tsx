@@ -1,6 +1,7 @@
 'use client'
 
-import { useState, useTransition } from 'react'
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import type { Creation } from '@/types/creation'
 import { uploadFichierSouvenir, ajouterSouvenir } from '@/app/actions/memoire'
 
@@ -10,47 +11,49 @@ interface AjouterSouvenirProps {
 }
 
 export default function AjouterSouvenir({ creations, onClose }: AjouterSouvenirProps) {
+  const router = useRouter()
   const [titre, setTitre] = useState('')
   const [texte, setTexte] = useState('')
   const [date, setDate] = useState(new Date().toISOString().split('T')[0])
   const [photoFile, setPhotoFile] = useState<File | null>(null)
   const [audioFile, setAudioFile] = useState<File | null>(null)
   const [creationId, setCreationId] = useState<string>('')
-  const [isPending, startTransition] = useTransition()
+  const [isPending, setIsPending] = useState(false)
   const [erreur, setErreur] = useState<string | null>(null)
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault()
     if (!titre.trim()) { setErreur('Le titre est obligatoire.'); return }
     setErreur(null)
+    setIsPending(true)
 
-    startTransition(async () => {
-      try {
-        let photoUrl: string | undefined
-        let audioUrl: string | undefined
+    try {
+      let photoUrl: string | undefined
+      let audioUrl: string | undefined
 
-        if (photoFile) {
-          const fd = new FormData(); fd.append('file', photoFile)
-          photoUrl = await uploadFichierSouvenir(fd, 'photo')
-        }
-        if (audioFile) {
-          const fd = new FormData(); fd.append('file', audioFile)
-          audioUrl = await uploadFichierSouvenir(fd, 'audio')
-        }
-
-        await ajouterSouvenir({
-          titre,
-          texte: texte || undefined,
-          photoUrl,
-          audioUrl,
-          creationId: creationId || undefined,
-          dateSouvenir: date,
-        })
-        onClose()
-      } catch (err) {
-        setErreur(err instanceof Error ? err.message : 'Erreur inconnue')
+      if (photoFile) {
+        const fd = new FormData(); fd.append('file', photoFile)
+        photoUrl = await uploadFichierSouvenir(fd, 'photo')
       }
-    })
+      if (audioFile) {
+        const fd = new FormData(); fd.append('file', audioFile)
+        audioUrl = await uploadFichierSouvenir(fd, 'audio')
+      }
+
+      await ajouterSouvenir({
+        titre,
+        texte: texte || undefined,
+        photoUrl,
+        audioUrl,
+        creationId: creationId || undefined,
+        dateSouvenir: date,
+      })
+      router.refresh()
+      onClose()
+    } catch (err) {
+      setErreur(err instanceof Error ? err.message : 'Erreur inconnue')
+      setIsPending(false)
+    }
   }
 
   return (

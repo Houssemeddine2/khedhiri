@@ -1,6 +1,7 @@
 'use client'
 
-import { useTransition } from 'react'
+import { useRouter } from 'next/navigation'
+import { useState } from 'react'
 import type { Souvenir } from '@/types/memoire'
 import { avatarFromEmail } from '@/lib/avatar'
 import { supprimerSouvenir } from '@/app/actions/memoire'
@@ -13,17 +14,18 @@ interface SouvenirDetailProps {
 }
 
 export default function SouvenirDetail({ souvenir, currentUserId, isPapa, onClose }: SouvenirDetailProps) {
-  const [isPending, startTransition] = useTransition()
+  const router = useRouter()
+  const [isPending, setIsPending] = useState(false)
   const auteur = avatarFromEmail(souvenir.profiles?.email ?? '')
   const peutSupprimer = isPapa || currentUserId === souvenir.user_id
   const imageUrl = souvenir.photo_url ?? souvenir.creations?.media_url ?? null
 
-  function handleSupprimer() {
+  async function handleSupprimer() {
     if (!confirm('Supprimer ce souvenir ?')) return
-    startTransition(async () => {
-      await supprimerSouvenir(souvenir.id)
-      onClose()
-    })
+    setIsPending(true)
+    await supprimerSouvenir(souvenir.id)
+    router.refresh()
+    onClose()
   }
 
   return (
