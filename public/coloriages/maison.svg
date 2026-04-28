@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Murs de la maison -->
+  <rect x="180" y="200" width="280" height="160" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Toit -->
+  <polyline points="160,200 320,80 480,200" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Cheminée -->
+  <rect x="390" y="100" width="40" height="70" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Fumée de cheminée -->
+  <path d="M400,100 Q395,80 405,65 Q415,50 408,35" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <path d="M420,100 Q415,78 425,62 Q432,48 426,32" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Porte -->
+  <rect x="290" y="290" width="60" height="70" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Poignée de porte -->
+  <circle cx="340" cy="328" r="5" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <!-- Fenêtre gauche -->
+  <rect x="200" y="230" width="80" height="70" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Croix fenêtre gauche -->
+  <line x1="240" y1="230" x2="240" y2="300" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <line x1="200" y1="265" x2="280" y2="265" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Fenêtre droite -->
+  <rect x="360" y="230" width="80" height="70" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Croix fenêtre droite -->
+  <line x1="400" y1="230" x2="400" y2="300" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <line x1="360" y1="265" x2="440" y2="265" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Sol -->
+  <line x1="120" y1="360" x2="520" y2="360" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+</svg>

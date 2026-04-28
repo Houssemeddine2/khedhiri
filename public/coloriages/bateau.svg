@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Coque du bateau -->
+  <path d="M150,270 Q160,320 320,340 Q480,320 490,270 Z" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Pont du bateau -->
+  <line x1="150" y1="270" x2="490" y2="270" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Mât -->
+  <line x1="320" y1="270" x2="320" y2="80" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Grande voile gauche -->
+  <path d="M320,90 L320,250 L170,230 Z" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Petite voile droite -->
+  <path d="M320,100 L320,200 L430,185 Z" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Pavillon en haut du mât -->
+  <path d="M320,80 L348,90 L320,100" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Vagues -->
+  <path d="M80,320 Q110,305 140,320 Q170,335 200,320 Q230,305 260,320 Q290,335 320,320 Q350,305 380,320 Q410,335 440,320 Q470,305 500,320 Q530,335 560,320" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M60,345 Q95,330 130,345 Q165,360 200,345 Q235,330 270,345 Q305,360 340,345 Q375,330 410,345 Q445,360 480,345 Q515,330 550,345 Q575,352 590,345" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Hublot -->
+  <circle cx="410" cy="285" r="15" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+  <circle cx="450" cy="285" r="15" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+</svg>

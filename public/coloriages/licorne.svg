@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Tête de licorne -->
+  <path d="M220,320 Q180,300 170,260 Q160,220 185,185 Q210,150 260,140 Q310,130 350,150 Q390,170 400,210 Q410,250 390,285 Q370,320 320,330 Q270,340 220,320 Z" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Museau -->
+  <ellipse cx="375" cy="270" rx="40" ry="28" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+  <!-- Naseaux -->
+  <ellipse cx="362" cy="275" rx="7" ry="5" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <ellipse cx="388" cy="275" rx="7" ry="5" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <!-- Oeil -->
+  <ellipse cx="285" cy="210" rx="28" ry="25" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+  <ellipse cx="285" cy="210" rx="14" ry="14" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <circle cx="278" cy="203" r="4" fill="#2A1F18"/>
+  <!-- Cils -->
+  <line x1="265" y1="188" x2="258" y2="178" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <line x1="278" y1="184" x2="275" y2="173" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <line x1="292" y1="184" x2="292" y2="173" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Corne (spirale) -->
+  <path d="M248,140 L290,55" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <path d="M258,135 L296,62" fill="none" stroke="#2A1F18" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M265,128 L300,70" fill="none" stroke="#2A1F18" stroke-width="1.5" stroke-linecap="round"/>
+  <path d="M270,120 L303,80" fill="none" stroke="#2A1F18" stroke-width="1.5" stroke-linecap="round"/>
+  <!-- Oreille -->
+  <path d="M215,170 Q205,135 225,115 Q245,130 240,165" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M218,167 Q212,145 225,130 Q237,142 234,163" fill="none" stroke="#2A1F18" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Crinière -->
+  <path d="M200,180 Q155,165 145,200 Q140,230 160,245" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M195,195 Q148,190 145,225 Q143,255 165,268" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <path d="M192,215 Q148,218 150,252 Q153,275 175,285" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <path d="M195,238 Q155,248 160,278 Q166,298 188,305" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+  <!-- Bouche -->
+  <path d="M350,290 Q358,298 368,292" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round"/>
+</svg>
