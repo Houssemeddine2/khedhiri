@@ -1,7 +1,8 @@
+// src/app/api/quizzes/route.ts
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
-import { membreById } from '@/lib/membres'
+import { membreById, MEMBRES } from '@/lib/membres'
 
 type RawSession = {
   id: string
@@ -27,7 +28,7 @@ export async function GET() {
 
   const { data: rows, error } = await supabase
     .from('quizzes')
-    .select('*, sessions_quiz(*), questions_quiz(id)')
+    .select('*, sessions_quiz(id, membre_id, score, nb_questions, termine_at), questions_quiz(id)')
     .order('created_at', { ascending: false })
     .limit(50)
 
@@ -95,6 +96,9 @@ export async function POST(request: Request) {
   if (!questions || questions.length === 0) {
     return NextResponse.json({ error: 'Au moins une question requise' }, { status: 400 })
   }
+  if (questions.length > 20) {
+    return NextResponse.json({ error: 'Maximum 20 questions par quiz' }, { status: 400 })
+  }
 
   for (const q of questions) {
     if (!q.type || !['qcm', 'vrai_faux', 'ouverte'].includes(q.type)) {
@@ -110,12 +114,20 @@ export async function POST(request: Request) {
       if (!q.bonne_reponse?.trim()) {
         return NextResponse.json({ error: 'bonne_reponse requise pour qcm' }, { status: 400 })
       }
+      if (!q.options!.includes(q.bonne_reponse!.trim())) {
+        return NextResponse.json({ error: "bonne_reponse doit être l'une des options" }, { status: 400 })
+      }
     }
     if (q.type === 'vrai_faux') {
       if (!q.bonne_reponse || !['vrai', 'faux'].includes(q.bonne_reponse)) {
         return NextResponse.json({ error: 'bonne_reponse doit être "vrai" ou "faux" pour vrai_faux' }, { status: 400 })
       }
     }
+  }
+
+  const VALID_IDS = new Set(MEMBRES.map(m => m.id))
+  if (assignees && !assignees.every(id => VALID_IDS.has(id))) {
+    return NextResponse.json({ error: 'assignee inconnu' }, { status: 400 })
   }
 
   const sc = serviceClient()
@@ -132,13 +144,13 @@ export async function POST(request: Request) {
 
   if (quizError) return NextResponse.json({ error: quizError.message }, { status: 500 })
 
-  const questionsToInsert = questions.map(q => ({
+  const questionsToInsert = questions.map((q, index) => ({
     quiz_id: quiz.id,
     type: q.type!,
     contenu: q.contenu!.trim(),
     options: q.type === 'qcm' ? q.options! : null,
     bonne_reponse: q.type === 'ouverte' ? null : q.bonne_reponse ?? null,
-    ordre: q.ordre ?? 1,
+    ordre: q.ordre ?? index + 1,
   }))
 
   const { error: qError } = await sc
