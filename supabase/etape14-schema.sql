@@ -26,8 +26,4 @@ CREATE POLICY "Destinataire voit ses lettres"
   ON lettres FOR SELECT
   USING (auth.uid() = destinataire_id);
 
--- Les filles peuvent marquer une lettre comme lue
-CREATE POLICY "Destinataire peut marquer comme lue"
-  ON lettres FOR UPDATE
-  USING (auth.uid() = destinataire_id)
-  WITH CHECK (auth.uid() = destinataire_id);
+-- lue_at est mis à jour côté serveur par l'API (service role), pas par le client
