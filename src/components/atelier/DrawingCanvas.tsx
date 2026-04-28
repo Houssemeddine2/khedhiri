@@ -54,7 +54,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   }, [])
 
   // Charge le coloriage SVG sélectionné sur le canvas
-  const initCanvas = useCallback(async (coloriageId: string | null) => {
+  const initCanvas = useCallback((coloriageId: string | null) => {
     const canvas = canvasRef.current
     if (!canvas) return
     const ctx = canvas.getContext('2d')
@@ -62,14 +62,19 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.fillStyle = '#FFFFFF'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
-    if (coloriageId) {
-      const img = new window.Image()
-      img.onload = () => ctx.drawImage(img, 0, 0, canvas.width, canvas.height)
-      img.src = `/coloriages/${coloriageId}.svg`
-    }
+    if (!coloriageId) return
+    let cancelled = false
+    const img = new window.Image()
+    img.onload = () => { if (!cancelled) ctx.drawImage(img, 0, 0, canvas.width, canvas.height) }
+    img.onerror = () => { /* fond blanc suffit si SVG absent */ }
+    img.src = `/coloriages/${coloriageId}.svg`
+    return () => { cancelled = true }
   }, [])
 
-  useEffect(() => { initCanvas(coloriageActif) }, [coloriageActif, initCanvas])
+  useEffect(() => {
+    const cancel = initCanvas(coloriageActif)
+    return cancel
+  }, [coloriageActif, initCanvas])
 
   function getPos(clientX: number, clientY: number) {
     const canvas = canvasRef.current!
@@ -123,8 +128,8 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   function onMouseUp() { isDrawingRef.current = false }
 
   function onTouchStart(e: React.TouchEvent<HTMLCanvasElement>) {
+    if (tamponActif) return  // laisse le navigateur synthétiser onClick pour les tampons
     e.preventDefault()
-    if (tamponActif) return  // tampons non gérés au toucher (simplification)
     const { x, y } = getPos(e.touches[0].clientX, e.touches[0].clientY)
     const ctx = applyCtx()
     ctx.beginPath()
