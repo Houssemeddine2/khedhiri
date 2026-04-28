@@ -22,6 +22,18 @@ export default async function NavBar() {
   const profileMap = Object.fromEntries((profiles ?? []).map(p => [p.id, p]))
   const ownProfile = profileMap[user.id]
 
+  // Badge lettres : lettres déverrouillées non lues (filles uniquement)
+  let lettresBadge = 0
+  if (!isPapa) {
+    const { count } = await supabase
+      .from('lettres')
+      .select('id', { count: 'exact', head: true })
+      .eq('destinataire_id', user.id)
+      .lte('unlock_at', new Date().toISOString())
+      .is('lue_at', null)
+    lettresBadge = count ?? 0
+  }
+
   return (
     <nav className="sticky top-0 z-50 bg-cream border-b border-terracotta/20 shadow-sm">
       <div className="max-w-lg mx-auto px-4 py-2 flex items-center gap-3">
@@ -148,6 +160,23 @@ export default async function NavBar() {
             <polyline points="22,6 12,13 2,6"/>
           </svg>
           <span className="text-xs font-manrope hidden sm:inline">Email</span>
+        </Link>
+
+        {/* Lettres */}
+        <Link
+          href="/lettres"
+          className="relative flex items-center gap-1 text-ink-soft hover:text-terracotta transition-colors"
+          aria-label={isPapa ? 'Mes lettres' : 'Lettres de Papa'}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+          </svg>
+          {!isPapa && lettresBadge > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[9px] font-bold flex items-center justify-center">
+              {lettresBadge}
+            </span>
+          )}
+          <span className="text-xs font-manrope hidden sm:inline">Lettres</span>
         </Link>
 
         {/* Journal intime — filles uniquement */}
