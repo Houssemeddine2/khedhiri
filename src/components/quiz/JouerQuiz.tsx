@@ -20,7 +20,7 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
     setReponses(prev => ({ ...prev, [questionId]: contenu }))
   }
 
-  const toutesRepondues = questions.every(q => reponses[q.id]?.trim())
+  const toutesRepondues = questions.length > 0 && questions.every(q => reponses[q.id]?.trim())
 
   const handleSoumettre = async () => {
     if (!toutesRepondues) return
@@ -42,7 +42,6 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
       }
       const data = await res.json()
       setResultat({ score: data.score, nb_questions: data.nb_questions })
-      onTermine()
     } catch {
       setErreur('Erreur réseau')
     } finally {
@@ -56,13 +55,20 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
         <p className="font-fraunces text-2xl text-ink mb-1">
           Tu as eu {resultat.score}/{resultat.nb_questions} ! 🎉
         </p>
-        <p className="font-manrope text-sm text-ink-soft">
+        <p className="font-manrope text-sm text-ink-soft mb-4">
           {resultat.score === resultat.nb_questions
             ? 'Parfait ! Bravo !'
             : resultat.score > resultat.nb_questions / 2
             ? 'Bien joué !'
             : 'Continue à apprendre !'}
         </p>
+        <button
+          type="button"
+          onClick={onTermine}
+          className="px-6 py-2 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep transition-colors"
+        >
+          Fermer
+        </button>
       </div>
     )
   }
@@ -82,6 +88,7 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
                   key={opt}
                   type="button"
                   onClick={() => setReponse(q.id, opt)}
+                  aria-pressed={reponses[q.id] === opt}
                   className={`w-full text-left px-3 py-2 rounded-xl font-manrope text-sm transition-all ${
                     reponses[q.id] === opt
                       ? 'bg-terracotta text-white'
@@ -101,6 +108,7 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
                   key={opt}
                   type="button"
                   onClick={() => setReponse(q.id, opt)}
+                  aria-pressed={reponses[q.id] === opt}
                   className={`flex-1 py-2 rounded-xl font-manrope text-sm font-semibold capitalize transition-all ${
                     reponses[q.id] === opt
                       ? 'bg-terracotta text-white'
