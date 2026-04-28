@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect, useCallback } from 'react'
+import { createBrowserClient } from '@supabase/ssr'
 import type { Defi } from '@/types/defi'
 import DefiCard from './DefiCard'
 import MotCard from './MotCard'
@@ -23,6 +24,19 @@ export default function DefisPage({ userId }: Props) {
   }, [])
 
   useEffect(() => { loadDefis() }, [loadDefis])
+
+  useEffect(() => {
+    const supabase = createBrowserClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL!,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+    )
+    const channel = supabase
+      .channel('defis-page')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'defis' }, () => loadDefis())
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'reponses_defis' }, () => loadDefis())
+      .subscribe()
+    return () => { supabase.removeChannel(channel) }
+  }, [loadDefis])
 
   return (
     <div className="min-h-screen bg-cream pb-32">

@@ -4,6 +4,14 @@ import { createClient as createServiceClient } from '@supabase/supabase-js'
 import { membreById } from '@/lib/membres'
 
 const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+
+function normaliserArabe(s: string): string {
+  return s
+    .normalize('NFC')
+    .replace(/[ؐ-ًؚ-ٰٟ]/g, '') // strip diacritics/harakat
+    .trim()
+    .toLowerCase()
+}
 const MAX_SIZE = 5 * 1024 * 1024
 const ALLOWED_MIME = ['image/jpeg', 'image/png', 'image/webp']
 const EXT: Record<string, string> = {
@@ -122,7 +130,7 @@ export async function POST(
 
   let correct: boolean | null = null
   if (defi.type === 'mot' && defi.traduction_ar) {
-    correct = contenu.toLowerCase() === defi.traduction_ar.trim().toLowerCase()
+    correct = normaliserArabe(contenu) === normaliserArabe(defi.traduction_ar)
   }
 
   const { data: inserted, error: insertError } = await sc

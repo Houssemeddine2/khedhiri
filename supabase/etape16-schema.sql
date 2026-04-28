@@ -21,10 +21,6 @@ CREATE POLICY "Membres voient tous les défis"
     '617eff77-47ed-40e0-b784-c027183c9bee'
   ));
 
-CREATE POLICY "Membres créent des défis"
-  ON defis FOR INSERT
-  WITH CHECK (auth.uid() = auteur_id);
-
 CREATE POLICY "Auteur modifie son défi"
   ON defis FOR UPDATE
   USING (auth.uid() = auteur_id)
@@ -54,10 +50,6 @@ CREATE POLICY "Membres voient toutes les réponses"
     '1a0967e9-91e0-48f6-a3da-752255274153',
     '617eff77-47ed-40e0-b784-c027183c9bee'
   ));
-
-CREATE POLICY "Membres créent leurs réponses"
-  ON reponses_defis FOR INSERT
-  WITH CHECK (auth.uid() = auteur_id);
 
 CREATE POLICY "Auteur supprime sa réponse"
   ON reponses_defis FOR DELETE

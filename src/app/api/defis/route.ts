@@ -24,6 +24,7 @@ export async function GET() {
     .from('defis')
     .select('*, reponses_defis(*)')
     .order('created_at', { ascending: false })
+    .limit(50)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 
