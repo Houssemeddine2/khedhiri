@@ -15,13 +15,22 @@ interface EmailMessageProps {
 export default function EmailMessage({ message, isPapa, folder, onBack, onDeleted }: EmailMessageProps) {
   const [showCompose, setShowCompose] = useState(false)
   const [isDeleting, setIsDeleting] = useState(false)
+  const [deleteErreur, setDeleteErreur] = useState<string | null>(null)
 
   async function handleDelete() {
     if (!confirm('Supprimer ce message ?')) return
     setIsDeleting(true)
+    setDeleteErreur(null)
     try {
-      await fetch(`/api/email/message/${message.uid}?folder=${encodeURIComponent(folder)}`, { method: 'DELETE' })
+      const res = await fetch(`/api/email/message/${message.uid}?folder=${encodeURIComponent(folder)}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const data = await res.json() as { error?: string }
+        setDeleteErreur(data.error ?? 'Impossible de supprimer le message')
+        return
+      }
       onDeleted()
+    } catch {
+      setDeleteErreur('Impossible de supprimer le message')
     } finally {
       setIsDeleting(false)
     }
@@ -43,8 +52,13 @@ export default function EmailMessage({ message, isPapa, folder, onBack, onDelete
             <span>{new Date(message.date).toLocaleDateString('fr-FR', { dateStyle: 'long' })}</span>
           </div>
         </div>
-        <div className="bg-white rounded-xl p-4 font-manrope text-sm text-ink whitespace-pre-wrap leading-relaxed mb-4">
-          {message.body || '(message vide)'}
+        <div className="bg-white rounded-xl p-4 font-manrope text-sm text-ink leading-relaxed mb-4">
+          {message.body
+            ? <span className="whitespace-pre-wrap">{message.body}</span>
+            : message.html
+              ? <span className="text-ink-soft italic text-xs">(email au format HTML — aperçu texte non disponible)</span>
+              : <span className="text-ink-soft italic">(message vide)</span>
+          }
         </div>
         <div className="flex gap-3">
           <button
@@ -63,6 +77,9 @@ export default function EmailMessage({ message, isPapa, folder, onBack, onDelete
             </button>
           )}
         </div>
+        {deleteErreur && (
+          <p className="font-manrope text-xs text-red-600 mt-1">{deleteErreur}</p>
+        )}
       </div>
       {showCompose && (
         <EmailCompose

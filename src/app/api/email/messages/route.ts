@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import { decryptPassword } from '@/lib/email/crypto'
 import { fetchMessages } from '@/lib/email/imap'
 
-const PAPA_EMAIL = 'houssem@khedhiri.me'
+const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
 
 export const maxDuration = 30
 
@@ -22,7 +22,7 @@ export async function GET(request: Request) {
     return NextResponse.json({ error: 'Paramètre page invalide' }, { status: 400 })
   }
 
-  const allowedFolder = user.email === PAPA_EMAIL ? folder : 'INBOX'
+  const allowedFolder = user.id === PAPA_ID ? folder : 'INBOX'
 
   const { data: creds } = await supabase
     .from('email_credentials')
