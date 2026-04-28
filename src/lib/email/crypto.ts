@@ -3,6 +3,7 @@ import { createCipheriv, createDecipheriv, createHmac, randomBytes } from 'crypt
 function deriveKey(userId: string): Buffer {
   const secret = process.env.EMAIL_ENCRYPTION_SECRET
   if (!secret) throw new Error('EMAIL_ENCRYPTION_SECRET manquant')
+  if (secret.length < 32) throw new Error('EMAIL_ENCRYPTION_SECRET trop court (min 32 caractères)')
   return createHmac('sha256', secret).update(userId).digest()
 }
 
@@ -18,6 +19,7 @@ export function encryptPassword(plaintext: string, userId: string): string {
 export function decryptPassword(ciphertext: string, userId: string): string {
   const key = deriveKey(userId)
   const buf = Buffer.from(ciphertext, 'base64')
+  if (buf.length < 28) throw new Error('Données chiffrées corrompues ou invalides')
   const iv = buf.subarray(0, 12)
   const tag = buf.subarray(12, 28)
   const encrypted = buf.subarray(28)
