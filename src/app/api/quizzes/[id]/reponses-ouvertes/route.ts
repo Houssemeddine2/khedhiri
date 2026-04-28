@@ -45,6 +45,7 @@ export async function GET(
     .eq('sessions_quiz.quiz_id', quizId)
     .eq('questions_quiz.type', 'ouverte')
     .is('correct', null)
+    .limit(100)
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
 

@@ -51,6 +51,34 @@ export async function PATCH(
 
   const sc = serviceClient()
 
+  // Vérifier que la session appartient bien à ce quiz
+  const { data: sessionCheck, error: sessionCheckError } = await sc
+    .from('sessions_quiz')
+    .select('id')
+    .eq('id', sessionId)
+    .eq('quiz_id', quizId)
+    .maybeSingle()
+
+  if (sessionCheckError) return NextResponse.json({ error: sessionCheckError.message }, { status: 500 })
+  if (!sessionCheck) return NextResponse.json({ error: 'Session introuvable' }, { status: 404 })
+
+  // Vérifier que la réponse est bien une question ouverte
+  const { data: repCheck, error: repCheckError } = await sc
+    .from('reponses_quiz')
+    .select('id, questions_quiz!inner(type)')
+    .eq('id', reponseId)
+    .eq('session_id', sessionId)
+    .maybeSingle()
+
+  if (repCheckError) return NextResponse.json({ error: repCheckError.message }, { status: 500 })
+  if (!repCheck) return NextResponse.json({ error: 'Réponse introuvable' }, { status: 404 })
+
+  type RepCheck = { id: string; questions_quiz: { type: string } }
+  const questionType = ((repCheck as unknown as RepCheck).questions_quiz).type
+  if (questionType !== 'ouverte') {
+    return NextResponse.json({ error: 'Seules les réponses ouvertes peuvent être validées manuellement' }, { status: 422 })
+  }
+
   // Mettre à jour la réponse
   const { error: repError } = await sc
     .from('reponses_quiz')
