@@ -96,19 +96,19 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 - [x] **Étape 2** — Authentification + 3 comptes
 - [x] **Étape 3** — Timeline familiale temps réel + vocaux (cœur du projet)
 - [x] **Étape 4** — Chats individuels temps réel (Papa↔Sandra, Papa↔Sarah, Sandra↔Sarah)
-- [ ] **Étape 5** — PWA installable + Notifications push mobile
+- [x] **Étape 5** — PWA installable + Notifications push mobile
 
 ### Fonctionnalités riches (étapes 6-10)
-- [ ] **Étape 6** — Album photos + Coin créatif de Sarah
-- [ ] **Étape 7** — Agenda + compte à rebours + Carte interactive
-- [ ] **Étape 8** — Espaces perso personnalisables (avatars, couleurs)
-- [ ] **Étape 9** — Découverte Lisbonne / Tunis
-- [ ] **Étape 10** — **Journaux intimes (Sandra ET Sarah) avec double mot de passe et chiffrement côté client** 🔒
+- [x] **Étape 6** — Album photos + Coin créatif de Sarah
+- [x] **Étape 7** — Agenda + compte à rebours + Carte interactive
+- [x] **Étape 8** — Espaces perso personnalisables (avatars, couleurs)
+- [x] **Étape 9** — Découverte Lisbonne / Tunis
+- [x] **Étape 10** — **Journaux intimes (Sandra ET Sarah) avec double mot de passe et chiffrement côté client** 🔒
 
 ### Transmission & intelligence (étapes 11-14)
-- [ ] **Étape 11** — **🤖 Tuteur IA local** (LLM chez Houssem, adapté à chaque fille, programme scolaire tunisien)
+- [x] **Étape 11** — **🤖 Tuteur IA local Nour** (Ollama + Cloudflare Tunnel, adapté à chaque fille)
 - [ ] **Étape 12** — Boîte à mémoire + Arbre généalogique
-- [ ] **Étape 13** — Client email simple (lecture + réponse basique)
+- [x] **Étape 13** — **✉️ Client email IMAP/SMTP** (OVH Perso, proxy API serveur, chiffrement AES-256-GCM, Papa complet + filles simplifié)
 - [ ] **Étape 14** — Lettres pour leurs 18 ans (messages à déblocage temporel)
 
 ### Enrichissement (étapes 15-20)
@@ -285,6 +285,14 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 2 | Supabase SSR, middleware de protection des routes, page de connexion stylisée, page d'accueil personnalisée, 3 comptes créés (houssem/sandra/sarah@khedhiri.me), variables d'env Vercel configurées, déployé sur khedhiri.me |
 | Avril 2026 | Étape 3 | Timeline familiale temps réel : schéma Supabase (posts/réactions/profils/storage), server actions, composants VoicePlayer/ReactionBar/PostCard/VoiceRecorder/ComposeBar/Timeline, Realtime subscriptions, SSR initial posts, déployé sur khedhiri.me |
 | Avril 2026 | Étape 4 | Chats individuels bilatéraux temps réel (texte/photo/audio), NavBar, VoiceRecorder découplé via onRecorded, RLS par conversation_id, déployé sur khedhiri.me |
+| Avril 2026 | Étape 5 | PWA installable : manifest.ts (standalone, terracotta), service worker push (sw.js), PushRegistrar côté client, icônes dynamiques via next/og (/icons/[size]), VAPID push notifications |
+| Avril 2026 | Étape 6 | Album photos (PhotoGrid, upload Supabase Storage) + Atelier créatif Sarah (DrawingCanvas HTML5, sauvegarde créations, CreationCard), schéma SQL creations |
+| Avril 2026 | Étape 7 | Agenda familial : CalendrierMensuel, CompteAReboursSection (anniversaires, rencontres), CarteInteractive Lisbonne/Tunis, schéma SQL evenements |
+| Avril 2026 | Étape 8 | Personnalisation profils : avatar upload, couleur de thème, bio, page /profil et /profil/[userId], schéma SQL mis à jour (avatar_url, couleur) |
+| Avril 2026 | Étape 9 | Page Découverte Lisbonne/Tunis : MotCard, HighlightCard, DistanceBanner, contenu biculturel |
+| Avril 2026 | Étape 10 | Journaux intimes chiffrés côté client : AES-GCM + PBKDF2 (Web Crypto API), journal_profils + journal_entrees Supabase, papa bloqué explicitement, composants CreerJournal/DeverrouillerJournal/EntreeEditor/JournalOuvert |
+| Avril 2026 | Étape 11 | Tuteur IA "Nour" : Ollama local (Lisbonne) + Cloudflare Tunnel, API routes /api/tutor, abstraction provider (local/Claude/Mistral), TuteurChat enfants + TuteurPapa dashboard, TuteurWidget flottant, sessions/messages Supabase, garde-fous enfants |
+| Avril 2026 | Étape 13 | Client email IMAP/SMTP OVH Perso : table email_credentials (AES-256-GCM, clé HMAC-SHA256 par user), API proxy routes (setup/messages/message/[uid]/send), composants EmailSetup/EmailInbox/EmailMessage/EmailCompose, page /email, icône navbar |
 
 ---
 
