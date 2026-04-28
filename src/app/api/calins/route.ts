@@ -67,7 +67,6 @@ export async function POST(request: Request) {
   const titre = (formData.get('titre') as string | null)?.trim()
   const vocalId = formData.get('vocal_id') as string | null
   const audio = formData.get('audio') as File | null
-  const sauvegarder = formData.get('sauvegarder') === 'true'
   const dureeSec = formData.get('duree_sec')
 
   if (!destinataireId || !titre) {

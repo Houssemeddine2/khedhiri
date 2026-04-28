@@ -13,7 +13,7 @@ export default function CalinRealtimeListener({ userId, onNewCalin }: Props) {
   useEffect(() => {
     const supabase = createClient()
     const channel = supabase
-      .channel('calins-recus')
+      .channel(`calins-recus-${userId}`)
       .on(
         'postgres_changes',
         {
