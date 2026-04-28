@@ -112,7 +112,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 - [x] **Étape 14** — **📜 Lettres pour leurs 18 ans** (verrou temporel côté serveur, compte à rebours, notif push, cron Vercel)
 
 ### Enrichissement (étapes 15-20)
-- [ ] **Étape 15** — Bouton câlin virtuel + messages vocaux préenregistrés
+- [x] **Étape 15** — Bouton câlin virtuel + messages vocaux préenregistrés
 - [ ] **Étape 16** — Défis hebdomadaires + mots bilingues FR/AR
 - [ ] **Étape 17** — Lectures partagées + défis éducatifs
 - [ ] **Étape 18** — Quiz et jeux personnalisés
@@ -295,6 +295,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 12 | Arbre généalogique : table famille_membres + famille_anecdotes, composants MembreCard/MembreDetail/AjouterMembre/AjouterAnecdote, page /famille, actions Server-side |
 | Avril 2026 | Étape 13 | Client email IMAP/SMTP OVH Perso : table email_credentials (AES-256-GCM, clé HMAC-SHA256 par user), API proxy routes (setup/messages/message/[uid]/send), composants EmailSetup/EmailInbox/EmailMessage/EmailCompose, page /email, icône navbar |
 | Avril 2026 | Étape 14 | Lettres pour leurs 18 ans : table lettres (RLS, verrou temporel serveur), API routes (GET+POST /api/lettres, GET+PATCH+DELETE /api/lettres/[id]), cron Vercel 7h UTC, composants LettreEditor/LettreCard/LettreDetail/LettreListePapa/LettreListeFille, page /lettres, badge navbar |
+| Avril 2026 | Étape 15 | Câlins virtuels + vocaux préenregistrés : tables vocaux + calins (Supabase Storage bucket `calins`, Realtime), API routes vocaux (GET/POST/DELETE) + calins (GET/POST) + ecouter (POST), composants VocalRecorder/BibliothequeVocaux/EnvoyerCalin/CalinsRecus/CalinRealtimeListener/CalinPage, page /calin, badge cœur NavBar |
 
 ---
 
