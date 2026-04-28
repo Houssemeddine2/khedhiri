@@ -58,13 +58,25 @@ export async function POST(request: Request) {
 
   const audio = formData.get('audio') as File | null
   const titre = (formData.get('titre') as string | null)?.trim()
-  const dureeSec = formData.get('duree_sec')
+
+  // Fix 2: Valider duree_sec pour éviter NaN dans Supabase
+  const dureeSecRaw = formData.get('duree_sec')
+  const dureeSecParsed = dureeSecRaw ? Number(dureeSecRaw) : null
+  if (dureeSecParsed !== null && (!Number.isInteger(dureeSecParsed) || dureeSecParsed < 0)) {
+    return NextResponse.json({ error: 'duree_sec invalide' }, { status: 400 })
+  }
 
   if (!audio || !titre) {
     return NextResponse.json({ error: 'Champs manquants : audio et titre requis' }, { status: 400 })
   }
   if (audio.size > MAX_SIZE) {
     return NextResponse.json({ error: 'Fichier trop volumineux (max 5 Mo)' }, { status: 400 })
+  }
+
+  // Fix 1: Valider le type MIME audio
+  const ALLOWED_MIME = ['audio/webm', 'audio/ogg', 'audio/mp4', 'audio/wav']
+  if (!ALLOWED_MIME.includes(audio.type)) {
+    return NextResponse.json({ error: 'Format audio non supporté' }, { status: 400 })
   }
 
   const sc = serviceClient()
@@ -83,7 +95,7 @@ export async function POST(request: Request) {
       proprietaire_id: user.id,
       titre,
       vocal_path: path,
-      duree_sec: dureeSec ? Number(dureeSec) : null,
+      duree_sec: dureeSecParsed,
     })
     .select('id')
     .single()
