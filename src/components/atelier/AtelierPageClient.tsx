@@ -26,7 +26,7 @@ export default function AtelierPageClient({ userId }: AtelierPageClientProps) {
   return (
     <div>
       {/* Onglets */}
-      <div className="flex gap-0 mb-6 border-b-2 border-sand-warm">
+      <div role="tablist" className="flex mb-6 border-b-2 border-sand-warm">
         <button
           onClick={() => setOnglet('atelier')}
           aria-selected={onglet === 'atelier'}
