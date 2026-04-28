@@ -2,9 +2,12 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@supabase/supabase-js'
 import { sendNotificationToUsers } from '@/lib/push-server'
 
+export const maxDuration = 60
+
 export async function POST(request: Request) {
-  const authHeader = request.headers.get('Authorization')
-  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecret = process.env.CRON_SECRET
+  const authHeader = request.headers.get('authorization')
+  if (!cronSecret || authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Non autorisé' }, { status: 401 })
   }
 
@@ -30,6 +33,8 @@ export async function POST(request: Request) {
       body: lettre.titre as string,
       url: '/lettres',
     })
+    // notif_envoyee=true même si le push échoue — évite un retraitement indéfini.
+    // La fille peut toujours ouvrir /lettres pour lire sa lettre.
     await supabase
       .from('lettres')
       .update({ notif_envoyee: true })
