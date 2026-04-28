@@ -20,5 +20,14 @@ CREATE POLICY "famille voit les réactions créations"
   ON reactions_creations FOR SELECT
   USING (auth.uid() IS NOT NULL);
 
--- INSERT et DELETE via service role uniquement
+CREATE POLICY "membre peut réagir"
+  ON reactions_creations FOR INSERT
+  WITH CHECK (auth.uid() = membre_id);
+
+CREATE POLICY "membre peut retirer sa réaction"
+  ON reactions_creations FOR DELETE
+  USING (auth.uid() = membre_id);
+
+CREATE INDEX reactions_creations_creation_idx ON reactions_creations (creation_id);
+
 ALTER PUBLICATION supabase_realtime ADD TABLE reactions_creations;
