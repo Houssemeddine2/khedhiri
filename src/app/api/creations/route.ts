@@ -30,11 +30,22 @@ export async function POST(request: Request) {
     process.env.SUPABASE_SERVICE_ROLE_KEY!
   )
 
-  const ext = file.name.split('.').pop() ?? 'jpg'
+  const MAX_BYTES = 10 * 1024 * 1024
+  if (file.size > MAX_BYTES) {
+    return NextResponse.json({ error: 'Fichier trop volumineux (max 10 Mo)' }, { status: 413 })
+  }
+
+  const ALLOWED_EXT = new Set(['jpg', 'jpeg', 'png', 'gif', 'webp'])
+  const rawExt = (file.name.split('.').pop() ?? '').toLowerCase()
+  const ext = ALLOWED_EXT.has(rawExt) ? rawExt : 'jpg'
+
+  const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
+  const safeContentType = ALLOWED_MIME.has(file.type) ? file.type : 'image/jpeg'
+
   const path = `uploads/${user.id}/${Date.now()}.${ext}`
   const { error: uploadError } = await service.storage
     .from('media')
-    .upload(path, file, { contentType: file.type })
+    .upload(path, file, { contentType: safeContentType })
   if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 })
 
   const { data: { publicUrl } } = service.storage.from('media').getPublicUrl(path)

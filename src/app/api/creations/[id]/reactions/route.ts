@@ -36,7 +36,8 @@ export async function POST(
 
   if (existing) {
     // Supprime — toggle off
-    await service.from('reactions_creations').delete().eq('id', existing.id)
+    const { error: deleteError } = await service.from('reactions_creations').delete().eq('id', existing.id)
+    if (deleteError) return NextResponse.json({ error: deleteError.message }, { status: 500 })
     return NextResponse.json({ action: 'removed' })
   } else {
     // Insère — toggle on
