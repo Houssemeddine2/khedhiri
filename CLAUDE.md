@@ -113,7 +113,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 
 ### Enrichissement (étapes 15-20)
 - [x] **Étape 15** — Bouton câlin virtuel + messages vocaux préenregistrés
-- [ ] **Étape 16** — Défis hebdomadaires + mots bilingues FR/AR
+- [x] **Étape 16** — Défis hebdomadaires + mots bilingues FR/AR
 - [ ] **Étape 17** — Lectures partagées + défis éducatifs
 - [ ] **Étape 18** — Quiz et jeux personnalisés
 - [ ] **Étape 19** — Atelier créatif (dessin)
@@ -296,6 +296,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 13 | Client email IMAP/SMTP OVH Perso : table email_credentials (AES-256-GCM, clé HMAC-SHA256 par user), API proxy routes (setup/messages/message/[uid]/send), composants EmailSetup/EmailInbox/EmailMessage/EmailCompose, page /email, icône navbar |
 | Avril 2026 | Étape 14 | Lettres pour leurs 18 ans : table lettres (RLS, verrou temporel serveur), API routes (GET+POST /api/lettres, GET+PATCH+DELETE /api/lettres/[id]), cron Vercel 7h UTC, composants LettreEditor/LettreCard/LettreDetail/LettreListePapa/LettreListeFille, page /lettres, badge navbar |
 | Avril 2026 | Étape 15 | Câlins virtuels + vocaux préenregistrés : tables vocaux + calins (Supabase Storage bucket `calins`, Realtime), API routes vocaux (GET/POST/DELETE) + calins (GET/POST) + ecouter (POST), composants VocalRecorder/BibliothequeVocaux/EnvoyerCalin/CalinsRecus/CalinRealtimeListener/CalinPage, page /calin, badge cœur NavBar |
+| Avril 2026 | Étape 16 | Défis hebdomadaires + mots bilingues FR/AR : tables defis + reponses_defis (UNIQUE constraint, service role pour `correct`), API GET+POST /api/defis + GET+POST /api/defis/[id]/reponses (upload photo, normalisation arabe, vérification quiz), composants DefiCard/MotCard/CreerDefi/DefisPage, page /defis, intégration Timeline (5 derniers défis, Realtime INSERT, lien "Voir tous les défis") |
 
 ---
 
