@@ -27,13 +27,14 @@ export async function POST(
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
   // Guard anti-doublon
-  const { data: existing } = await supabase
+  const { data: existing, error: existingError } = await supabase
     .from('sessions_quiz')
     .select('id')
     .eq('quiz_id', quizId)
     .eq('membre_id', user.id)
     .maybeSingle()
 
+  if (existingError) return NextResponse.json({ error: existingError.message }, { status: 500 })
   if (existing) {
     return NextResponse.json({ error: 'Tu as déjà joué ce quiz' }, { status: 409 })
   }
@@ -59,6 +60,10 @@ export async function POST(
 
   if (qError) return NextResponse.json({ error: qError.message }, { status: 500 })
 
+  if ((questions ?? []).length === 0) {
+    return NextResponse.json({ error: 'Quiz introuvable ou sans questions' }, { status: 404 })
+  }
+
   const questionMap = new Map((questions ?? []).map(q => [q.id, q]))
 
   // Calculer correct pour qcm/vrai_faux
@@ -70,11 +75,12 @@ export async function POST(
     if (q.type === 'qcm' || q.type === 'vrai_faux') {
       correct = r.contenu === q.bonne_reponse
     }
-    return { question_id: r.question_id, contenu: r.contenu, correct }
+    const contenu = r.contenu.trim().slice(0, 2000)
+    return { question_id: r.question_id, contenu, correct }
   }).filter(Boolean) as Array<{ question_id: string; contenu: string; correct: boolean | null }>
 
   const score = reponsesAnnotees.filter(r => r.correct === true).length
-  const nb_questions = reponsesAnnotees.length
+  const nb_questions = (questions ?? []).length
 
   // Insérer la session
   const { data: session, error: sessionError } = await sc
@@ -102,7 +108,10 @@ export async function POST(
     .from('reponses_quiz')
     .insert(reponsesToInsert)
 
-  if (repError) return NextResponse.json({ error: repError.message }, { status: 500 })
+  if (repError) {
+    await sc.from('sessions_quiz').delete().eq('id', session.id)
+    return NextResponse.json({ error: repError.message }, { status: 500 })
+  }
 
   return NextResponse.json({ score, nb_questions, session_id: session.id }, { status: 201 })
 }
