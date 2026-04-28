@@ -10,13 +10,19 @@ export async function POST(request: Request) {
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
-  const { to, subject, body } = await request.json() as {
-    to: string
-    subject: string
-    body: string
+  let to: string, subject: string, body: string
+  try {
+    const parsed = await request.json() as { to?: unknown; subject?: unknown; body?: unknown }
+    if (typeof parsed.to !== 'string' || typeof parsed.subject !== 'string' || typeof parsed.body !== 'string') {
+      return NextResponse.json({ error: 'Champs À, Sujet et Corps requis' }, { status: 400 })
+    }
+    to = parsed.to
+    subject = parsed.subject
+    body = parsed.body
+  } catch {
+    return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 })
   }
-
-  if (!to?.trim() || !subject?.trim() || !body?.trim()) {
+  if (!to.trim() || !subject.trim() || !body.trim()) {
     return NextResponse.json({ error: 'Champs À, Sujet et Corps requis' }, { status: 400 })
   }
 

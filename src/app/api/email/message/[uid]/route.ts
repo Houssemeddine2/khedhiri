@@ -12,12 +12,19 @@ export async function GET(
   { params }: { params: Promise<{ uid: string }> },
 ) {
   const { uid } = await params
+  const uidNum = parseInt(uid, 10)
+  if (!Number.isFinite(uidNum) || uidNum < 1) {
+    return NextResponse.json({ error: 'UID invalide' }, { status: 400 })
+  }
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
   const { searchParams } = new URL(request.url)
   const folder = searchParams.get('folder') ?? 'INBOX'
+  if (/[\r\n"\\]/.test(folder)) {
+    return NextResponse.json({ error: 'Dossier invalide' }, { status: 400 })
+  }
 
   const { data: creds } = await supabase
     .from('email_credentials')
@@ -29,7 +36,7 @@ export async function GET(
 
   try {
     const password = decryptPassword(creds.encrypted_password, user.id)
-    const message = await fetchMessageDetail(user.email!, password, Number(uid), folder)
+    const message = await fetchMessageDetail(user.email!, password, uidNum, folder)
     if (!message) return NextResponse.json({ error: 'Message non trouvé' }, { status: 404 })
     return NextResponse.json({ message })
   } catch (err) {
@@ -43,6 +50,10 @@ export async function DELETE(
   { params }: { params: Promise<{ uid: string }> },
 ) {
   const { uid } = await params
+  const uidNum = parseInt(uid, 10)
+  if (!Number.isFinite(uidNum) || uidNum < 1) {
+    return NextResponse.json({ error: 'UID invalide' }, { status: 400 })
+  }
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
@@ -50,6 +61,9 @@ export async function DELETE(
 
   const { searchParams } = new URL(request.url)
   const folder = searchParams.get('folder') ?? 'INBOX'
+  if (/[\r\n"\\]/.test(folder)) {
+    return NextResponse.json({ error: 'Dossier invalide' }, { status: 400 })
+  }
 
   const { data: creds } = await supabase
     .from('email_credentials')
@@ -61,7 +75,7 @@ export async function DELETE(
 
   try {
     const password = decryptPassword(creds.encrypted_password, user.id)
-    await deleteMessage(user.email!, password, Number(uid), folder)
+    await deleteMessage(user.email!, password, uidNum, folder)
     return NextResponse.json({ ok: true })
   } catch (err) {
     console.error('IMAP error:', err)

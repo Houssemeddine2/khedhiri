@@ -14,7 +14,13 @@ export async function GET(request: Request) {
 
   const { searchParams } = new URL(request.url)
   const folder = searchParams.get('folder') ?? 'INBOX'
+  if (/[\r\n"\\]/.test(folder)) {
+    return NextResponse.json({ error: 'Dossier invalide' }, { status: 400 })
+  }
   const page = Number(searchParams.get('page') ?? '1')
+  if (!Number.isInteger(page) || page < 1) {
+    return NextResponse.json({ error: 'Paramètre page invalide' }, { status: 400 })
+  }
 
   const allowedFolder = user.email === PAPA_EMAIL ? folder : 'INBOX'
 
