@@ -3,12 +3,15 @@ import { createClient } from '@/lib/supabase/server'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 
 const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
+const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
 
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params
+  if (!UUID_RE.test(id)) return NextResponse.json({ error: 'Identifiant invalide' }, { status: 400 })
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
@@ -42,6 +45,7 @@ export async function GET(
       .from('lettres')
       .update({ lue_at: new Date().toISOString() })
       .eq('id', id)
+      .is('lue_at', null)
     lettre.lue_at = new Date().toISOString()
   }
 
@@ -53,6 +57,8 @@ export async function PATCH(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params
+  if (!UUID_RE.test(id)) return NextResponse.json({ error: 'Identifiant invalide' }, { status: 400 })
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
@@ -75,13 +81,19 @@ export async function PATCH(
   if (typeof body.titre === 'string' && body.titre.trim()) updates.titre = body.titre.trim()
   if (typeof body.contenu === 'string' && body.contenu.trim()) updates.contenu = body.contenu.trim()
 
-  const { error } = await supabase
+  if (!updates.titre && !updates.contenu) {
+    return NextResponse.json({ error: 'Aucun champ modifiable fourni' }, { status: 400 })
+  }
+
+  const { data: updated, error } = await supabase
     .from('lettres')
     .update(updates)
     .eq('id', id)
     .eq('auteur_id', user.id)
+    .select('id')
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!updated || updated.length === 0) return NextResponse.json({ error: 'Lettre non trouvée' }, { status: 404 })
   return NextResponse.json({ ok: true })
 }
 
@@ -90,17 +102,21 @@ export async function DELETE(
   { params }: { params: Promise<{ id: string }> },
 ) {
   const { id } = await params
+  if (!UUID_RE.test(id)) return NextResponse.json({ error: 'Identifiant invalide' }, { status: 400 })
+
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
   if (user.id !== PAPA_ID) return NextResponse.json({ error: 'Non autorisé' }, { status: 403 })
 
-  const { error } = await supabase
+  const { data: deleted, error } = await supabase
     .from('lettres')
     .delete()
     .eq('id', id)
     .eq('auteur_id', user.id)
+    .select('id')
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!deleted || deleted.length === 0) return NextResponse.json({ error: 'Lettre non trouvée' }, { status: 404 })
   return NextResponse.json({ ok: true })
 }
