@@ -94,7 +94,12 @@ export async function POST(
     .select('id')
     .single()
 
-  if (sessionError) return NextResponse.json({ error: sessionError.message }, { status: 500 })
+  if (sessionError) {
+    if ((sessionError as { code?: string }).code === '23505') {
+      return NextResponse.json({ error: 'Tu as déjà joué ce quiz' }, { status: 409 })
+    }
+    return NextResponse.json({ error: sessionError.message }, { status: 500 })
+  }
 
   // Insérer les réponses
   const reponsesToInsert = reponsesAnnotees.map(r => ({

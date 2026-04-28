@@ -11,6 +11,7 @@ const MEMBRES_ASSIGNABLES = [
 type QuestionType = 'qcm' | 'vrai_faux' | 'ouverte'
 
 interface QuestionForm {
+  clientId: string
   type: QuestionType
   contenu: string
   options: string[]
@@ -199,7 +200,7 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
   const [description, setDescription] = useState('')
   const [assignees, setAssignees] = useState<string[]>([])
   const [questions, setQuestions] = useState<QuestionForm[]>([
-    { type: 'qcm', contenu: '', options: ['', ''], bonne_reponse: '' },
+    { clientId: crypto.randomUUID(), type: 'qcm', contenu: '', options: ['', ''], bonne_reponse: '' },
   ])
   const [isLoading, setIsLoading] = useState(false)
   const [erreur, setErreur] = useState<string | null>(null)
@@ -235,7 +236,7 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
   }
 
   const addQuestion = () => {
-    setQuestions(prev => [...prev, { type: 'qcm', contenu: '', options: ['', ''], bonne_reponse: '' }])
+    setQuestions(prev => [...prev, { clientId: crypto.randomUUID(), type: 'qcm', contenu: '', options: ['', ''], bonne_reponse: '' }])
   }
 
   const canSubmit = titre.trim() && questions.length > 0 && questions.every(q => {
@@ -340,7 +341,7 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
         <p className="font-manrope text-xs text-ink-soft mb-2 font-semibold">Questions</p>
         {questions.map((q, i) => (
           <QuestionFormRow
-            key={i}
+            key={q.clientId}
             question={q}
             index={i}
             total={questions.length}
