@@ -30,7 +30,7 @@ export default async function LettresPage() {
   }
 
   // Fille : pas de contenu dans la liste (sécurité : contenu chargé à la demande via API)
-  const { data } = await supabase
+  const { data: lettresFille } = await supabase
     .from('lettres')
     .select('id, auteur_id, destinataire_id, titre, unlock_at, lue_at, created_at')
     .eq('destinataire_id', user.id)
@@ -40,7 +40,7 @@ export default async function LettresPage() {
     <>
       <NavBar />
       <main>
-        <LettreListeFille lettres={(data ?? []) as LettreMetadata[]} />
+        <LettreListeFille lettres={(lettresFille ?? []) as LettreMetadata[]} />
       </main>
     </>
   )
