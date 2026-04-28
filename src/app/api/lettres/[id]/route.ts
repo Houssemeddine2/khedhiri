@@ -71,6 +71,19 @@ export async function PATCH(
     return NextResponse.json({ error: 'Corps de requête invalide' }, { status: 400 })
   }
 
+  // Vérifier que la lettre existe et n'est pas encore déverrouillée
+  const { data: existing } = await supabase
+    .from('lettres')
+    .select('unlock_at')
+    .eq('id', id)
+    .eq('auteur_id', user.id)
+    .maybeSingle()
+
+  if (!existing) return NextResponse.json({ error: 'Lettre non trouvée' }, { status: 404 })
+  if (new Date(existing.unlock_at) <= new Date()) {
+    return NextResponse.json({ error: 'Cette lettre est déjà déverrouillée et ne peut plus être modifiée' }, { status: 409 })
+  }
+
   if ('unlock_at' in body) {
     return NextResponse.json({ error: 'La date de déverrouillage ne peut pas être modifiée' }, { status: 400 })
   }

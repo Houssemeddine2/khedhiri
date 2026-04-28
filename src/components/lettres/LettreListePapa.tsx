@@ -72,13 +72,15 @@ export default function LettreListePapa({ lettres }: LettreListePapaProps) {
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
-                    <button
-                      onClick={() => { setEditingLettre(l); setShowEditor(true) }}
-                      aria-label={`Modifier « ${l.titre} »`}
-                      className="font-manrope text-xs text-ink-soft hover:text-terracotta transition-colors"
-                    >
-                      Modifier
-                    </button>
+                    {!decouverte && (
+                      <button
+                        onClick={() => { setEditingLettre(l); setShowEditor(true) }}
+                        aria-label={`Modifier « ${l.titre} »`}
+                        className="font-manrope text-xs text-ink-soft hover:text-terracotta transition-colors"
+                      >
+                        Modifier
+                      </button>
+                    )}
                     <button
                       onClick={() => handleDelete(l.id)}
                       disabled={deletingId === l.id}
