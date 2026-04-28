@@ -3,6 +3,7 @@ import { createClient } from '@/lib/supabase/server'
 import type { LettrePapa } from '@/types/lettre'
 
 const PAPA_ID = 'b6025d5f-77d5-4208-b489-bcc717ebc01c'
+const FILLES_IDS = ['1a0967e9-91e0-48f6-a3da-752255274153', '617eff77-47ed-40e0-b784-c027183c9bee']
 
 export async function GET() {
   const supabase = await createClient()
@@ -45,7 +46,14 @@ export async function POST(request: Request) {
   if (!titre.trim() || !contenu.trim()) {
     return NextResponse.json({ error: 'Titre et contenu requis' }, { status: 400 })
   }
-  if (new Date(unlock_at) <= new Date()) {
+  if (!FILLES_IDS.includes(destinataire_id.trim())) {
+    return NextResponse.json({ error: 'Destinataire invalide' }, { status: 400 })
+  }
+  const unlockDate = new Date(unlock_at)
+  if (isNaN(unlockDate.getTime())) {
+    return NextResponse.json({ error: 'Format de date invalide' }, { status: 400 })
+  }
+  if (unlockDate <= new Date()) {
     return NextResponse.json({ error: 'La date de déverrouillage doit être dans le futur' }, { status: 400 })
   }
 
@@ -56,7 +64,7 @@ export async function POST(request: Request) {
       destinataire_id: destinataire_id.trim(),
       titre: titre.trim(),
       contenu: contenu.trim(),
-      unlock_at,
+      unlock_at: unlockDate.toISOString(),
     })
     .select('id')
     .single()
