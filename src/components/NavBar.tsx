@@ -34,6 +34,14 @@ export default async function NavBar() {
     lettresBadge = count ?? 0
   }
 
+  // Badge câlins : câlins non écoutés
+  const { count: calinsBadgeCount } = await supabase
+    .from('calins')
+    .select('id', { count: 'exact', head: true })
+    .eq('destinataire_id', user.id)
+    .is('ecoute_at', null)
+  const calinsBadge = calinsBadgeCount ?? 0
+
   return (
     <nav className="sticky top-0 z-50 bg-cream border-b border-terracotta/20 shadow-sm">
       <div className="max-w-lg mx-auto px-4 py-2 flex items-center gap-3">
@@ -177,6 +185,23 @@ export default async function NavBar() {
             </span>
           )}
           <span className="text-xs font-manrope hidden sm:inline">Lettres</span>
+        </Link>
+
+        {/* Câlins */}
+        <Link
+          href="/calin"
+          className="relative flex items-center gap-1 text-ink-soft hover:text-terracotta transition-colors"
+          aria-label={`Câlins virtuels${calinsBadge > 0 ? `, ${calinsBadge} nouveau${calinsBadge > 1 ? 'x' : ''}` : ''}`}
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+          </svg>
+          {calinsBadge > 0 && (
+            <span className="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-terracotta text-white text-[9px] font-bold flex items-center justify-center">
+              {calinsBadge}
+            </span>
+          )}
+          <span className="text-xs font-manrope hidden sm:inline">Câlins</span>
         </Link>
 
         {/* Journal intime — filles uniquement */}
