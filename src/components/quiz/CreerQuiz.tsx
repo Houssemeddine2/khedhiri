@@ -83,8 +83,9 @@ function QuestionFormRow({
         <button
           type="button"
           onClick={onDelete}
+          disabled={total === 1}
           aria-label="Supprimer la question"
-          className="px-2 py-1 rounded-lg font-manrope text-xs text-red-500 border border-red-200 hover:bg-red-50 transition-colors"
+          className="px-2 py-1 rounded-lg font-manrope text-xs text-red-500 border border-red-200 hover:bg-red-50 disabled:opacity-30 transition-colors"
         >
           ✕
         </button>
@@ -96,7 +97,7 @@ function QuestionFormRow({
         aria-label={`Type de la question ${index + 1}`}
         className="w-full rounded-xl border border-terracotta/20 bg-jasmine px-3 py-2 font-manrope text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta/40 mb-2"
       >
-        <option value="qcm">QCM (4 options)</option>
+        <option value="qcm">QCM (2 à 4 options)</option>
         <option value="vrai_faux">Vrai / Faux</option>
         <option value="ouverte">Réponse ouverte</option>
       </select>
@@ -155,7 +156,7 @@ function QuestionFormRow({
             >
               <option value="">Choisir…</option>
               {question.options.filter(o => o.trim()).map((opt, i) => (
-                <option key={i} value={opt}>{opt}</option>
+                <option key={i} value={opt.trim()}>{opt.trim()}</option>
               ))}
             </select>
           </div>
@@ -255,7 +256,7 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
           type: q.type,
           contenu: q.contenu.trim(),
           options: q.type === 'qcm' ? q.options.map(o => o.trim()) : undefined,
-          bonne_reponse: q.type === 'ouverte' ? undefined : q.bonne_reponse,
+          bonne_reponse: q.type === 'ouverte' ? undefined : q.bonne_reponse.trim(),
           ordre: i + 1,
         })),
       }
@@ -350,7 +351,8 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
         <button
           type="button"
           onClick={addQuestion}
-          className="font-manrope text-xs text-terracotta underline underline-offset-2 mt-1"
+          disabled={questions.length >= 20}
+          className="font-manrope text-xs text-terracotta underline underline-offset-2 mt-1 disabled:opacity-40"
         >
           + Ajouter une question
         </button>
@@ -362,7 +364,8 @@ export default function CreerQuiz({ onCree, onAnnuler }: Props) {
         <button
           type="button"
           onClick={onAnnuler}
-          className="flex-1 py-2 rounded-full border border-terracotta/20 font-manrope text-sm text-ink-soft hover:bg-sand transition-colors"
+          disabled={isLoading}
+          className="flex-1 py-2 rounded-full border border-terracotta/20 font-manrope text-sm text-ink-soft hover:bg-sand disabled:opacity-40 transition-colors"
         >
           Annuler
         </button>
