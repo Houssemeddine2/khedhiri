@@ -24,6 +24,7 @@ Exécuter chaque fichier dans l'ordre. Coller le contenu dans SQL Editor → Run
 | 11 | `supabase/etape15-schema.sql` | `vocaux`, `calins` |
 | 12 | `supabase/etape16-schema.sql` | `defis`, `reponses_defis` |
 | 13 | `supabase/etape17-schema.sql` | `lectures`, `avancement_lecture`, `questions_lecture`, `reponses_questions` |
+| 14 | `supabase/etape19-schema.sql` | colonne `source` sur `creations` ; table `reactions_creations` |
 
 ---
 
@@ -40,6 +41,7 @@ Créer les buckets manquants si absents. La colonne "Public" indique si le bucke
 | `avatars` | Oui | 8 | Photos de profil |
 | `calins` | Non (privé) | 15 | Fichiers audio des câlins vocaux |
 | `defis` | Oui | 16 | Photos de réponses aux défis |
+| *(aucun nouveau bucket)* | — | 19 | Étape 19 utilise le bucket `media` existant |
 
 Pour créer un bucket : Storage → New bucket → entrer le nom → cocher "Public bucket" si indiqué → Save.
 
@@ -105,4 +107,4 @@ Sur le PC de Lisbonne :
 
 ---
 
-*Dernière mise à jour : Avril 2026 — après étape 17*
+*Dernière mise à jour : Avril 2026 — après étape 19*
