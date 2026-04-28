@@ -16,6 +16,10 @@ export default function JouerQuiz({ quizId, questions, onTermine }: Props) {
   const [resultat, setResultat] = useState<{ score: number; nb_questions: number } | null>(null)
   const [erreur, setErreur] = useState<string | null>(null)
 
+  if (questions.length === 0) {
+    return <p className="font-manrope text-sm text-ink-soft italic">Ce quiz n&apos;a pas de questions.</p>
+  }
+
   const setReponse = (questionId: string, contenu: string) => {
     setReponses(prev => ({ ...prev, [questionId]: contenu }))
   }

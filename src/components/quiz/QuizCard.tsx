@@ -24,35 +24,38 @@ export default function QuizCard({ quiz, currentUserId, onAction }: Props) {
       setShowJouer(false)
       return
     }
-    if (questions === null) {
-      setIsLoadingQuestions(true)
-      setErreurQuestions(null)
-      try {
-        const res = await fetch(`/api/quizzes/${quiz.id}/questions`)
-        if (res.ok) {
-          const { questions: data } = await res.json()
-          setQuestions(data)
-        } else {
-          setErreurQuestions('Impossible de charger les questions')
-        }
-      } catch {
-        setErreurQuestions('Erreur réseau')
-      } finally {
-        setIsLoadingQuestions(false)
-      }
+    if (questions !== null) {
+      setShowJouer(true)
+      return
     }
-    setShowJouer(true)
+    setIsLoadingQuestions(true)
+    setErreurQuestions(null)
+    try {
+      const res = await fetch(`/api/quizzes/${quiz.id}/questions`)
+      if (res.ok) {
+        const { questions: data } = await res.json()
+        setQuestions(data)
+        setShowJouer(true)
+      } else {
+        setErreurQuestions('Impossible de charger les questions')
+      }
+    } catch {
+      setErreurQuestions('Erreur réseau')
+    } finally {
+      setIsLoadingQuestions(false)
+    }
   }
 
   const sessionCourante = quiz.sessions.find(s => s.membre_id === currentUserId)
   const auteurAvatar = avatarFromEmail(quiz.auteur_email)
 
-  const hasReponsesOuvertes = quiz.auteur_id === currentUserId
+  const estAuteur = quiz.auteur_id === currentUserId
 
   return (
     <div className="bg-jasmine rounded-3xl p-4 mb-4 border border-terracotta/10 shadow-sm">
       <div className="flex items-start gap-3 mb-2">
         <div
+          role="img"
           className={`w-8 h-8 rounded-full ${auteurAvatar.couleurBg} flex items-center justify-center text-white font-bold font-manrope text-sm flex-shrink-0`}
           aria-label={auteurAvatar.nom}
         >
@@ -73,7 +76,7 @@ export default function QuizCard({ quiz, currentUserId, onAction }: Props) {
       <div className="flex flex-wrap gap-2 mb-3">
         {quiz.sessions.map(s => (
           <span
-            key={s.membre_id}
+            key={s.session_id}
             className="px-2 py-0.5 bg-sand rounded-full font-manrope text-xs text-ink"
           >
             {s.membre_nom} {s.score}/{s.nb_questions} ✅
@@ -96,7 +99,7 @@ export default function QuizCard({ quiz, currentUserId, onAction }: Props) {
           type="button"
           onClick={handleToggleJouer}
           disabled={isLoadingQuestions}
-          className="px-4 py-2 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep disabled:opacity-40 transition-colors mb-2"
+          className="px-4 py-3 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep disabled:opacity-40 transition-colors mb-2"
         >
           {isLoadingQuestions ? 'Chargement…' : showJouer ? 'Fermer' : 'Jouer 🧩'}
         </button>
@@ -116,8 +119,11 @@ export default function QuizCard({ quiz, currentUserId, onAction }: Props) {
       )}
 
       {/* Validation réponses ouvertes (créateur uniquement) */}
-      {hasReponsesOuvertes && (
-        <ValiderReponses quizId={quiz.id} />
+      {estAuteur && (
+        <>
+          <hr className="border-terracotta/10 my-2" />
+          <ValiderReponses quizId={quiz.id} />
+        </>
       )}
     </div>
   )
