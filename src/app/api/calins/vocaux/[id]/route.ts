@@ -29,7 +29,10 @@ export async function DELETE(
 
   if (!vocal) return NextResponse.json({ error: 'Vocal non trouvé' }, { status: 404 })
 
-  await sc.storage.from('calins').remove([vocal.vocal_path])
+  const { error: storageError } = await sc.storage.from('calins').remove([vocal.vocal_path])
+  if (storageError) {
+    return NextResponse.json({ error: 'Erreur suppression audio' }, { status: 500 })
+  }
 
   const { data: deleted, error } = await sc
     .from('vocaux')

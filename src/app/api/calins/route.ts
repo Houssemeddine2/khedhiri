@@ -83,6 +83,11 @@ export async function POST(request: Request) {
     return NextResponse.json({ error: 'Un vocal est requis (vocal_id ou audio)' }, { status: 400 })
   }
 
+  const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+  if (vocalId && !UUID_RE.test(vocalId)) {
+    return NextResponse.json({ error: 'vocal_id invalide' }, { status: 400 })
+  }
+
   const sc = serviceClient()
   let vocalPath: string
 
@@ -114,6 +119,10 @@ export async function POST(request: Request) {
     if (audio!.size > MAX_SIZE) {
       return NextResponse.json({ error: 'Fichier trop volumineux (max 5 Mo)' }, { status: 400 })
     }
+    const ALLOWED_MIME = ['audio/webm', 'audio/ogg', 'audio/mp4', 'audio/wav']
+    if (!ALLOWED_MIME.includes(audio!.type)) {
+      return NextResponse.json({ error: 'Format audio non supporté' }, { status: 400 })
+    }
     vocalPath = `envois/${crypto.randomUUID()}.webm`
     const bytes = await audio!.arrayBuffer()
     const { error: upError } = await sc.storage
@@ -121,16 +130,6 @@ export async function POST(request: Request) {
       .upload(vocalPath, bytes, { contentType: 'audio/webm', upsert: false })
 
     if (upError) return NextResponse.json({ error: upError.message }, { status: 500 })
-
-    if (sauvegarder) {
-      await sc.from('vocaux').insert({
-        proprietaire_id: user.id,
-        titre,
-        vocal_path: `bibliotheque/${user.id}/${crypto.randomUUID()}.webm`,
-        duree_sec: dureeSec ? Number(dureeSec) : null,
-      })
-      // Note: pour simplifier, on ré-upload pas pour la biblio ici — le câlin envoyé est indépendant
-    }
   }
 
   const { data: calin, error: insertError } = await sc
