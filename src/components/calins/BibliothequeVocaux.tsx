@@ -29,7 +29,7 @@ export default function BibliothequeVocaux({ vocaux, onVocauxChange }: Props) {
     setErreur(null)
     try {
       const fd = new FormData()
-      fd.append('audio', new File([blob], 'vocal.webm', { type: 'audio/webm' }))
+      fd.append('audio', new File([blob], 'vocal.webm', { type: blob.type }))
       fd.append('titre', titre.trim())
       fd.append('duree_sec', String(dureeSec))
 

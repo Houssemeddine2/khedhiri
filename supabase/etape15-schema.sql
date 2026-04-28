@@ -40,3 +40,6 @@ CREATE POLICY "Destinataire voit ses câlins reçus"
   USING (auth.uid() = destinataire_id);
 
 -- INSERT et UPDATE ecoute_at via service role uniquement (pas de politique RLS user)
+
+-- Activer Realtime pour les câlins reçus
+ALTER PUBLICATION supabase_realtime ADD TABLE calins;

@@ -20,14 +20,16 @@ export async function POST(
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
   )
 
-  const { error } = await sc
+  const { data, error } = await sc
     .from('calins')
     .update({ ecoute_at: new Date().toISOString() })
     .eq('id', id)
     .eq('destinataire_id', user.id)
     .is('ecoute_at', null)
+    .select('id')
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
+  if (!data?.length) return NextResponse.json({ error: 'Câlin non trouvé' }, { status: 404 })
 
   return NextResponse.json({ ok: true })
 }

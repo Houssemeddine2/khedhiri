@@ -55,7 +55,7 @@ export default function EnvoyerCalin({ userId, vocaux, onCalinEnvoye }: Props) {
         fd.append('vocal_id', vocalSelectionne.id)
       } else if (mode === 'nouveau' && blob) {
         fd.append('titre', titre.trim())
-        fd.append('audio', new File([blob], 'vocal.webm', { type: 'audio/webm' }))
+        fd.append('audio', new File([blob], 'vocal.webm', { type: blob.type }))
         fd.append('duree_sec', String(dureeSec))
       }
       const res = await fetch('/api/calins', { method: 'POST', body: fd })
