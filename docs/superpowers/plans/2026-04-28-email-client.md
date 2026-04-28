@@ -1345,3 +1345,20 @@ Expected output : push réussi, Vercel déploie automatiquement.
 2. **3 comptes email créés** sur OVH : houssem@, sandra@, sarah@khedhiri.me
 3. **Mots de passe email OVH** notés pour les saisir dans l'app
 4. **EMAIL_ENCRYPTION_SECRET** ajouté dans `.env.local` ET dans Vercel
+
+---
+
+## ✅ Actions manuelles restantes (avant première utilisation)
+
+- [ ] Commander **OVH Plan Perso** pour khedhiri.me (3,29€/mois)
+- [ ] Créer les 3 comptes email sur le panneau OVH : `houssem@khedhiri.me`, `sandra@khedhiri.me`, `sarah@khedhiri.me`
+- [ ] Exécuter le SQL dans Supabase (SQL Editor) : contenu du fichier `supabase/etape13-schema.sql`
+- [ ] Générer une vraie clé secrète : `openssl rand -base64 32`
+- [ ] Remplacer le placeholder dans `.env.local` : `EMAIL_ENCRYPTION_SECRET=<valeur générée>`
+- [ ] Ajouter les 5 variables dans Vercel Dashboard → Settings → Environment Variables :
+  - `EMAIL_ENCRYPTION_SECRET` (la vraie valeur aléatoire)
+  - `OVH_IMAP_HOST=ssl0.ovh.net`
+  - `OVH_IMAP_PORT=993`
+  - `OVH_SMTP_HOST=ssl0.ovh.net`
+  - `OVH_SMTP_PORT=465`
+- [ ] Sur khedhiri.me/email : saisir le mot de passe email OVH pour chaque compte (une seule fois)

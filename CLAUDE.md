@@ -107,7 +107,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 
 ### Transmission & intelligence (étapes 11-14)
 - [x] **Étape 11** — **🤖 Tuteur IA local Nour** (Ollama + Cloudflare Tunnel, adapté à chaque fille)
-- [ ] **Étape 12** — Boîte à mémoire + Arbre généalogique
+- [x] **Étape 12** — **🌳 Arbre généalogique** (page /famille, MembreCard/MembreDetail, AjouterMembre, anecdotes)
 - [x] **Étape 13** — **✉️ Client email IMAP/SMTP** (OVH Perso, proxy API serveur, chiffrement AES-256-GCM, Papa complet + filles simplifié)
 - [ ] **Étape 14** — Lettres pour leurs 18 ans (messages à déblocage temporel)
 
@@ -292,6 +292,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 9 | Page Découverte Lisbonne/Tunis : MotCard, HighlightCard, DistanceBanner, contenu biculturel |
 | Avril 2026 | Étape 10 | Journaux intimes chiffrés côté client : AES-GCM + PBKDF2 (Web Crypto API), journal_profils + journal_entrees Supabase, papa bloqué explicitement, composants CreerJournal/DeverrouillerJournal/EntreeEditor/JournalOuvert |
 | Avril 2026 | Étape 11 | Tuteur IA "Nour" : Ollama local (Lisbonne) + Cloudflare Tunnel, API routes /api/tutor, abstraction provider (local/Claude/Mistral), TuteurChat enfants + TuteurPapa dashboard, TuteurWidget flottant, sessions/messages Supabase, garde-fous enfants |
+| Avril 2026 | Étape 12 | Arbre généalogique : table famille_membres + famille_anecdotes, composants MembreCard/MembreDetail/AjouterMembre/AjouterAnecdote, page /famille, actions Server-side |
 | Avril 2026 | Étape 13 | Client email IMAP/SMTP OVH Perso : table email_credentials (AES-256-GCM, clé HMAC-SHA256 par user), API proxy routes (setup/messages/message/[uid]/send), composants EmailSetup/EmailInbox/EmailMessage/EmailCompose, page /email, icône navbar |
 
 ---
