@@ -70,10 +70,10 @@ export default function LettreEditor({ lettre, onClose }: LettreEditorProps) {
   }
 
   return (
-    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true">
+    <div className="fixed inset-0 z-50 bg-black/80 flex items-center justify-center p-4" onClick={onClose} role="dialog" aria-modal="true" aria-labelledby="lettre-editor-titre">
       <div className="bg-jasmine rounded-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
         <div className="flex items-center justify-between mb-4">
-          <h2 className="font-fraunces text-xl font-bold text-ink">
+          <h2 id="lettre-editor-titre" className="font-fraunces text-xl font-bold text-ink">
             {isEdit ? 'Modifier la lettre' : 'Écrire une lettre'}
           </h2>
           <button onClick={onClose} className="text-ink-soft hover:text-ink text-2xl leading-none" aria-label="Fermer">×</button>
@@ -82,8 +82,9 @@ export default function LettreEditor({ lettre, onClose }: LettreEditorProps) {
         <form onSubmit={handleSubmit} className="space-y-3">
           {!isEdit && (
             <div>
-              <label className="block font-manrope text-sm font-semibold text-ink mb-1">Pour</label>
+              <label htmlFor="lettre-destinataire" className="block font-manrope text-sm font-semibold text-ink mb-1">Pour</label>
               <select
+                id="lettre-destinataire"
                 value={destinataireId}
                 onChange={e => setDestinataire(e.target.value)}
                 className="w-full border border-sand-warm rounded-lg px-3 py-2 font-manrope text-sm text-ink bg-white focus:outline-none focus:ring-2 focus:ring-terracotta"
@@ -110,7 +111,7 @@ export default function LettreEditor({ lettre, onClose }: LettreEditorProps) {
 
           {!isEdit && (
             <div>
-              <label className="block font-manrope text-sm font-semibold text-ink mb-1">Date de déverrouillage</label>
+              <label htmlFor="lettre-unlock-at" className="block font-manrope text-sm font-semibold text-ink mb-1">Date de déverrouillage</label>
               {SHORTCUTS[destinataireId] && (
                 <button
                   type="button"
@@ -121,6 +122,7 @@ export default function LettreEditor({ lettre, onClose }: LettreEditorProps) {
                 </button>
               )}
               <input
+                id="lettre-unlock-at"
                 type="datetime-local"
                 value={unlockAt}
                 onChange={e => setUnlockAt(e.target.value)}
