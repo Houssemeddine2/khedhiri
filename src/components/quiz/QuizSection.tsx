@@ -22,7 +22,7 @@ export default function QuizSection({ userId }: Props) {
       const res = await fetch('/api/quizzes')
       if (res.ok) {
         const { quizzes: data } = await res.json()
-        setQuizzes(data)
+        setQuizzes(data ?? [])
       } else {
         setErreur('Impossible de charger les quiz')
       }
