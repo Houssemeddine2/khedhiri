@@ -18,39 +18,48 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
   const [chargement, setChargement] = useState(true)
   const [erreur, setErreur] = useState<string | null>(null)
   const [selected, setSelected] = useState<Creation | null>(null)
-  const [enCoursReaction, setEnCoursReaction] = useState(false)
+  const [reactionEnCours, setReactionEnCours] = useState<string | null>(null) // `${creationId}-${emoji}`
   const [enCoursPublication, setEnCoursPublication] = useState(false)
   const [enCoursSuppression, setEnCoursSuppression] = useState(false)
   const [enCoursUpload, setEnCoursUpload] = useState(false)
   const [messageSucces, setMessageSucces] = useState<string | null>(null)
   const fileInputRef = useRef<HTMLInputElement>(null)
+  const succesTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null)
 
-  const chargerCreations = useCallback(async () => {
+  const chargerCreations = useCallback(async (signal?: AbortSignal) => {
     try {
       setErreur(null)
-      const res = await fetch('/api/creations')
+      const res = await fetch('/api/creations', { signal })
+      if (signal?.aborted) return
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
         throw new Error(body.error ?? 'Erreur lors du chargement')
       }
       const data: Creation[] = await res.json()
       setCreations(data)
-      // Met à jour la création sélectionnée si elle est toujours dans la liste
       setSelected(prev => {
         if (!prev) return null
-        const updated = data.find(c => c.id === prev.id)
-        return updated ?? null
+        return data.find(c => c.id === prev.id) ?? null
       })
     } catch (e) {
+      if (e instanceof Error && e.name === 'AbortError') return
       setErreur(e instanceof Error ? e.message : 'Erreur inconnue')
     } finally {
-      setChargement(false)
+      if (!signal?.aborted) setChargement(false)
     }
   }, [])
 
   useEffect(() => {
-    chargerCreations()
+    const controller = new AbortController()
+    chargerCreations(controller.signal)
+    return () => controller.abort()
   }, [chargerCreations])
+
+  useEffect(() => {
+    return () => {
+      if (succesTimerRef.current) clearTimeout(succesTimerRef.current)
+    }
+  }, [])
 
   // ── Upload photo ────────────────────────────────────────────────────────────
 
@@ -67,16 +76,15 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
       const res = await fetch('/api/creations', { method: 'POST', body: formData })
       if (!res.ok) {
         const body = await res.json().catch(() => ({}))
-        throw new Error(body.error ?? 'Erreur lors de l\'envoi')
+        throw new Error(body.error ?? "Erreur lors de l'envoi")
       }
       const nouvelle: Creation = await res.json()
       setCreations(prev => [nouvelle, ...prev])
       afficherSucces('Dessin ajouté !')
     } catch (e) {
-      setErreur(e instanceof Error ? e.message : 'Erreur lors de l\'envoi')
+      setErreur(e instanceof Error ? e.message : "Erreur lors de l'envoi")
     } finally {
       setEnCoursUpload(false)
-      // Réinitialise l'input pour permettre un re-upload du même fichier
       if (fileInputRef.current) fileInputRef.current.value = ''
     }
   }
@@ -84,7 +92,9 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
   // ── Réactions ───────────────────────────────────────────────────────────────
 
   async function toggleReaction(creationId: string, emoji: '❤️' | '😍' | '🎉') {
-    setEnCoursReaction(true)
+    const key = `${creationId}-${emoji}`
+    if (reactionEnCours === key) return
+    setReactionEnCours(key)
     try {
       const res = await fetch(`/api/creations/${creationId}/reactions`, {
         method: 'POST',
@@ -99,7 +109,7 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
     } catch (e) {
       setErreur(e instanceof Error ? e.message : 'Erreur lors de la réaction')
     } finally {
-      setEnCoursReaction(false)
+      setReactionEnCours(null)
     }
   }
 
@@ -116,6 +126,7 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
       }
       afficherSucces('Publié sur le mur familial !')
       onPublished()
+      await chargerCreations()
     } catch (e) {
       setErreur(e instanceof Error ? e.message : 'Erreur lors de la publication')
     } finally {
@@ -143,8 +154,9 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
   // ── Helpers ─────────────────────────────────────────────────────────────────
 
   function afficherSucces(msg: string) {
+    if (succesTimerRef.current) clearTimeout(succesTimerRef.current)
     setMessageSucces(msg)
-    setTimeout(() => setMessageSucces(null), 3000)
+    succesTimerRef.current = setTimeout(() => setMessageSucces(null), 3000)
   }
 
   function compterReactionsParEmoji(creation: Creation): Map<string, number> {
@@ -238,86 +250,82 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
       )}
 
       {!chargement && creations.length > 0 && (
-        <div
-          className="grid grid-cols-3 gap-3"
-          role="list"
-          aria-label="Galerie des créations familiales"
-        >
+        <ul className="grid grid-cols-3 gap-3 list-none p-0" aria-label="Galerie des créations familiales">
           {creations.map(creation => {
             const compteurs = compterReactionsParEmoji(creation)
             const isSelected = selected?.id === creation.id
             const nomAuteur = creation.profiles?.nom ?? 'Famille'
 
             return (
-              <button
-                key={creation.id}
-                role="listitem"
-                onClick={() => setSelected(isSelected ? null : creation)}
-                aria-pressed={isSelected}
-                aria-label={`${creation.title ?? 'Dessin'} par ${nomAuteur}`}
-                className={`relative rounded-xl overflow-hidden border-2 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta ${
-                  isSelected
-                    ? 'border-terracotta shadow-md scale-[0.98]'
-                    : 'border-sand-warm shadow-sm hover:border-terracotta/50 hover:shadow-md'
-                }`}
-              >
-                {/* Image */}
-                <img
-                  src={creation.media_url}
-                  alt={creation.title ?? `Dessin de ${nomAuteur}`}
-                  className="w-full aspect-square object-cover"
-                  loading="lazy"
-                />
-
-                {/* Badge source */}
-                <span
-                  className={`absolute top-1.5 left-1.5 font-manrope text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
-                    creation.source === 'digital'
-                      ? 'bg-azur/80 text-white'
-                      : 'bg-terracotta/80 text-white'
+              <li key={creation.id}>
+                <button
+                  onClick={() => setSelected(isSelected ? null : creation)}
+                  aria-pressed={isSelected}
+                  aria-label={`${creation.title ?? 'Dessin'} par ${nomAuteur}`}
+                  className={`relative w-full rounded-xl overflow-hidden border-2 text-left transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-terracotta ${
+                    isSelected
+                      ? 'border-terracotta shadow-md scale-[0.98]'
+                      : 'border-sand-warm shadow-sm hover:border-terracotta/50 hover:shadow-md'
                   }`}
                 >
-                  {creation.source === 'digital' ? 'numérique' : 'photo'}
-                </span>
+                  {/* Image */}
+                  <img
+                    src={creation.media_url}
+                    alt={creation.title ?? `Dessin de ${nomAuteur}`}
+                    className="w-full aspect-square object-cover"
+                    loading="lazy"
+                  />
 
-                {/* Auteur + date */}
-                <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-2 py-1.5">
-                  <div className="flex items-center gap-1">
-                    <AvatarCircle
-                      email={creation.profiles?.email ?? ''}
-                      nom={creation.profiles?.nom}
-                      avatarUrl={creation.profiles?.avatar_url}
-                      couleur={creation.profiles?.couleur}
-                      size="xs"
-                    />
-                    <span className="font-manrope text-white text-[10px] truncate">
-                      {nomAuteur}
-                    </span>
-                  </div>
-                </div>
+                  {/* Badge source */}
+                  <span
+                    className={`absolute top-1.5 left-1.5 font-manrope text-[10px] font-medium px-1.5 py-0.5 rounded-full ${
+                      creation.source === 'digital'
+                        ? 'bg-azur/80 text-white'
+                        : 'bg-terracotta/80 text-white'
+                    }`}
+                  >
+                    {creation.source === 'digital' ? 'numérique' : 'photo'}
+                  </span>
 
-                {/* Compteurs de réactions (si > 0) */}
-                {compteurs.size > 0 && (
-                  <div className="absolute top-1.5 right-1.5 flex flex-col gap-0.5">
-                    {EMOJIS.map(emoji => {
-                      const n = compteurs.get(emoji) ?? 0
-                      if (n === 0) return null
-                      return (
-                        <span
-                          key={emoji}
-                          className="bg-black/50 rounded-full px-1 py-0.5 font-manrope text-[10px] text-white leading-none"
-                          aria-label={`${n} ${emoji}`}
-                        >
-                          {emoji} {n}
-                        </span>
-                      )
-                    })}
+                  {/* Auteur */}
+                  <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/60 to-transparent px-2 py-1.5">
+                    <div className="flex items-center gap-1">
+                      <AvatarCircle
+                        email={creation.profiles?.email ?? ''}
+                        nom={creation.profiles?.nom}
+                        avatarUrl={creation.profiles?.avatar_url}
+                        couleur={creation.profiles?.couleur}
+                        size="xs"
+                      />
+                      <span className="font-manrope text-white text-[10px] truncate">
+                        {nomAuteur}
+                      </span>
+                    </div>
                   </div>
-                )}
-              </button>
+
+                  {/* Compteurs de réactions (si > 0) */}
+                  {compteurs.size > 0 && (
+                    <div className="absolute top-1.5 right-1.5 flex flex-col gap-0.5">
+                      {EMOJIS.map(emoji => {
+                        const n = compteurs.get(emoji) ?? 0
+                        if (n === 0) return null
+                        return (
+                          <span
+                            key={emoji}
+                            className="bg-black/50 rounded-full px-1 py-0.5 font-manrope text-[10px] text-white leading-none"
+                            aria-label={`${n} ${emoji}`}
+                          >
+                            {emoji} {n}
+                          </span>
+                        )
+                      })}
+                    </div>
+                  )}
+                </button>
+              </li>
             )
           })}
-        </div>
+        </ul>
       )}
 
       {/* Panneau de détail */}
@@ -374,13 +382,14 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
             <p className="font-manrope text-xs text-ink-soft mb-2">Réagir :</p>
             <div className="flex gap-2 flex-wrap">
               {EMOJIS.map(emoji => {
+                const key = `${selected.id}-${emoji}`
                 const aReagi = utilisateurAReagi(selected, emoji)
                 const n = (selected.reactions_creations ?? []).filter(r => r.emoji === emoji).length
                 return (
                   <button
                     key={emoji}
                     onClick={() => toggleReaction(selected.id, emoji)}
-                    disabled={enCoursReaction}
+                    disabled={reactionEnCours === key}
                     aria-label={`${aReagi ? 'Retirer' : 'Ajouter'} la réaction ${emoji}${n > 0 ? ` (${n})` : ''}`}
                     aria-pressed={aReagi}
                     className={`flex items-center gap-1 px-3 py-1.5 rounded-full font-manrope text-sm font-medium transition-colors disabled:opacity-50 ${
@@ -405,7 +414,7 @@ export default function CoinSouvenir({ userId, onPublished }: CoinSouvenirProps)
               aria-label="Publier cette création sur le mur familial"
               title={
                 selected.author_id !== userId
-                  ? 'Seul l\'auteur peut publier'
+                  ? "Seul l'auteur peut publier"
                   : 'Publier sur le mur familial'
               }
               className="flex items-center gap-1.5 bg-azur text-white font-manrope text-sm font-medium px-4 py-2 rounded-xl hover:opacity-90 transition-opacity disabled:opacity-40"
