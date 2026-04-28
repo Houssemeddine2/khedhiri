@@ -94,6 +94,7 @@ export default function MotCard({ defi, currentUserId, onRepondu }: Props) {
             className="flex-1 rounded-xl border border-terracotta/20 bg-cream px-3 py-2 font-manrope text-sm text-ink focus:outline-none focus:ring-2 focus:ring-terracotta/40"
           />
           <button
+            type="button"
             onClick={handleVerifier}
             disabled={isLoading || !tentative.trim()}
             className="px-4 py-2 rounded-full bg-azur text-white font-manrope font-semibold text-sm hover:bg-azur-deep disabled:opacity-40 transition-colors"

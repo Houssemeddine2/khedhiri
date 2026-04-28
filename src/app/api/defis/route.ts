@@ -15,6 +15,16 @@ function photoUrl(path: string | null): string | null {
   return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/defis/${path}`
 }
 
+type RawReponse = {
+  id: string
+  defi_id: string
+  auteur_id: string
+  contenu: string
+  photo_path: string | null
+  correct: boolean | null
+  created_at: string
+}
+
 export async function GET() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
@@ -30,7 +40,7 @@ export async function GET() {
 
   const defis = (rows ?? []).map(row => {
     const auteur = membreById(row.auteur_id)
-    const reponses = ((row.reponses_defis as any[]) ?? []).map(r => {
+    const reponses = ((row.reponses_defis as RawReponse[]) ?? []).map(r => {
       const rAuteur = membreById(r.auteur_id)
       return {
         id: r.id,

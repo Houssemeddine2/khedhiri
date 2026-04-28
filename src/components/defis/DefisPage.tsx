@@ -14,12 +14,16 @@ interface Props {
 export default function DefisPage({ userId }: Props) {
   const [defis, setDefis] = useState<Defi[]>([])
   const [showCreer, setShowCreer] = useState(false)
+  const [erreurChargement, setErreurChargement] = useState<string | null>(null)
 
   const loadDefis = useCallback(async () => {
     const res = await fetch('/api/defis')
     if (res.ok) {
       const { defis: data } = await res.json()
       setDefis(data)
+      setErreurChargement(null)
+    } else {
+      setErreurChargement('Impossible de charger les défis')
     }
   }, [])
 
@@ -44,6 +48,7 @@ export default function DefisPage({ userId }: Props) {
         <div className="flex items-center justify-between mb-6">
           <h1 className="font-fraunces text-2xl text-ink">Défis & Mots 🎯</h1>
           <button
+            type="button"
             onClick={() => setShowCreer(v => !v)}
             className="px-4 py-2 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep transition-colors"
           >
@@ -58,7 +63,9 @@ export default function DefisPage({ userId }: Props) {
           />
         )}
 
-        {defis.length === 0 && !showCreer ? (
+        {erreurChargement && defis.length === 0 && !showCreer ? (
+          <p role="alert" className="font-manrope text-sm text-red-600 text-center mt-8">{erreurChargement}</p>
+        ) : defis.length === 0 && !showCreer ? (
           <p className="font-caveat text-center text-ink-soft text-xl mt-16">
             Pas encore de défi… soyez créatifs ! 🎯
           </p>

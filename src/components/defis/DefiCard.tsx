@@ -104,6 +104,7 @@ export default function DefiCard({ defi, currentUserId, onRepondu }: Props) {
               </span>
             </label>
             <button
+              type="button"
               onClick={handleSubmit}
               disabled={isLoading || (!contenu.trim() && !photo)}
               className="ml-auto px-4 py-1.5 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep disabled:opacity-40 transition-colors"

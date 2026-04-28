@@ -62,6 +62,7 @@ export default function CreerDefi({ onCree, onAnnuler }: Props) {
         {(['defi', 'mot'] as const).map(t => (
           <button
             key={t}
+            type="button"
             role="radio"
             aria-checked={type === t}
             onClick={() => handleTypeChange(t)}
@@ -119,12 +120,14 @@ export default function CreerDefi({ onCree, onAnnuler }: Props) {
 
       <div className="flex gap-2">
         <button
+          type="button"
           onClick={onAnnuler}
           className="flex-1 py-2 rounded-full border border-terracotta/20 font-manrope text-sm text-ink-soft hover:bg-sand transition-colors"
         >
           Annuler
         </button>
         <button
+          type="button"
           onClick={handlePublier}
           disabled={isLoading || !canSubmit}
           className="flex-1 py-2 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep disabled:opacity-40 transition-colors"
