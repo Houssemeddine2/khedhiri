@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
+import { createClient as createServiceClient } from '@supabase/supabase-js'
 
 export async function GET() {
   const supabase = await createClient()
@@ -24,8 +25,6 @@ export async function POST(request: Request) {
   const file = formData.get('file') as File | null
   if (!file) return NextResponse.json({ error: 'Fichier manquant' }, { status: 400 })
 
-  // Upload via service role directement dans le bucket 'media'
-  const { createClient: createServiceClient } = await import('@supabase/supabase-js')
   const service = createServiceClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!
