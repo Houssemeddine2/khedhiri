@@ -2,7 +2,7 @@
 
 import { useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { MEMBRES } from '@/lib/membres'
+import { membreById } from '@/lib/membres'
 import type { LettrePapa } from '@/types/lettre'
 import LettreEditor from './LettreEditor'
 
@@ -16,13 +16,16 @@ export default function LettreListePapa({ lettres }: LettreListePapaProps) {
   const [editingLettre, setEditingLettre] = useState<LettrePapa | null>(null)
   const [deletingId, setDeletingId] = useState<string | null>(null)
 
-  const membreNom = (id: string) => MEMBRES.find(m => m.id === id)?.nom ?? id
-
   async function handleDelete(id: string) {
     if (!confirm('Supprimer cette lettre définitivement ?')) return
     setDeletingId(id)
     try {
-      await fetch(`/api/lettres/${id}`, { method: 'DELETE' })
+      const res = await fetch(`/api/lettres/${id}`, { method: 'DELETE' })
+      if (!res.ok) {
+        const data = await res.json() as { error?: string }
+        alert(data.error ?? 'Erreur lors de la suppression')
+        return
+      }
       router.refresh()
     } finally {
       setDeletingId(null)
@@ -65,12 +68,13 @@ export default function LettreListePapa({ lettres }: LettreListePapaProps) {
                       </span>
                     </div>
                     <p className="font-manrope text-xs text-ink-soft mt-1">
-                      Pour {membreNom(l.destinataire_id)} · s&apos;ouvre le {new Date(l.unlock_at).toLocaleDateString('fr-FR', { dateStyle: 'long' })}
+                      Pour {membreById(l.destinataire_id)?.nom ?? l.destinataire_id} · s&apos;ouvre le {new Date(l.unlock_at).toLocaleDateString('fr-FR', { dateStyle: 'long' })}
                     </p>
                   </div>
                   <div className="flex items-center gap-3">
                     <button
                       onClick={() => { setEditingLettre(l); setShowEditor(true) }}
+                      aria-label={`Modifier « ${l.titre} »`}
                       className="font-manrope text-xs text-ink-soft hover:text-terracotta transition-colors"
                     >
                       Modifier
@@ -78,6 +82,7 @@ export default function LettreListePapa({ lettres }: LettreListePapaProps) {
                     <button
                       onClick={() => handleDelete(l.id)}
                       disabled={deletingId === l.id}
+                      aria-label={`Supprimer « ${l.titre} »`}
                       className="font-manrope text-xs text-terracotta hover:underline disabled:opacity-50"
                     >
                       Supprimer
