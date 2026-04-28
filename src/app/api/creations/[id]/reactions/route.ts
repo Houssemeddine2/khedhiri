@@ -32,6 +32,7 @@ export async function POST(
     .select('id')
     .eq('creation_id', id)
     .eq('membre_id', user.id)
+    .eq('emoji', emoji)
     .maybeSingle()
 
   if (existing) {

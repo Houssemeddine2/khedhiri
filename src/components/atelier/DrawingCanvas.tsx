@@ -44,6 +44,8 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   const [isSaving, setIsSaving] = useState(false)
   const [coloriageActif, setColoriageActif] = useState<string | null>(null)
   const [tamponActif, setTamponActif] = useState<string | null>(null)
+  const [erreurSauvegarde, setErreurSauvegarde] = useState<string | null>(null)
+  const derniereTouchRef = useRef<{ x: number; y: number } | null>(null)
 
   // Initialise le canvas avec un fond blanc au premier montage
   useEffect(() => {
@@ -128,7 +130,16 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   function onMouseUp() { isDrawingRef.current = false }
 
   function onTouchStart(e: React.TouchEvent<HTMLCanvasElement>) {
-    if (tamponActif) return  // laisse le navigateur synthétiser onClick pour les tampons
+    if (tamponActif) {
+      // Mémoriser la position du toucher pour placer le tampon dans onTouchEnd
+      const rect = canvasRef.current!.getBoundingClientRect()
+      const t = e.touches[0]
+      derniereTouchRef.current = {
+        x: (t.clientX - rect.left) * (canvasRef.current!.width / rect.width),
+        y: (t.clientY - rect.top) * (canvasRef.current!.height / rect.height),
+      }
+      return
+    }
     e.preventDefault()
     const { x, y } = getPos(e.touches[0].clientX, e.touches[0].clientY)
     const ctx = applyCtx()
@@ -146,7 +157,18 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
     ctx.stroke()
   }
 
-  function onTouchEnd() { isDrawingRef.current = false }
+  function onTouchEnd() {
+    isDrawingRef.current = false
+    if (tamponActif && derniereTouchRef.current) {
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      ctx.font = '40px serif'
+      ctx.fillText(tamponActif, derniereTouchRef.current.x - 20, derniereTouchRef.current.y + 15)
+      derniereTouchRef.current = null
+    }
+  }
 
   function handleClear() {
     setColoriageActif(null)
@@ -159,6 +181,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
 
   async function handleSave() {
     const canvas = canvasRef.current!
+    setErreurSauvegarde(null)
     setIsSaving(true)
     canvas.toBlob(async (blob) => {
       if (!blob) { setIsSaving(false); return }
@@ -170,7 +193,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
         handleClear()
         onSaved()
       } catch (err) {
-        console.error('Erreur sauvegarde dessin:', err)
+        setErreurSauvegarde(err instanceof Error ? err.message : 'Erreur lors de la sauvegarde')
       } finally {
         setIsSaving(false)
       }
@@ -318,6 +341,12 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
           {isSaving ? 'Enregistrement…' : 'Partager mon dessin ✨'}
         </button>
       </div>
+
+      {erreurSauvegarde && (
+        <p role="alert" className="font-manrope text-sm text-terracotta mt-1">
+          ⚠️ {erreurSauvegarde}
+        </p>
+      )}
     </div>
   )
 }

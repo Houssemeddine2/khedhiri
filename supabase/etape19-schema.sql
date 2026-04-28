@@ -11,7 +11,7 @@ CREATE TABLE IF NOT EXISTS reactions_creations (
   membre_id    UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   emoji        TEXT NOT NULL CHECK (emoji IN ('❤️', '😍', '🎉')),
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now(),
-  UNIQUE (creation_id, membre_id)
+  UNIQUE (creation_id, membre_id, emoji)
 );
 
 ALTER TABLE reactions_creations ENABLE ROW LEVEL SECURITY;
