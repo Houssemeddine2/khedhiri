@@ -16,6 +16,7 @@ export default function BibliothequeVocaux({ vocaux, onVocauxChange }: Props) {
   const [blob, setBlob] = useState<Blob | null>(null)
   const [dureeSec, setDureeSec] = useState<number>(0)
   const [isUploading, setIsUploading] = useState(false)
+  const [erreur, setErreur] = useState<string | null>(null)
 
   const handleRecorded = (b: Blob, d: number) => {
     setBlob(b)
@@ -25,27 +26,43 @@ export default function BibliothequeVocaux({ vocaux, onVocauxChange }: Props) {
   const handleAjouter = async () => {
     if (!blob || !titre.trim()) return
     setIsUploading(true)
+    setErreur(null)
+    try {
+      const fd = new FormData()
+      fd.append('audio', new File([blob], 'vocal.webm', { type: 'audio/webm' }))
+      fd.append('titre', titre.trim())
+      fd.append('duree_sec', String(dureeSec))
 
-    const fd = new FormData()
-    fd.append('audio', new File([blob], 'vocal.webm', { type: 'audio/webm' }))
-    fd.append('titre', titre.trim())
-    fd.append('duree_sec', String(dureeSec))
-
-    const res = await fetch('/api/calins/vocaux', { method: 'POST', body: fd })
-    setIsUploading(false)
-
-    if (res.ok) {
-      setShowForm(false)
-      setTitre('')
-      setBlob(null)
-      setDureeSec(0)
-      onVocauxChange()
+      const res = await fetch('/api/calins/vocaux', { method: 'POST', body: fd })
+      if (!res.ok) {
+        const data = await res.json().catch(() => ({}))
+        setErreur(data.error ?? 'Erreur lors de l\'enregistrement')
+      } else {
+        setShowForm(false)
+        setTitre('')
+        setBlob(null)
+        setDureeSec(0)
+        onVocauxChange()
+      }
+    } catch {
+      setErreur('Impossible de contacter le serveur')
+    } finally {
+      setIsUploading(false)
     }
   }
 
-  const handleSupprimer = async (id: string) => {
-    const res = await fetch(`/api/calins/vocaux/${id}`, { method: 'DELETE' })
-    if (res.ok) onVocauxChange()
+  const handleSupprimer = async (id: string, titreVocal: string) => {
+    if (!window.confirm(`Supprimer le vocal « ${titreVocal} » ? Cette action est irréversible.`)) return
+    try {
+      const res = await fetch(`/api/calins/vocaux/${id}`, { method: 'DELETE' })
+      if (res.ok) {
+        onVocauxChange()
+      } else {
+        setErreur('Impossible de supprimer ce vocal')
+      }
+    } catch {
+      setErreur('Impossible de contacter le serveur')
+    }
   }
 
   return (
@@ -53,6 +70,10 @@ export default function BibliothequeVocaux({ vocaux, onVocauxChange }: Props) {
       <h2 id="biblio-titre" className="font-fraunces text-xl text-ink mb-3">
         Ma bibliothèque de vocaux
       </h2>
+
+      {erreur && (
+        <p role="alert" className="text-xs text-terracotta font-manrope mb-2">{erreur}</p>
+      )}
 
       {vocaux.length === 0 && !showForm && (
         <p className="text-ink-soft font-manrope text-sm mb-3">
@@ -66,7 +87,7 @@ export default function BibliothequeVocaux({ vocaux, onVocauxChange }: Props) {
             <div className="flex items-center justify-between">
               <span className="font-manrope font-semibold text-ink text-sm">{v.titre}</span>
               <button
-                onClick={() => handleSupprimer(v.id)}
+                onClick={() => handleSupprimer(v.id, v.titre)}
                 aria-label={`Supprimer « ${v.titre} »`}
                 className="text-ink-soft hover:text-terracotta transition-colors text-xs"
               >
