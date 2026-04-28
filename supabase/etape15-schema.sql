@@ -2,11 +2,11 @@
 -- Étape 15 : Bouton câlin virtuel + bibliothèque de vocaux préparés
 
 -- Bibliothèque de vocaux préparés
-CREATE TABLE vocaux (
+CREATE TABLE IF NOT EXISTS vocaux (
   id           UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   proprietaire_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   titre        TEXT NOT NULL,
-  vocal_path   TEXT NOT NULL,
+  vocal_path   TEXT NOT NULL UNIQUE,
   duree_sec    INT,
   created_at   TIMESTAMPTZ NOT NULL DEFAULT now()
 );
@@ -19,7 +19,7 @@ CREATE POLICY "Propriétaire gère ses vocaux"
   WITH CHECK (auth.uid() = proprietaire_id);
 
 -- Câlins envoyés
-CREATE TABLE calins (
+CREATE TABLE IF NOT EXISTS calins (
   id              UUID PRIMARY KEY DEFAULT gen_random_uuid(),
   expediteur_id   UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
   destinataire_id UUID NOT NULL REFERENCES auth.users(id) ON DELETE CASCADE,
