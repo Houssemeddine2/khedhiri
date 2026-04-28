@@ -7,6 +7,7 @@ import DefiCard from './DefiCard'
 import MotCard from './MotCard'
 import CreerDefi from './CreerDefi'
 import LecturesSection from '@/components/lectures/LecturesSection'
+import QuizSection from '@/components/quiz/QuizSection'
 
 interface Props {
   userId: string
@@ -83,6 +84,10 @@ export default function DefisPage({ userId }: Props) {
         <hr className="my-8 border-terracotta/20" />
 
         <LecturesSection userId={userId} />
+
+        <hr className="my-8 border-terracotta/20" />
+
+        <QuizSection userId={userId} />
       </div>
     </div>
   )

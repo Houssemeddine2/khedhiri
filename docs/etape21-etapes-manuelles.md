@@ -23,6 +23,8 @@ Exécuter chaque fichier dans l'ordre. Coller le contenu dans SQL Editor → Run
 | 10 | `supabase/etape14-schema.sql` | `lettres` |
 | 11 | `supabase/etape15-schema.sql` | `vocaux`, `calins` |
 | 12 | `supabase/etape16-schema.sql` | `defis`, `reponses_defis` |
+| 13 | `supabase/etape17-schema.sql` | `lectures`, `avancement_lecture`, `questions_lecture`, `reponses_questions` |
+| 14 | `supabase/etape18-schema.sql` | `quizzes`, `questions_quiz`, `sessions_quiz`, `reponses_quiz` |
 
 ---
 
@@ -104,4 +106,4 @@ Sur le PC de Lisbonne :
 
 ---
 
-*Dernière mise à jour : Avril 2026 — après étape 16*
+*Dernière mise à jour : Avril 2026 — après étape 18*
