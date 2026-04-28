@@ -53,7 +53,9 @@ function QuestionFormRow({
 
   const removeOption = (i: number) => {
     const opts = question.options.filter((_, idx) => idx !== i)
-    onChange({ ...question, options: opts })
+    const removedValue = question.options[i].trim()
+    const bonne_reponse = question.bonne_reponse === removedValue ? '' : question.bonne_reponse
+    onChange({ ...question, options: opts, bonne_reponse })
   }
 
   return (
