@@ -44,7 +44,7 @@ export default function CalinsRecus({ calins, onCalinsChange }: Props) {
                 className="bg-jasmine rounded-2xl p-4 flex flex-col gap-3"
               >
                 <div className="flex items-center gap-3">
-                  <div className={`w-9 h-9 rounded-full ${av.couleurBg} flex items-center justify-center text-white font-bold text-base flex-shrink-0`}>
+                  <div aria-hidden="true" className={`w-9 h-9 rounded-full ${av.couleurBg} flex items-center justify-center text-white font-bold text-base flex-shrink-0`}>
                     {av.initiale}
                   </div>
                   <div className="flex-1 min-w-0">
@@ -69,7 +69,10 @@ export default function CalinsRecus({ calins, onCalinsChange }: Props) {
                     onClick={() => handleEcouter(c)}
                     className="self-start flex items-center gap-2 px-4 py-2 rounded-full bg-terracotta text-white font-manrope font-semibold text-sm hover:bg-terracotta-deep transition-colors"
                   >
-                    ▶ Écouter
+                    <svg width="12" height="12" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                      <path d="M3 1L14 8L3 15V1Z" fill="white" />
+                    </svg>
+                    Écouter
                   </button>
                 )}
               </div>
