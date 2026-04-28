@@ -109,7 +109,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 - [x] **Étape 11** — **🤖 Tuteur IA local Nour** (Ollama + Cloudflare Tunnel, adapté à chaque fille)
 - [x] **Étape 12** — **🌳 Arbre généalogique** (page /famille, MembreCard/MembreDetail, AjouterMembre, anecdotes)
 - [x] **Étape 13** — **✉️ Client email IMAP/SMTP** (OVH Perso, proxy API serveur, chiffrement AES-256-GCM, Papa complet + filles simplifié)
-- [ ] **Étape 14** — Lettres pour leurs 18 ans (messages à déblocage temporel)
+- [x] **Étape 14** — **📜 Lettres pour leurs 18 ans** (verrou temporel côté serveur, compte à rebours, notif push, cron Vercel)
 
 ### Enrichissement (étapes 15-20)
 - [ ] **Étape 15** — Bouton câlin virtuel + messages vocaux préenregistrés
@@ -294,6 +294,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 11 | Tuteur IA "Nour" : Ollama local (Lisbonne) + Cloudflare Tunnel, API routes /api/tutor, abstraction provider (local/Claude/Mistral), TuteurChat enfants + TuteurPapa dashboard, TuteurWidget flottant, sessions/messages Supabase, garde-fous enfants |
 | Avril 2026 | Étape 12 | Arbre généalogique : table famille_membres + famille_anecdotes, composants MembreCard/MembreDetail/AjouterMembre/AjouterAnecdote, page /famille, actions Server-side |
 | Avril 2026 | Étape 13 | Client email IMAP/SMTP OVH Perso : table email_credentials (AES-256-GCM, clé HMAC-SHA256 par user), API proxy routes (setup/messages/message/[uid]/send), composants EmailSetup/EmailInbox/EmailMessage/EmailCompose, page /email, icône navbar |
+| Avril 2026 | Étape 14 | Lettres pour leurs 18 ans : table lettres (RLS, verrou temporel serveur), API routes (GET+POST /api/lettres, GET+PATCH+DELETE /api/lettres/[id]), cron Vercel 7h UTC, composants LettreEditor/LettreCard/LettreDetail/LettreListePapa/LettreListeFille, page /lettres, badge navbar |
 
 ---
 
