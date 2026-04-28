@@ -114,7 +114,7 @@ export default function AjouterLecture({ onCree, onAnnuler }: Props) {
           {isSearching && <p className="font-manrope text-xs text-ink-soft mt-1">Recherche…</p>}
           {showResultats && (
             <div className="absolute top-full left-0 right-0 z-10 bg-jasmine border border-terracotta/20 rounded-xl mt-1 overflow-hidden shadow-lg">
-              {resultats.map((r, i) => (
+              {resultats.slice(0, 5).map((r, i) => (
                 <button
                   key={i}
                   type="button"
