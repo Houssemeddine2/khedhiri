@@ -118,6 +118,7 @@ Application web familiale privée, temps-réel, installable comme PWA, accessibl
 - [ ] **Étape 18** — Quiz et jeux personnalisés
 - [ ] **Étape 19** — Atelier créatif (dessin)
 - [ ] **Étape 20** — Personnalisation finale (thèmes saisons, rituels)
+- [ ] **Étape 21** — Étapes manuelles consolidées (Supabase SQL + buckets Storage en attente)
 
 > 🔥 **Après l'étape 5, l'app est déjà vivante et utilisable au quotidien.**
 
