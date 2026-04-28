@@ -6,6 +6,7 @@ import type { Defi } from '@/types/defi'
 import DefiCard from './DefiCard'
 import MotCard from './MotCard'
 import CreerDefi from './CreerDefi'
+import LecturesSection from '@/components/lectures/LecturesSection'
 
 interface Props {
   userId: string
@@ -78,6 +79,10 @@ export default function DefisPage({ userId }: Props) {
             )
           )
         )}
+
+        <hr className="my-8 border-terracotta/20" />
+
+        <LecturesSection userId={userId} />
       </div>
     </div>
   )
