@@ -3,6 +3,10 @@
     {
       "path": "/api/pronote/sync",
       "schedule": "0 * * * *"
+    },
+    {
+      "path": "/api/lettres/cron",
+      "schedule": "0 7 * * *"
     }
   ]
 }
