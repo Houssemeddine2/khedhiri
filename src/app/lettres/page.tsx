@@ -40,7 +40,7 @@ export default async function LettresPage() {
     <>
       <NavBar />
       <main>
-        <LettreListeFille lettres={(lettresFille ?? []) as LettreMetadata[]} />
+        <LettreListeFille lettres={(lettresFille ?? []) as LettreMetadata[]} userEmail={user.email ?? ''} />
       </main>
     </>
   )

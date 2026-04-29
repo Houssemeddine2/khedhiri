@@ -2,44 +2,46 @@
 
 import { useState, useRef, useTransition } from 'react'
 import { createTextPost, uploadMedia, createMediaPost } from '@/app/actions/posts'
+import { avatarFromEmail } from '@/lib/avatar'
+import AvatarCircle from '@/components/ui/AvatarCircle'
 import VoiceRecorder from './VoiceRecorder'
 
 interface ComposeBarProps {
   onPosted: () => void
+  userEmail: string
+  userProfile?: { nom: string | null; avatar_url: string | null; couleur: string | null }
 }
 
-export default function ComposeBar({ onPosted }: ComposeBarProps) {
+export default function ComposeBar({ onPosted, userEmail, userProfile }: ComposeBarProps) {
   const [text, setText] = useState('')
   const [error, setError] = useState<string | null>(null)
+  const [expanded, setExpanded] = useState(false)
   const [mode, setMode] = useState<'text' | 'voice'>('text')
   const [isPending, startTransition] = useTransition()
   const [isUploadingPhoto, setIsUploadingPhoto] = useState(false)
   const fileInputRef = useRef<HTMLInputElement>(null)
 
+  const { nom: avatarNom } = avatarFromEmail(userEmail)
+  const prenom = avatarNom.split(' ')[0]
+
   const handleSubmitText = () => {
     if (!text.trim() || isPending) return
-
     startTransition(async () => {
       try {
         await createTextPost(text.trim())
         setText('')
         setError(null)
+        setExpanded(false)
         onPosted()
-      } catch (err) {
-        console.error('Erreur lors de l\'envoi du message:', err)
-        setError('Impossible d\'envoyer le message. Réessaie.')
+      } catch {
+        setError('Impossible d\'envoyer. Réessaie.')
       }
     })
-  }
-
-  const handlePhotoClick = () => {
-    fileInputRef.current?.click()
   }
 
   const handleFileSelected = async (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0]
     if (!file) return
-
     setIsUploadingPhoto(true)
     try {
       const formData = new FormData()
@@ -48,8 +50,7 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
       await createMediaPost('photo', mediaUrl)
       setError(null)
       onPosted()
-    } catch (err) {
-      console.error('Impossible d\'envoyer la photo:', err)
+    } catch {
       setError('Impossible d\'envoyer la photo. Réessaie.')
     } finally {
       if (fileInputRef.current) fileInputRef.current.value = ''
@@ -57,106 +58,112 @@ export default function ComposeBar({ onPosted }: ComposeBarProps) {
     }
   }
 
-  // Mode vocal
   if (mode === 'voice') {
     return (
-      <div className="sticky bottom-0 left-0 right-0 bg-cream border-t border-terracotta/20 p-4">
-        <div className="mx-auto max-w-lg">
-          <VoiceRecorder
-            onDone={() => { setMode('text'); onPosted() }}
-            onCancel={() => setMode('text')}
-            onRecorded={async (url, dur) => { await createMediaPost('audio', url, dur) }}
-          />
-        </div>
+      <div className="bg-white rounded-xl shadow-sm mb-3 p-4 animate-scale-in">
+        <VoiceRecorder
+          onDone={() => { setMode('text'); setExpanded(false); onPosted() }}
+          onCancel={() => { setMode('text'); setExpanded(false) }}
+          onRecorded={async (url, dur) => { await createMediaPost('audio', url, dur) }}
+        />
       </div>
     )
   }
 
-  // Mode texte (défaut)
   return (
-    <div className="sticky bottom-0 left-0 right-0 bg-cream border-t border-terracotta/20 p-4">
-      <div className="mx-auto max-w-lg">
-        {/* Textarea */}
-        <textarea
-          value={text}
-          onChange={(e) => {
-            setText(e.target.value)
-            setError(null)
-          }}
-          placeholder="Dis quelque chose à la famille ♡"
-          rows={3}
-          aria-label="Dis quelque chose à la famille"
-          className="w-full px-4 py-3 font-manrope text-ink bg-white border border-terracotta/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-terracotta/50 resize-none"
+    <div className="bg-white rounded-xl shadow-sm mb-3">
+      {/* Ligne principale : avatar + champ */}
+      <div className="flex items-center gap-3 px-4 py-3">
+        <AvatarCircle
+          email={userEmail}
+          nom={userProfile?.nom}
+          avatarUrl={userProfile?.avatar_url}
+          couleur={userProfile?.couleur}
+          size="md"
         />
 
-        {/* Message d'erreur */}
-        {error && <p className="text-sm text-red-500 mt-1">{error}</p>}
+        {!expanded ? (
+          /* Placeholder cliquable */
+          <button
+            onClick={() => setExpanded(true)}
+            className="flex-1 text-left px-4 py-2.5 bg-sand rounded-full text-ink-soft text-[15px] hover:bg-sand-warm transition-colors min-h-[44px] cursor-text"
+          >
+            {prenom}, tu penses à quoi ?
+          </button>
+        ) : (
+          /* Textarea déployée */
+          <textarea
+            value={text}
+            onChange={e => { setText(e.target.value); setError(null) }}
+            placeholder="Dis quelque chose à la famille ♡"
+            rows={3}
+            autoFocus
+            aria-label="Dis quelque chose à la famille"
+            className="flex-1 px-4 py-2.5 bg-sand rounded-2xl text-ink text-[15px] leading-relaxed focus:outline-none focus:ring-2 focus:ring-terracotta/40 resize-none"
+          />
+        )}
+      </div>
 
-        {/* Boutons */}
-        <div className="flex items-center justify-between mt-3 gap-2">
-          {/* Photo et Mic à gauche */}
-          <div className="flex gap-2">
-            {/* Photo button */}
-            <button
-              onClick={handlePhotoClick}
-              disabled={isUploadingPhoto || isPending}
-              aria-label="Ajouter une photo"
-              className="p-2 rounded-lg hover:bg-terracotta/10 focus:outline-none focus:ring-2 focus:ring-terracotta/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {/* Icône appareil photo */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 text-terracotta"
-                aria-hidden="true"
-              >
-                <path d="M12 2c1.1 0 2 .9 2 2v1h4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2h4V4c0-1.1.9-2 2-2z" />
-                <circle cx="12" cy="12" r="4" fill="white" />
-              </svg>
-            </button>
+      {error && (
+        <p className="text-sm text-red-500 px-4 pb-2" role="alert">{error}</p>
+      )}
 
-            {/* Voice button */}
-            <button
-              onClick={() => setMode('voice')}
-              disabled={isPending || isUploadingPhoto}
-              aria-label="Enregistrement vocal"
-              className="p-2 rounded-lg hover:bg-terracotta/10 focus:outline-none focus:ring-2 focus:ring-terracotta/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
-            >
-              {/* Icône micro */}
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                viewBox="0 0 24 24"
-                fill="currentColor"
-                className="w-6 h-6 text-terracotta"
-                aria-hidden="true"
-              >
-                <path d="M12 1a4 4 0 0 1 4 4v6a4 4 0 0 1-8 0V5a4 4 0 0 1 4-4z" />
-                <path d="M19 10a1 1 0 1 0-2 0 5 5 0 0 1-10 0 1 1 0 1 0-2 0 7 7 0 0 0 6 6.93V20H9a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2h-2v-3.07A7 7 0 0 0 19 10z" />
-              </svg>
-            </button>
-          </div>
+      {/* Séparateur */}
+      <div className="mx-4 border-t border-sand" />
 
-          {/* Submit button à droite */}
+      {/* Boutons d'action */}
+      <div className="flex items-center px-2 py-1 gap-1">
+        {/* Photo */}
+        <button
+          onClick={() => fileInputRef.current?.click()}
+          disabled={isUploadingPhoto || isPending}
+          aria-label="Ajouter une photo"
+          className="flex flex-1 items-center justify-center gap-2 py-2 rounded-lg hover:bg-sand active:bg-sand-warm transition-colors text-ink-soft hover:text-olive min-h-[44px] text-sm font-medium disabled:opacity-40"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <rect x="3" y="3" width="18" height="18" rx="2"/>
+            <circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          {isUploadingPhoto ? 'Envoi…' : 'Photo'}
+        </button>
+
+        {/* Vocal */}
+        <button
+          onClick={() => { setMode('voice'); setExpanded(true) }}
+          disabled={isPending || isUploadingPhoto}
+          aria-label="Enregistrement vocal"
+          className="flex flex-1 items-center justify-center gap-2 py-2 rounded-lg hover:bg-sand active:bg-sand-warm transition-colors text-ink-soft hover:text-azur min-h-[44px] text-sm font-medium disabled:opacity-40"
+        >
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/>
+            <path d="M19 10v2a7 7 0 0 1-14 0v-2"/>
+            <line x1="12" y1="19" x2="12" y2="23"/>
+            <line x1="8" y1="23" x2="16" y2="23"/>
+          </svg>
+          Vocal
+        </button>
+
+        {/* Partager — visible seulement quand du texte est saisi */}
+        {expanded && text.trim() && (
           <button
             onClick={handleSubmitText}
-            disabled={!text.trim() || isPending || isUploadingPhoto}
-            className="px-4 py-2 font-manrope font-medium text-white bg-terracotta rounded-lg hover:bg-terracotta-deep focus:outline-none focus:ring-2 focus:ring-terracotta/50 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+            disabled={isPending}
+            className="flex flex-1 items-center justify-center py-2 rounded-lg bg-terracotta hover:bg-terracotta-deep active:scale-95 text-white min-h-[44px] text-sm font-semibold disabled:opacity-50 transition-all"
           >
-            {isPending ? 'Envoi...' : 'Partager'}
+            {isPending ? 'Envoi…' : 'Partager'}
           </button>
-        </div>
-
-        {/* Hidden file input */}
-        <input
-          ref={fileInputRef}
-          type="file"
-          accept="image/*"
-          onChange={handleFileSelected}
-          className="hidden"
-          aria-hidden="true"
-        />
+        )}
       </div>
+
+      <input
+        ref={fileInputRef}
+        type="file"
+        accept="image/*"
+        onChange={handleFileSelected}
+        className="hidden"
+        aria-hidden="true"
+      />
     </div>
   )
 }

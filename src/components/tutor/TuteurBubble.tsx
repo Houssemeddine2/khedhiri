@@ -29,7 +29,7 @@ export default function TuteurBubble({ message, prenom }: TuteurBubbleProps) {
         )}
         <p className="font-manrope text-sm leading-relaxed whitespace-pre-wrap">{message.content}</p>
         <p className={`font-manrope text-xs mt-1 ${isUser ? 'text-white/60' : 'text-ink-soft'}`}>
-          {isUser ? prenom : 'Nour'}
+          {isUser ? prenom : 'Sid Ahmed'}
         </p>
       </div>
     </div>

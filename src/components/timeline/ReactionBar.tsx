@@ -12,47 +12,42 @@ interface ReactionBarProps {
   currentUserId: string
 }
 
-export default function ReactionBar({
-  postId,
-  reactions,
-  currentUserId,
-}: ReactionBarProps) {
+export default function ReactionBar({ postId, reactions, currentUserId }: ReactionBarProps) {
   const [isPending, startTransition] = useTransition()
 
   const handleReaction = (emoji: string) => {
-    startTransition(async () => {
-      await toggleReaction(postId, emoji)
-    })
+    startTransition(async () => { await toggleReaction(postId, emoji) })
   }
 
-  const getReactionCount = (emoji: string) => {
-    return reactions.filter((r) => r.emoji === emoji).length
-  }
-
-  const hasUserReacted = (emoji: string) => {
-    return reactions.some((r) => r.user_id === currentUserId && r.emoji === emoji)
-  }
+  const getCount = (emoji: string) => reactions.filter(r => r.emoji === emoji).length
+  const hasReacted = (emoji: string) => reactions.some(r => r.user_id === currentUserId && r.emoji === emoji)
 
   return (
-    <div className="flex flex-wrap gap-2">
-      {EMOJIS.map((emoji) => {
-        const count = getReactionCount(emoji)
-        const isActive = hasUserReacted(emoji)
+    <div className="flex items-center justify-around gap-1 bg-sand rounded-xl p-2">
+      {EMOJIS.map(emoji => {
+        const count = getCount(emoji)
+        const active = hasReacted(emoji)
 
         return (
           <button
             key={emoji}
             onClick={() => handleReaction(emoji)}
             disabled={isPending}
-            aria-label={`${isActive ? 'Retirer' : 'Ajouter'} la réaction ${emoji}${count > 0 ? ` (${count})` : ''}`}
-            className={`rounded-full px-3 py-1 text-sm transition-colors ${
-              isActive
-                ? 'bg-terracotta text-white'
-                : 'bg-jasmine text-ink-soft'
-            } disabled:opacity-50`}
+            aria-label={`${active ? 'Retirer' : 'Ajouter'} la réaction ${emoji}${count > 0 ? ` (${count})` : ''}`}
+            aria-pressed={active}
+            className={`flex flex-col items-center gap-0.5 p-2 rounded-xl transition-all min-w-[52px] min-h-[52px] justify-center
+              disabled:opacity-50
+              ${active
+                ? 'bg-terracotta/15 scale-110'
+                : 'hover:bg-sand-warm hover:scale-110 active:scale-95'
+              }`}
           >
-            <span>{emoji}</span>
-            {count > 0 && <span className="ml-1 text-xs">{count}</span>}
+            <span className="text-2xl leading-none">{emoji}</span>
+            {count > 0 && (
+              <span className={`text-[11px] font-semibold leading-none ${active ? 'text-terracotta' : 'text-ink-soft'}`}>
+                {count}
+              </span>
+            )}
           </button>
         )
       })}

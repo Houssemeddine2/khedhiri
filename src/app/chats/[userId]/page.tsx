@@ -18,33 +18,38 @@ export default async function ChatPage({
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
 
-  // Vérification que l'autre utilisateur est un membre connu et pas soi-même
   const autreUser = membreById(userId)
   if (!autreUser || autreUser.id === user.id) notFound()
 
   const convId = conversationId(user.id, userId)
 
-  const { data: initialMessages } = await supabase
-    .from('messages')
-    .select('*')
-    .eq('conversation_id', convId)
-    .order('created_at', { ascending: true })
-    .limit(100)
+  const [messagesResult, otherProfileResult] = await Promise.all([
+    supabase
+      .from('messages')
+      .select('*')
+      .eq('conversation_id', convId)
+      .order('created_at', { ascending: true })
+      .limit(100),
+    supabase
+      .from('profiles')
+      .select('nom, avatar_url, couleur')
+      .eq('id', userId)
+      .single(),
+  ])
 
   const currentUser: CurrentUser = { id: user.id, email: user.email ?? '' }
-  const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!
-  const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
 
   return (
     <>
       <NavBar />
       <ChatView
-        initialMessages={(initialMessages ?? []) as Message[]}
+        initialMessages={(messagesResult.data ?? []) as Message[]}
         currentUser={currentUser}
         otherUser={autreUser}
+        otherProfile={otherProfileResult.data}
         conversationId={convId}
-        supabaseUrl={supabaseUrl}
-        supabaseAnonKey={supabaseAnonKey}
+        supabaseUrl={process.env.NEXT_PUBLIC_SUPABASE_URL!}
+        supabaseAnonKey={process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!}
       />
     </>
   )

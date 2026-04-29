@@ -200,7 +200,7 @@ Tous voient la timeline familiale. Chats individuels visibles uniquement par les
 - **Langue** : commentaires, noms de variables, textes UI en **français**
 - **Composants** : un par fichier, PascalCase
 - **Routing** : Next.js App Router
-- **Style** : Tailwind uniquement
+- **Style** : Tailwind uniquement — ⚠️ **Tailwind v4 : les classes arbitraires complexes (`h-[calc(...)]`, `md:pl-[260px]`) ne génèrent pas toujours le CSS. Utiliser des inline styles pour les valeurs calc() et les offsets de sidebar.**
 - **Responsive** : mobile-first (les filles utilisent surtout téléphone/tablette)
 - **Accessibilité** : labels sur inputs, contraste AAA, navigation clavier
 - **Secrets** : jamais dans Git, toujours dans `.env.local`
@@ -301,6 +301,7 @@ C:\KHEDHIRI\                                ← Dossier racine sur le PC de Hous
 | Avril 2026 | Étape 17 | Lectures partagées : tables lectures + avancement_lecture + questions_lecture + reponses_questions, API routes GET+POST /api/lectures + /api/lectures/[id]/avancement + /api/lectures/[id]/questions + /api/lectures/[id]/reponses, composants LectureCard/LecturePage/LectureDetail/QuestionForm, page /lectures |
 | Avril 2026 | Étape 18 | Quiz et jeux personnalisés : tables quizzes + questions_quiz + sessions_quiz + reponses_session, API routes CRUD quizzes + sessions, composants QuizCard/JouerQuiz/CreerQuiz/QuizSection, page /jeux, intégration DefisPage avec section quiz |
 | Avril 2026 | Étape 19 | Atelier créatif enrichi : 6 coloriages SVG (public/coloriages/), tampons emoji (placés sur canvas), table reactions_creations (UNIQUE par creation+membre+emoji, RLS, Realtime), API GET+POST /api/creations + /api/creations/[id]/reactions (toggle) + /api/creations/[id]/publier, composants DrawingCanvas enrichi + CoinSouvenir (galerie partagée, upload photo, réactions, publier sur mur) + AtelierPageClient (2 onglets), PR #5 |
+| Avril 2026 | Refonte layout & polish | **Bug critique Tailwind v4** : les classes arbitraires `md:pl-[260px]` et `h-[calc(...)]` ne génèrent pas de CSS → remplacées par inline styles. Sidebar gauche fixe (260px, bg-cream) visible sur toutes les pages. Suppression NavTabs (icônes milieu NavBar). Nouveau composants : LeftSidebar / SidebarNav / LogoutButton / VideoCallOverlay / ChangerMotDePasse. API /api/admin/change-password (service_role). SUPABASE_SERVICE_ROLE_KEY configurée dans .env.local. Timer compte à rebours 18 ans dans /lettres (Sandra : 14/11/2031, Sarah : 14/12/2035). Tuteur redesigné : header gradient olive→terracotta, "Professeur Sid Ahmed", carte bienvenue avec 6 matières cliquables. Appels vidéo WebRTC (VideoCallOverlay, ChatPanel). FK posts→profiles ajoutée manuellement dans Supabase. |
 
 ---
 

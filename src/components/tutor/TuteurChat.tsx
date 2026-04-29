@@ -163,55 +163,98 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
     }
   }
 
+  const MATIERES = [
+    { icon: '➕', label: 'Maths' },
+    { icon: '📖', label: 'Français' },
+    { icon: '🌙', label: 'Arabe' },
+    { icon: '🔬', label: 'Sciences' },
+    { icon: '🌍', label: 'Histoire-Géo' },
+    { icon: '📐', label: 'Géométrie' },
+  ]
+
   return (
-    <div className="flex flex-col h-[calc(100vh-4rem)]">
-      {/* Header Sid Ahmed */}
-      <div className="bg-white border-b border-sand-warm px-4 py-3 flex items-center justify-between flex-shrink-0">
-        <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-full bg-olive flex items-center justify-center text-white text-lg font-bold font-manrope">
-            S
+    <div className="flex flex-col" style={{ height: 'calc(100vh - 56px)' }}>
+
+      {/* ── Header redesigné ── */}
+      <div className="flex-shrink-0" style={{ background: 'linear-gradient(135deg, #6B7B3F 0%, #5a6835 60%, #C5563D 100%)' }}>
+        <div className="px-4 py-4 flex items-center justify-between">
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-2xl flex items-center justify-center flex-shrink-0" style={{ background: 'rgba(255,255,255,0.25)', boxShadow: 'inset 0 0 0 1.5px rgba(255,255,255,0.4)' }}>
+              <span className="font-fraunces font-bold text-white text-xl drop-shadow">S</span>
+            </div>
+            <div>
+              <p className="font-fraunces font-bold text-white text-[17px] leading-tight drop-shadow-sm">Professeur Sid Ahmed</p>
+              <p className="font-manrope text-white/80 text-xs mt-0.5">
+                {isSpeaking ? '🔊 En train de parler…' : '● Disponible pour t\'aider'}
+              </p>
+            </div>
           </div>
-          <div>
-            <p className="font-fraunces font-bold text-ink">Sid Ahmed</p>
-            <p className="font-manrope text-xs text-ink-soft">
-              Ton tuteur • {isSpeaking ? '🔊 Parle…' : 'Toujours là pour t\'aider'}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={handleNewSession}
-            disabled={isPending}
-            className="font-manrope text-xs text-terracotta hover:text-terracotta-deep"
-          >
-            + Nouvelle session
-          </button>
-          {supported && (
+          <div className="flex items-center gap-2">
             <button
-              onClick={toggleModeVocal}
-              aria-label={modeVocal ? 'Passer en mode texte' : 'Passer en mode vocal'}
-              className={`font-manrope text-xs px-2 py-1 rounded-full border transition-colors ${
-                modeVocal
-                  ? 'bg-terracotta text-white border-terracotta'
-                  : 'text-ink-soft border-sand-warm hover:border-terracotta'
-              }`}
+              onClick={handleNewSession}
+              disabled={isPending}
+              className="font-manrope text-xs text-white/80 hover:text-white bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-full transition-colors"
             >
-              {modeVocal ? '🎤 Vocal' : '⌨️ Texte'}
+              + Nouvelle session
             </button>
-          )}
+            {supported && (
+              <button
+                onClick={toggleModeVocal}
+                aria-label={modeVocal ? 'Passer en mode texte' : 'Passer en mode vocal'}
+                className={`font-manrope text-xs px-3 py-1.5 rounded-full transition-colors ${
+                  modeVocal
+                    ? 'bg-white text-olive font-semibold'
+                    : 'bg-white/10 text-white/80 hover:bg-white/20'
+                }`}
+              >
+                {modeVocal ? '🎤 Vocal' : '⌨️ Texte'}
+              </button>
+            )}
+          </div>
         </div>
       </div>
 
-      {/* Messages */}
+      {/* ── Zone messages ── */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 bg-cream">
-        {/* Message de bienvenue si aucun message */}
+
+        {/* État vide : carte de bienvenue + matières */}
         {messages.length === 0 && (
-          <div className="flex gap-2 justify-start">
-            <div className="w-8 h-8 rounded-full bg-olive flex items-center justify-center text-white text-sm font-bold flex-shrink-0">S</div>
-            <div className="max-w-[80%] rounded-2xl px-4 py-2.5 bg-white border border-sand-warm rounded-bl-sm">
-              <p className="font-manrope text-sm leading-relaxed">{accueil}</p>
-              <p className="font-manrope text-xs text-ink-soft mt-1">Sid Ahmed</p>
+          <div className="flex flex-col items-center gap-5 pt-6 pb-4">
+            {/* Carte de bienvenue */}
+            <div className="w-full max-w-lg bg-white rounded-3xl shadow-sm border border-sand-warm overflow-hidden">
+              <div className="px-6 py-5 flex items-center gap-4" style={{ background: 'linear-gradient(120deg, #6B7B3F15 0%, #C5563D10 100%)' }}>
+                <div className="w-14 h-14 rounded-2xl bg-olive flex items-center justify-center flex-shrink-0">
+                  <span className="font-fraunces font-bold text-white text-2xl">S</span>
+                </div>
+                <div>
+                  <p className="font-fraunces italic text-[18px] text-ink leading-tight">
+                    Bonjour {prenom} !
+                  </p>
+                  <p className="font-manrope text-sm text-ink-soft mt-0.5">
+                    Montre-moi ton cahier ou pose ta question.
+                  </p>
+                </div>
+              </div>
+              <div className="px-6 pb-5 pt-4">
+                <p className="font-manrope text-xs text-ink-soft mb-3 uppercase tracking-wide font-semibold">Je peux t'aider en :</p>
+                <div className="grid grid-cols-3 gap-2">
+                  {MATIERES.map(m => (
+                    <button
+                      key={m.label}
+                      onClick={() => { setInput(`Aide-moi en ${m.label}`); textareaRef.current?.focus() }}
+                      className="flex items-center gap-2 px-3 py-2 rounded-xl bg-sand hover:bg-sand-warm border border-transparent hover:border-terracotta/20 transition-all text-left group"
+                    >
+                      <span className="text-base">{m.icon}</span>
+                      <span className="font-manrope text-xs text-ink group-hover:text-terracotta font-medium">{m.label}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
             </div>
+
+            <p className="font-caveat text-sm text-ink-soft/60">
+              📷 Tu peux aussi m'envoyer une photo de ton cahier !
+            </p>
           </div>
         )}
 
@@ -221,7 +264,7 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
 
         {loading && (
           <div className="flex gap-2 justify-start">
-            <div className="w-8 h-8 rounded-full bg-olive flex items-center justify-center text-white text-sm font-bold flex-shrink-0">S</div>
+            <div className="w-8 h-8 rounded-xl bg-olive flex items-center justify-center text-white text-sm font-bold flex-shrink-0">S</div>
             <div className="bg-white border border-sand-warm rounded-2xl rounded-bl-sm px-4 py-3 flex gap-1 items-center">
               <span className="w-2 h-2 bg-olive/60 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
               <span className="w-2 h-2 bg-olive/60 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
@@ -234,14 +277,14 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
 
       {/* Photo en attente */}
       {pendingImageUrl && (
-        <div className="px-4 py-2 bg-white border-t border-sand-warm flex items-center gap-2">
+        <div className="px-4 py-2 bg-white border-t border-sand-warm flex items-center gap-2 flex-shrink-0">
           <img src={pendingImageUrl} alt="Photo à envoyer" className="h-12 rounded-lg object-cover" />
           <button onClick={() => setPendingImageUrl(null)} className="text-ink-soft hover:text-red-500 text-xs font-manrope">Retirer</button>
         </div>
       )}
 
-      {/* Barre de saisie */}
-      <div className="bg-white border-t border-sand-warm px-3 py-2 flex-shrink-0">
+      {/* ── Barre de saisie ── */}
+      <div className="bg-white border-t border-sand-warm px-3 py-3 flex-shrink-0">
         <div className="flex items-end gap-2">
           {modeVocal ? (
             <>
@@ -254,19 +297,18 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
               <button
                 onClick={() => { stopSpeaking(); toggleModeVocal() }}
                 aria-label="Mode texte"
-                className="flex-shrink-0 w-9 h-9 rounded-full bg-sand border border-sand-warm flex items-center justify-center text-ink-soft"
+                className="flex-shrink-0 w-10 h-10 rounded-xl bg-sand border border-sand-warm flex items-center justify-center text-ink-soft"
               >
                 ⌨️
               </button>
             </>
           ) : (
             <>
-              {/* Photo */}
               <button
                 onClick={() => fileRef.current?.click()}
                 disabled={uploadingPhoto}
                 aria-label="Envoyer une photo du cahier"
-                className="flex-shrink-0 w-9 h-9 rounded-full bg-sand flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors disabled:opacity-50"
+                className="flex-shrink-0 w-10 h-10 rounded-xl bg-sand hover:bg-sand-warm flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors disabled:opacity-50"
               >
                 {uploadingPhoto ? (
                   <svg className="animate-spin w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
@@ -281,23 +323,21 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
               </button>
               <input ref={fileRef} type="file" accept="image/*" capture="environment" className="hidden" onChange={handlePhotoChange} />
 
-              {/* Zone de texte */}
               <textarea
                 ref={textareaRef}
                 value={input}
                 onChange={e => setInput(e.target.value)}
                 onKeyDown={handleKeyDown}
-                placeholder="Pose ta question à Sid Ahmed…"
+                placeholder="Pose ta question à Professeur Sid Ahmed…"
                 rows={1}
-                className="flex-1 rounded-2xl border border-sand-warm bg-sand px-3 py-2 font-manrope text-sm text-ink resize-none focus:outline-none focus:ring-2 focus:ring-olive max-h-28 overflow-y-auto"
+                className="flex-1 rounded-2xl border border-sand-warm bg-sand px-4 py-2.5 font-manrope text-sm text-ink resize-none focus:outline-none focus:ring-2 focus:ring-olive/40 max-h-28 overflow-y-auto"
               />
 
-              {/* Envoyer */}
               <button
                 onClick={handleSend}
                 disabled={loading || (!input.trim() && !pendingImageUrl)}
                 aria-label="Envoyer"
-                className="flex-shrink-0 w-9 h-9 rounded-full bg-olive flex items-center justify-center text-white hover:bg-olive/80 transition-colors disabled:opacity-40"
+                className="flex-shrink-0 w-10 h-10 rounded-xl bg-olive flex items-center justify-center text-white hover:bg-olive/80 transition-colors disabled:opacity-40"
               >
                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <line x1="22" y1="2" x2="11" y2="13"/>
@@ -309,7 +349,7 @@ export default function TuteurChat({ prenom, sessions: initialSessions, initialM
                 <button
                   onClick={toggleModeVocal}
                   aria-label="Passer en mode vocal"
-                  className="flex-shrink-0 w-9 h-9 rounded-full bg-sand border border-sand-warm flex items-center justify-center text-ink-soft hover:text-terracotta"
+                  className="flex-shrink-0 w-10 h-10 rounded-xl bg-sand border border-sand-warm flex items-center justify-center text-ink-soft hover:text-terracotta transition-colors"
                 >
                   🎤
                 </button>

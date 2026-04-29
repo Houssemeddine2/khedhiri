@@ -46,7 +46,7 @@ class OllamaProvider implements TutorProvider {
 class UnavailableProvider implements TutorProvider {
   async available() { return false }
   async chat() {
-    return 'Nour dort pour l\'instant 😴 Papa doit allumer le serveur à Lisbonne. Reviens un peu plus tard !'
+    return 'Sid Ahmed dort pour l\'instant 😴 Papa doit allumer le serveur à Lisbonne. Reviens un peu plus tard !'
   }
 }
 
