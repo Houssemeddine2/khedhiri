@@ -125,7 +125,13 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
     }
 
     conn.onconnectionstatechange = () => {
-      if (['disconnected', 'failed', 'closed'].includes(conn.connectionState)) cleanup()
+      if (conn.connectionState === 'failed') {
+        setCallError('Connexion échouée — vérifie ta connexion internet.')
+        cleanup()
+        setTimeout(() => setCallError(null), 6000)
+      } else if (['disconnected', 'closed'].includes(conn.connectionState)) {
+        cleanup()
+      }
     }
 
     localStreamRef.current?.getTracks().forEach(t => conn.addTrack(t, localStreamRef.current!))

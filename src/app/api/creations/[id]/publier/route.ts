@@ -34,7 +34,7 @@ export async function POST(
 
   const { error: postError } = await service.from('posts').insert({
     author_id: user.id,
-    type: 'image',
+    type: 'photo',
     media_url: creation.media_url,
     content: null,
   })
