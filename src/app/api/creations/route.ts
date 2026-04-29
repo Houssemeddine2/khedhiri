@@ -2,31 +2,18 @@ import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
 import { createClient as createServiceClient } from '@supabase/supabase-js'
 
-async function attachProfiles(supabase: Awaited<ReturnType<typeof createClient>>, rows: Record<string, unknown>[]) {
-  if (!rows.length) return rows
-  const authorIds = [...new Set(rows.map(r => r.author_id as string).filter(Boolean))]
-  const { data: profiles } = await supabase
-    .from('profiles')
-    .select('id, email, nom, avatar_url, couleur')
-    .in('id', authorIds)
-  const profileMap = Object.fromEntries((profiles ?? []).map(p => [p.id, p]))
-  return rows.map(r => ({ ...r, profiles: profileMap[r.author_id as string] ?? null }))
-}
-
 export async function GET() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) return NextResponse.json({ error: 'Non authentifié' }, { status: 401 })
 
-  const { data: creations, error } = await supabase
+  const { data, error } = await supabase
     .from('creations')
-    .select('*, reactions_creations(*)')
+    .select('*, profiles(email, nom, avatar_url, couleur), reactions_creations(*)')
     .order('created_at', { ascending: false })
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
-  const enriched = await attachProfiles(supabase, (creations ?? []) as Record<string, unknown>[])
-  return NextResponse.json(enriched)
+  return NextResponse.json(data ?? [])
 }
 
 export async function POST(request: Request) {
@@ -63,14 +50,12 @@ export async function POST(request: Request) {
 
   const { data: { publicUrl } } = service.storage.from('media').getPublicUrl(path)
 
-  const { data: created, error } = await service
+  const { data, error } = await service
     .from('creations')
     .insert({ author_id: user.id, media_url: publicUrl, source: 'upload', title: null })
-    .select('*, reactions_creations(*)')
+    .select('*, profiles(email, nom, avatar_url, couleur), reactions_creations(*)')
     .single()
 
   if (error) return NextResponse.json({ error: error.message }, { status: 500 })
-
-  const [enriched] = await attachProfiles(supabase, [created as Record<string, unknown>])
-  return NextResponse.json(enriched, { status: 201 })
+  return NextResponse.json(data, { status: 201 })
 }

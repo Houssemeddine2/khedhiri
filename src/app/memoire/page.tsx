@@ -19,21 +19,10 @@ export default async function MemoirePage() {
       .order('date_souvenir', { ascending: false }),
     supabase
       .from('creations')
-      .select('id, author_id, title, media_url, created_at')
+      .select('id, author_id, title, media_url, created_at, profiles(email, nom, avatar_url, couleur)')
       .eq('author_id', user.id)
       .order('created_at', { ascending: false }),
   ])
-
-  // Attacher manuellement le profil de l'auteur (pas de FK déclarée dans Supabase)
-  const { data: ownProfile } = await supabase
-    .from('profiles')
-    .select('id, email, nom, avatar_url, couleur')
-    .eq('id', user.id)
-    .single()
-  const creationsWithProfile = (creationsRes.data ?? []).map(c => ({
-    ...c,
-    profiles: ownProfile ?? null,
-  }))
 
   return (
     <>
@@ -47,7 +36,7 @@ export default async function MemoirePage() {
         </p>
         <MurSouvenirs
           souvenirs={(souvenirRes.data ?? []) as unknown as Souvenir[]}
-          creations={creationsWithProfile as unknown as Creation[]}
+          creations={(creationsRes.data ?? []) as unknown as Creation[]}
           currentUserId={user.id}
           isPapa={user.email === PAPA_EMAIL}
         />
