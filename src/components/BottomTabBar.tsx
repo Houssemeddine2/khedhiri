@@ -3,11 +3,15 @@
 import { usePathname } from 'next/navigation'
 import Link from 'next/link'
 import { useState } from 'react'
+import ChatFab from '@/components/chat/ChatFab'
+
+interface Member { id: string; nom: string; email: string }
 
 interface BottomTabBarProps {
   isPapa: boolean
   lettresBadge: number
   calinsBadge: number
+  members: Member[]
 }
 
 const MORE_ITEMS_BASE = [
@@ -25,7 +29,7 @@ const MORE_ITEMS_BASE = [
   { href: '/profil',     label: 'Mon profil',     icon: '👤' },
 ]
 
-export default function BottomTabBar({ isPapa, lettresBadge, calinsBadge }: BottomTabBarProps) {
+export default function BottomTabBar({ isPapa, lettresBadge, calinsBadge, members }: BottomTabBarProps) {
   const pathname = usePathname()
   const [moreOpen, setMoreOpen] = useState(false)
 
@@ -128,23 +132,8 @@ export default function BottomTabBar({ isPapa, lettresBadge, calinsBadge }: Bott
         </div>
       )}
 
-      {/* FAB — bouton créer, au-dessus de la barre */}
-      <Link
-        href="/atelier"
-        aria-label="Atelier créatif"
-        className="fixed md:hidden z-50 flex items-center justify-center rounded-full bg-terracotta text-white shadow-lg shadow-terracotta/40 active:scale-95 transition-transform"
-        style={{
-          width: 48,
-          height: 48,
-          bottom: 72,
-          right: 16,
-        }}
-      >
-        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" aria-hidden="true">
-          <line x1="12" y1="5" x2="12" y2="19"/>
-          <line x1="5" y1="12" x2="19" y2="12"/>
-        </svg>
-      </Link>
+      {/* FAB — ouvrir un chat */}
+      <ChatFab members={members} />
 
       {/* Barre de navigation du bas */}
       <nav

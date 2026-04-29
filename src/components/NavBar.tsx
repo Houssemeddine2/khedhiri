@@ -134,6 +134,7 @@ export default async function NavBar() {
         isPapa={isPapa}
         lettresBadge={lettresBadge}
         calinsBadge={calinsBadge}
+        members={autresMembres.map(m => ({ id: m.id, nom: profileMap[m.id]?.nom ?? m.email.split('@')[0], email: m.email }))}
       />
     </>
   )
