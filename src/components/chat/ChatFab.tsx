@@ -28,8 +28,8 @@ export default function ChatFab({ members }: { members: Member[] }) {
             aria-hidden="true"
           />
           <div
-            className="fixed md:hidden z-50 flex flex-col gap-2"
-            style={{ bottom: 128, right: 12 }}
+            className="above-tab-bar fixed md:hidden z-50 flex flex-col gap-2"
+            style={{ right: 12, marginBottom: 56 }}
           >
             {members.map(m => {
               const girl = isGirl(m.email)
@@ -66,11 +66,10 @@ export default function ChatFab({ members }: { members: Member[] }) {
       <button
         onClick={() => members.length === 1 ? handleMember(members[0].id) : setOpen(v => !v)}
         aria-label="Ouvrir un chat"
-        className="fixed md:hidden z-50 flex items-center justify-center rounded-full active:scale-95 transition-transform"
+        className="above-tab-bar fixed md:hidden z-50 flex items-center justify-center rounded-full active:scale-95 transition-transform"
         style={{
           width: 48,
           height: 48,
-          bottom: 72,
           right: 16,
           background: 'linear-gradient(135deg, #C5563D, #e8735a)',
           boxShadow: '0 4px 16px rgba(197,86,61,.5)',

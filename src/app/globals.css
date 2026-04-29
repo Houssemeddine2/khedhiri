@@ -95,13 +95,23 @@ button, a, [role="button"] {
 
 /* Conteneur principal — 1 seul rendu, padding adaptatif */
 .app-content {
-  padding-bottom: 64px; /* barre de navigation mobile */
+  padding-bottom: calc(3.5rem + env(safe-area-inset-bottom) + 0.5rem);
   max-width: 100%;
   overflow-x: hidden;
 }
 @media (min-width: 768px) {
   .app-content {
-    padding-left: 260px; /* sidebar gauche desktop */
+    padding-left: 260px;
     padding-bottom: 0;
+  }
+}
+
+/* Position au-dessus de la barre de navigation mobile (safe-area incluse) */
+.above-tab-bar {
+  bottom: calc(3.5rem + env(safe-area-inset-bottom) + 1rem);
+}
+@media (min-width: 768px) {
+  .above-tab-bar {
+    bottom: 1.25rem;
   }
 }

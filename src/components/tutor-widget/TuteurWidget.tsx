@@ -67,7 +67,7 @@ export default function TuteurWidget({ prenom }: TuteurWidgetProps) {
         <button
           onClick={() => setOpen(true)}
           aria-label="Ouvrir Sid Ahmed, le tuteur"
-          className="fixed bottom-5 right-5 z-40 w-14 h-14 rounded-full bg-olive shadow-lg flex items-center justify-center text-white text-2xl hover:scale-110 transition-transform"
+          className="above-tab-bar fixed right-[72px] md:right-5 z-40 w-14 h-14 rounded-full bg-olive shadow-lg flex items-center justify-center text-white text-2xl hover:scale-110 transition-transform"
         >
           🎓
         </button>
@@ -75,7 +75,9 @@ export default function TuteurWidget({ prenom }: TuteurWidgetProps) {
 
       {/* Mini chat */}
       {open && (
-        <div className="fixed bottom-5 right-5 z-40 w-80 max-h-[70vh] bg-white rounded-2xl shadow-2xl border border-sand-warm flex flex-col overflow-hidden">
+        <div className="above-tab-bar fixed right-2 md:right-5 z-40 max-h-[65vh] bg-white rounded-2xl shadow-2xl border border-sand-warm flex flex-col overflow-hidden"
+          style={{ width: 'min(320px, calc(100vw - 1rem))' }}
+        >
           {/* Header */}
           <div className="bg-olive px-4 py-3 flex items-center justify-between">
             <div className="flex items-center gap-2">
