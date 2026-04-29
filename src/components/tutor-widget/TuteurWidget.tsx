@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useRef, useTransition, useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { createTutorSession } from '@/app/actions/tutor'
 import { useSpeech } from '@/hooks/useSpeech'
 import VocalButton from '@/components/tutor/VocalButton'
@@ -15,6 +16,7 @@ interface TuteurWidgetProps {
 }
 
 export default function TuteurWidget({ prenom }: TuteurWidgetProps) {
+  const pathname = usePathname()
   const [open, setOpen] = useState(false)
   const [sessionId, setSessionId] = useState<string | null>(null)
   const [messages, setMessages] = useState<WidgetMessage[]>([])
@@ -27,6 +29,9 @@ export default function TuteurWidget({ prenom }: TuteurWidgetProps) {
   useEffect(() => {
     if (transcript) setInput(transcript)
   }, [transcript])
+
+  // Pas de widget flottant sur la page chat ni tuteur
+  if (pathname.startsWith('/chats/') || pathname.startsWith('/tuteur')) return null
 
   const accueil = `Salut ${prenom} ! 😊 Une question sur tes devoirs ?`
 

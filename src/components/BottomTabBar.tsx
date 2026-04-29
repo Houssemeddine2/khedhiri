@@ -33,6 +33,9 @@ export default function BottomTabBar({ isPapa, lettresBadge, calinsBadge, member
   const pathname = usePathname()
   const [moreOpen, setMoreOpen] = useState(false)
 
+  // Sur la page chat, pas de barre de nav ni de FAB — le chat a son propre header
+  if (pathname.startsWith('/chats/')) return null
+
   const moreItems = isPapa
     ? MORE_ITEMS_BASE.filter(i => i.href !== '/journal')
     : MORE_ITEMS_BASE
