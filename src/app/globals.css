@@ -38,6 +38,8 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   min-height: 100dvh;
+  overflow-x: hidden;
+  max-width: 100vw;
 }
 
 /* Touch optimization — empêche le délai 300ms */
@@ -91,7 +93,15 @@ button, a, [role="button"] {
 .animate-scale-in { animation: scaleIn 0.2s  ease-out; }
 .animate-pulse-gentle { animation: pulseGentle 1.8s ease-in-out infinite; }
 
-/* Padding bas pour la barre de navigation mobile fixe */
-@media (max-width: 767px) {
-  body { padding-bottom: 60px; }
+/* Conteneur principal — 1 seul rendu, padding adaptatif */
+.app-content {
+  padding-bottom: 64px; /* barre de navigation mobile */
+  max-width: 100%;
+  overflow-x: hidden;
+}
+@media (min-width: 768px) {
+  .app-content {
+    padding-left: 260px; /* sidebar gauche desktop */
+    padding-bottom: 0;
+  }
 }

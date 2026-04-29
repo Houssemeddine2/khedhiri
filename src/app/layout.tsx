@@ -60,12 +60,8 @@ export default function RootLayout({
             <aside className="hidden md:flex flex-col fixed top-14 left-0 w-[260px] bg-cream border-r border-sand/60 z-40" style={{ height: 'calc(100vh - 56px)', overflow: 'hidden' }}>
               <LeftSidebar />
             </aside>
-            {/* Contenu décalé de la largeur de la sidebar */}
-            <div className="hidden md:block" style={{ paddingLeft: '260px' }}>
-              {children}
-            </div>
-            {/* Mobile : padding bottom pour la barre de navigation fixe */}
-            <div className="md:hidden" style={{ paddingBottom: 56 }}>
+            {/* Contenu unique — padding desktop/mobile via CSS */}
+            <div className="app-content">
               {children}
             </div>
             <TuteurWidgetWrapper />
