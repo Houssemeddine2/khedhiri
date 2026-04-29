@@ -1,4 +1,4 @@
-const CACHE_NAME = 'khedhiri-v1'
+const CACHE_NAME = 'khedhiri-v3'
 const PRECACHE_URLS = ['/', '/login']
 
 // Installation : mise en cache de l'app shell
@@ -21,13 +21,15 @@ self.addEventListener('activate', (event) => {
   self.clients.claim()
 })
 
-// Fetch : network-first pour les pages, cache-first pour les assets statiques
+// Fetch : network-first pour les pages de l'app uniquement
 self.addEventListener('fetch', (event) => {
   const url = new URL(event.request.url)
 
-  // Ignorer les requêtes non-GET et les APIs externes
+  // Ignorer les requêtes non-GET
   if (event.request.method !== 'GET') return
-  if (!url.origin.includes('khedhiri.me') && !url.hostname === 'localhost') return
+  // Ignorer les requêtes vers des domaines externes (Supabase, fonts, etc.)
+  if (url.hostname !== 'khedhiri.me' && url.hostname !== 'www.khedhiri.me' && url.hostname !== 'localhost') return
+  // Ignorer les API routes et les assets Next.js (gérés par leur propre cache)
   if (url.pathname.startsWith('/api/') || url.pathname.startsWith('/_next/')) return
 
   event.respondWith(
@@ -39,7 +41,7 @@ self.addEventListener('fetch', (event) => {
         }
         return response
       })
-      .catch(() => caches.match(event.request)),
+      .catch(() => caches.match(event.request).then(cached => cached ?? new Response('Hors ligne', { status: 503 }))),
   )
 })
 
