@@ -15,7 +15,7 @@ export default function SidebarNav({ sections, isPapa }: { sections: NavSection[
   }
 
   return (
-    <nav aria-label="Navigation principale">
+    <nav aria-label="Navigation latérale">
       {/* Accueil */}
       <div className="mb-1">
         <Link

@@ -64,7 +64,7 @@ export default function NavTabs() {
   return (
     <nav
       className="hidden md:flex items-stretch h-14 flex-1 justify-center max-w-xl"
-      aria-label="Navigation principale"
+      aria-label="Onglets de navigation"
     >
       {TABS.map(tab => {
         const isActive = tab.href === '/'
