@@ -3,6 +3,8 @@
 import { useEffect } from 'react'
 import { createBrowserClient } from '@supabase/ssr'
 
+// Maintient last_seen_at à jour dans profiles (historique)
+// La présence temps réel est gérée par PresenceContext
 export default function PresenceTracker() {
   useEffect(() => {
     const supabase = createBrowserClient(
@@ -11,7 +13,6 @@ export default function PresenceTracker() {
     )
 
     let userId: string | null = null
-    let presenceChannel: ReturnType<typeof supabase.channel> | null = null
     let interval: ReturnType<typeof setInterval> | null = null
 
     async function init() {
@@ -19,20 +20,10 @@ export default function PresenceTracker() {
       userId = data.user?.id ?? null
       if (!userId) return
 
-      // Marque la connexion dans profiles
       await supabase.from('profiles')
         .update({ last_seen_at: new Date().toISOString() })
         .eq('id', userId)
 
-      // Présence Realtime
-      presenceChannel = supabase.channel('online-users')
-      presenceChannel.subscribe(async (status) => {
-        if (status === 'SUBSCRIBED' && userId) {
-          await presenceChannel!.track({ user_id: userId })
-        }
-      })
-
-      // Mise à jour last_seen_at toutes les 90 secondes
       interval = setInterval(async () => {
         if (userId) {
           await supabase.from('profiles')
@@ -43,11 +34,7 @@ export default function PresenceTracker() {
     }
 
     init()
-
-    return () => {
-      if (interval) clearInterval(interval)
-      if (presenceChannel) supabase.removeChannel(presenceChannel)
-    }
+    return () => { if (interval) clearInterval(interval) }
   }, [])
 
   return null

@@ -5,6 +5,7 @@ import TuteurWidgetWrapper from '@/components/tutor-widget/TuteurWidgetWrapper'
 import PresenceTracker from '@/components/PresenceTracker'
 import { ChatProvider } from '@/contexts/ChatContext'
 import { CallProvider } from '@/contexts/CallContext'
+import { PresenceProvider } from '@/contexts/PresenceContext'
 import ChatPanel from '@/components/chat/ChatPanel'
 import IncomingCallAlert from '@/components/call/IncomingCallAlert'
 import ActiveCallBar from '@/components/call/ActiveCallBar'
@@ -53,6 +54,7 @@ export default function RootLayout({
     >
       <body className="font-manrope antialiased">
         <CallProvider>
+          <PresenceProvider>
           <ChatProvider>
             <PushRegistrar />
             <PresenceTracker />
@@ -70,6 +72,7 @@ export default function RootLayout({
             <ActiveCallBar />
             <VideoCallOverlay />
           </ChatProvider>
+          </PresenceProvider>
         </CallProvider>
       </body>
     </html>
