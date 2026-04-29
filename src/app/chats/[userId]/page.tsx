@@ -2,7 +2,6 @@ import { notFound, redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import { membreById } from '@/lib/membres'
 import { conversationId } from '@/lib/conversation'
-import NavBar from '@/components/NavBar'
 import ChatView from '@/components/chat/ChatView'
 import type { Message } from '@/types/chat'
 import type { CurrentUser } from '@/types/post'
@@ -41,7 +40,7 @@ export default async function ChatPage({
 
   return (
     <>
-      <NavBar />
+      {/* Pas de NavBar sur le chat — ChatView a son propre header avec retour + appels */}
       <ChatView
         initialMessages={(messagesResult.data ?? []) as Message[]}
         currentUser={currentUser}

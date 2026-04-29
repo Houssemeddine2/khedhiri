@@ -75,17 +75,18 @@ export default function ChatView({
     <div className="chat-fullpage">
 
       {/* ── Header Messenger ─────────────────────────────────── */}
-      <div className="flex-shrink-0 bg-white border-b border-sand shadow-sm">
-        <div className="h-14 px-3 flex items-center gap-3 max-w-3xl mx-auto">
-          {/* Bouton retour */}
+      <div className="flex-shrink-0 bg-white border-b border-sand shadow-sm" style={{ paddingTop: 'env(safe-area-inset-top)' }}>
+        <div className="h-14 px-2 flex items-center gap-2 max-w-3xl mx-auto">
+          {/* Bouton retour bien visible */}
           <Link
             href="/"
-            className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-sand transition-colors text-ink-soft flex-shrink-0"
+            className="flex items-center gap-1 px-2 h-9 rounded-xl hover:bg-sand transition-colors text-terracotta font-semibold flex-shrink-0"
             aria-label="Retour à l'accueil"
           >
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
               <path d="M19 12H5M12 5l-7 7 7 7"/>
             </svg>
+            <span className="text-sm">Retour</span>
           </Link>
 
           {/* Avatar + nom */}

@@ -118,18 +118,20 @@ button, a, [role="button"] {
   }
 }
 
-/* Page chat plein écran — ignore le padding de app-content */
+/* Page chat plein écran — pas de NavBar, couvre tout l'écran */
 .chat-fullpage {
   position: fixed;
-  top: 56px;
+  top: 0;
   left: 0;
   right: 0;
   bottom: 0;
   display: flex;
   flex-direction: column;
+  background: white;
 }
 @media (min-width: 768px) {
   .chat-fullpage {
     left: 260px;
+    top: 56px;
   }
 }
