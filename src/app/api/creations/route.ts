@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server'
 import { createClient } from '@/lib/supabase/server'
-import { createClient as createServiceClient } from '@supabase/supabase-js'
 
 type Profile = { id: string; email: string; nom: string; avatar_url?: string | null; couleur?: string | null }
 
@@ -47,11 +46,6 @@ export async function POST(request: Request) {
   const file = formData.get('file') as File | null
   if (!file) return NextResponse.json({ error: 'Fichier manquant' }, { status: 400 })
 
-  const service = createServiceClient(
-    process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
-  )
-
   const MAX_BYTES = 10 * 1024 * 1024
   if (file.size > MAX_BYTES) {
     return NextResponse.json({ error: 'Fichier trop volumineux (max 10 Mo)' }, { status: 413 })
@@ -64,15 +58,16 @@ export async function POST(request: Request) {
   const ALLOWED_MIME = new Set(['image/jpeg', 'image/png', 'image/gif', 'image/webp'])
   const safeContentType = ALLOWED_MIME.has(file.type) ? file.type : 'image/jpeg'
 
-  const path = `uploads/${user.id}/${Date.now()}.${ext}`
-  const { error: uploadError } = await service.storage
+  // Même format de chemin que uploadMedia (posts.ts) pour que la RLS storage fonctionne
+  const path = `${user.id}/${crypto.randomUUID()}.${ext}`
+  const { error: uploadError } = await supabase.storage
     .from('media')
     .upload(path, file, { contentType: safeContentType })
   if (uploadError) return NextResponse.json({ error: uploadError.message }, { status: 500 })
 
-  const { data: { publicUrl } } = service.storage.from('media').getPublicUrl(path)
+  const { data: { publicUrl } } = supabase.storage.from('media').getPublicUrl(path)
 
-  const { data: creation, error: insertError } = await service
+  const { data: creation, error: insertError } = await supabase
     .from('creations')
     .insert({ author_id: user.id, media_url: publicUrl, source: 'upload', title: null })
     .select('*, reactions_creations(*)')
