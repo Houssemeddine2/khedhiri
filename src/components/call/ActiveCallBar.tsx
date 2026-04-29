@@ -18,8 +18,14 @@ function useDuration(startedAt: Date | null) {
 }
 
 export default function ActiveCallBar() {
-  const { status, callType, peer, startedAt, muted, hangUp, toggleMute } = useCall()
+  const { status, callType, peer, startedAt, muted, hangUp, toggleMute, callError } = useCall()
   const duration = useDuration(status === 'active' ? startedAt : null)
+
+  if (callError) return (
+    <div className="fixed top-4 left-1/2 -translate-x-1/2 z-[200] bg-red-500 text-white px-4 py-2 rounded-full shadow-lg text-sm font-medium animate-fade-in">
+      {callError}
+    </div>
+  )
 
   if ((status !== 'calling' && status !== 'active') || callType === 'video') return null
 

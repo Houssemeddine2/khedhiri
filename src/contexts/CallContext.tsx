@@ -29,6 +29,7 @@ interface CallContextValue {
   videoEnabled: boolean
   localStream:  MediaStream | null
   remoteStream: MediaStream | null
+  callError:    string | null
   initiateCall: (peerId: string, peerName: string, type?: CallType) => void
   acceptCall:   () => void
   rejectCall:   () => void
@@ -37,15 +38,22 @@ interface CallContextValue {
   toggleVideo:  () => void
 }
 
+// STUN + TURN publics (openrelay.metered.ca) — indispensables pour traverser le CGNAT
+// des réseaux mobiles tunisiens / portugais
 const ICE: RTCIceServer[] = [
   { urls: 'stun:stun.l.google.com:19302' },
   { urls: 'stun:stun1.l.google.com:19302' },
-  { urls: 'stun:stun.cloudflare.com:3478' },
+  { urls: 'stun:openrelay.metered.ca:80' },
+  { urls: 'turn:openrelay.metered.ca:80',          username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turn:openrelay.metered.ca:443',         username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turn:openrelay.metered.ca:443?transport=tcp', username: 'openrelayproject', credential: 'openrelayproject' },
+  { urls: 'turns:openrelay.metered.ca:443',        username: 'openrelayproject', credential: 'openrelayproject' },
 ]
 
 const CallContext = createContext<CallContextValue>({
   status: 'idle', callType: null, peer: null, startedAt: null,
   muted: false, videoEnabled: false, localStream: null, remoteStream: null,
+  callError: null,
   initiateCall: () => {}, acceptCall: () => {}, rejectCall: () => {},
   hangUp: () => {}, toggleMute: () => {}, toggleVideo: () => {},
 })
@@ -62,6 +70,7 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
   const [videoEnabled, setVideoEnabled] = useState(false)
   const [localStream,  setLocalStream]  = useState<MediaStream | null>(null)
   const [remoteStream, setRemoteStream] = useState<MediaStream | null>(null)
+  const [callError,    setCallError]    = useState<string | null>(null)
 
   const supabase      = useRef(createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -199,6 +208,7 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
   // ── Actions ─────────────────────────────────────────────
   const initiateCall = useCallback(async (peerId: string, peerName: string, type: CallType = 'audio') => {
     if (status !== 'idle') return
+    setCallError(null)
     try {
       await getMedia(type)
       const conn  = createPeer(peerId)
@@ -228,8 +238,15 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
         if (lastOffer.current) send({ type: 'hangup', from: myId.current!, to: lastOffer.current.peerId })
         cleanup()
       }, 45_000)
-    } catch {
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : ''
+      if (msg.includes('Permission') || msg.includes('NotAllowed') || msg.includes('NotFound')) {
+        setCallError('Accès au microphone refusé. Autorise le micro dans les réglages du navigateur.')
+      } else {
+        setCallError('Impossible de démarrer l\'appel. Vérifie ta connexion.')
+      }
       cleanup()
+      setTimeout(() => setCallError(null), 5000)
     }
   }, [status, getMedia, createPeer, send, cleanup])
 
@@ -272,7 +289,7 @@ export function CallProvider({ children }: { children: React.ReactNode }) {
   return (
     <CallContext.Provider value={{
       status, callType, peer, startedAt, muted, videoEnabled,
-      localStream, remoteStream,
+      localStream, remoteStream, callError,
       initiateCall, acceptCall, rejectCall, hangUp, toggleMute, toggleVideo,
     }}>
       {children}
