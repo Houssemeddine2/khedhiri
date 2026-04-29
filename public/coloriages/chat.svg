@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Tête du chat -->
+  <ellipse cx="320" cy="220" rx="130" ry="120" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Oreille gauche -->
+  <polygon points="200,140 175,70 240,120" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Oreille droite -->
+  <polygon points="440,140 465,70 400,120" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Intérieur oreille gauche -->
+  <polygon points="204,135 186,87 235,118" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Intérieur oreille droite -->
+  <polygon points="436,135 454,87 405,118" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Oeil gauche -->
+  <ellipse cx="265" cy="200" rx="28" ry="32" fill="none" stroke="#2A1F18" stroke-width="3"/>
+  <ellipse cx="265" cy="200" rx="12" ry="20" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <!-- Oeil droit -->
+  <ellipse cx="375" cy="200" rx="28" ry="32" fill="none" stroke="#2A1F18" stroke-width="3"/>
+  <ellipse cx="375" cy="200" rx="12" ry="20" fill="none" stroke="#2A1F18" stroke-width="2"/>
+  <!-- Nez -->
+  <path d="M310,250 Q320,260 330,250 Q320,245 310,250 Z" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Bouche -->
+  <path d="M320,258 Q305,275 295,270" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M320,258 Q335,275 345,270" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Moustaches gauches -->
+  <line x1="280" y1="250" x2="175" y2="235" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="280" y1="258" x2="172" y2="258" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="280" y1="266" x2="176" y2="278" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Moustaches droites -->
+  <line x1="360" y1="250" x2="465" y2="235" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="360" y1="258" x2="468" y2="258" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <line x1="360" y1="266" x2="464" y2="278" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+</svg>

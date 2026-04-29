@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Corps du soleil -->
+  <circle cx="320" cy="190" r="80" fill="none" stroke="#2A1F18" stroke-width="3"/>
+  <!-- Visage souriant -->
+  <circle cx="295" cy="178" r="8" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+  <circle cx="345" cy="178" r="8" fill="none" stroke="#2A1F18" stroke-width="2.5"/>
+  <path d="M295,205 Q320,230 345,205" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round"/>
+  <!-- Rayon haut -->
+  <line x1="320" y1="100" x2="320" y2="60" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon bas -->
+  <line x1="320" y1="280" x2="320" y2="320" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon gauche -->
+  <line x1="230" y1="190" x2="190" y2="190" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon droite -->
+  <line x1="410" y1="190" x2="450" y2="190" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon haut-gauche -->
+  <line x1="256" y1="126" x2="228" y2="98" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon haut-droite -->
+  <line x1="384" y1="126" x2="412" y2="98" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon bas-gauche -->
+  <line x1="256" y1="254" x2="228" y2="282" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Rayon bas-droite -->
+  <line x1="384" y1="254" x2="412" y2="282" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Petits nuages décoratifs -->
+  <path d="M80,100 Q85,88 95,90 Q98,78 110,80 Q118,70 128,76 Q138,68 145,78 Q155,75 155,88 Q158,98 148,100 Z" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M470,280 Q475,268 485,270 Q488,258 500,260 Q508,250 518,256 Q528,248 535,258 Q545,255 545,268 Q548,278 538,280 Z" fill="none" stroke="#2A1F18" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>

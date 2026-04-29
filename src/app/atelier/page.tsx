@@ -1,18 +1,12 @@
 import { redirect } from 'next/navigation'
 import { createClient } from '@/lib/supabase/server'
 import NavBar from '@/components/NavBar'
-import AtelierClient from '@/components/atelier/AtelierClient'
-import type { Creation } from '@/types/creation'
+import AtelierPageClient from '@/components/atelier/AtelierPageClient'
 
 export default async function AtelierPage() {
   const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   if (!user) redirect('/login')
-
-  const { data: creations } = await supabase
-    .from('creations')
-    .select('id, author_id, title, media_url, created_at, profiles(email, nom, avatar_url, couleur)')
-    .order('created_at', { ascending: false })
 
   return (
     <>
@@ -22,12 +16,9 @@ export default async function AtelierPage() {
           Le Coin créatif 🎨
         </h1>
         <p className="font-manrope text-ink-soft text-sm mb-6">
-          Dessine et partage tes créations avec la famille !
+          Dessine, colorie et partage tes créations avec la famille !
         </p>
-        <AtelierClient
-          initialCreations={(creations ?? []) as unknown as Creation[]}
-          currentUserId={user.id}
-        />
+        <AtelierPageClient userId={user.id} />
       </main>
     </>
   )

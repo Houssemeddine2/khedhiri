@@ -110,11 +110,11 @@ export default function TuteurPapa({ sessions, filles, analyses, notes, devoirs,
   }
 
   return (
-    <main className="max-w-2xl mx-auto px-4 py-6 space-y-4 pb-20">
+    <main className="max-w-3xl mx-auto px-4 py-6 space-y-4 pb-20">
       {/* Header */}
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="font-fraunces text-2xl font-bold text-ink">Sid Ahmed</h1>
+          <h1 className="font-fraunces text-2xl font-bold text-ink">Professeur Sid Ahmed</h1>
           <p className="font-manrope text-xs text-ink-soft">Tableau de bord Papa</p>
         </div>
         <button

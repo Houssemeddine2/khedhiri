@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useEffect, useState } from 'react'
+import { useRef, useEffect, useState, useCallback } from 'react'
 import { uploadMedia } from '@/app/actions/posts'
 import { saveCreation } from '@/app/actions/atelier'
 
@@ -20,6 +20,17 @@ const TAILLES = [
   { label: 'Épais', value: 20 },
 ]
 
+const COLORIAGES = [
+  { id: 'maison',  label: 'Maison',   emoji: '🏠' },
+  { id: 'chat',    label: 'Chat',     emoji: '🐱' },
+  { id: 'fleur',   label: 'Fleur',    emoji: '🌸' },
+  { id: 'bateau',  label: 'Bateau',   emoji: '⛵' },
+  { id: 'licorne', label: 'Licorne',  emoji: '🦄' },
+  { id: 'soleil',  label: 'Soleil',   emoji: '☀️' },
+]
+
+const TAMPONS = ['❤️', '⭐', '🦄', '🌈', '🌸', '🐬', '🌟', '🎀']
+
 interface DrawingCanvasProps {
   onSaved: () => void
 }
@@ -31,13 +42,41 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   const [taille, setTaille] = useState(8)
   const [efface, setEfface] = useState(false)
   const [isSaving, setIsSaving] = useState(false)
+  const [coloriageActif, setColoriageActif] = useState<string | null>(null)
+  const [tamponActif, setTamponActif] = useState<string | null>(null)
+  const [erreurSauvegarde, setErreurSauvegarde] = useState<string | null>(null)
+  const derniereTouchRef = useRef<{ x: number; y: number } | null>(null)
 
+  // Initialise le canvas avec un fond blanc au premier montage
   useEffect(() => {
     const canvas = canvasRef.current!
     const ctx = canvas.getContext('2d')!
-    ctx.fillStyle = '#FAF4EA'
+    ctx.fillStyle = '#FFFFFF'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }, [])
+
+  // Charge le coloriage SVG sélectionné sur le canvas
+  const initCanvas = useCallback((coloriageId: string | null) => {
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    ctx.clearRect(0, 0, canvas.width, canvas.height)
+    ctx.fillStyle = '#FFFFFF'
+    ctx.fillRect(0, 0, canvas.width, canvas.height)
+    if (!coloriageId) return
+    let cancelled = false
+    const img = new window.Image()
+    img.onload = () => { if (!cancelled) ctx.drawImage(img, 0, 0, canvas.width, canvas.height) }
+    img.onerror = () => { /* fond blanc suffit si SVG absent */ }
+    img.src = `/coloriages/${coloriageId}.svg`
+    return () => { cancelled = true }
+  }, [])
+
+  useEffect(() => {
+    const cancel = initCanvas(coloriageActif)
+    return cancel
+  }, [coloriageActif, initCanvas])
 
   function getPos(clientX: number, clientY: number) {
     const canvas = canvasRef.current!
@@ -50,14 +89,29 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
 
   function applyCtx() {
     const ctx = canvasRef.current!.getContext('2d')!
-    ctx.strokeStyle = efface ? '#FAF4EA' : couleur
+    ctx.strokeStyle = efface ? '#FFFFFF' : couleur
     ctx.lineWidth   = efface ? taille * 3 : taille
     ctx.lineCap     = 'round'
     ctx.lineJoin    = 'round'
     return ctx
   }
 
+  // Place un tampon emoji à la position cliquée
+  const placeTampon = useCallback((e: React.MouseEvent<HTMLCanvasElement>) => {
+    if (!tamponActif) return
+    const canvas = canvasRef.current
+    if (!canvas) return
+    const ctx = canvas.getContext('2d')
+    if (!ctx) return
+    const rect = canvas.getBoundingClientRect()
+    const x = (e.clientX - rect.left) * (canvas.width / rect.width)
+    const y = (e.clientY - rect.top) * (canvas.height / rect.height)
+    ctx.font = '40px serif'
+    ctx.fillText(tamponActif, x - 20, y + 15)
+  }, [tamponActif])
+
   function onMouseDown(e: React.MouseEvent<HTMLCanvasElement>) {
+    if (tamponActif) return  // tampons gérés par onClick
     const { x, y } = getPos(e.clientX, e.clientY)
     const ctx = applyCtx()
     ctx.beginPath()
@@ -76,6 +130,16 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
   function onMouseUp() { isDrawingRef.current = false }
 
   function onTouchStart(e: React.TouchEvent<HTMLCanvasElement>) {
+    if (tamponActif) {
+      // Mémoriser la position du toucher pour placer le tampon dans onTouchEnd
+      const rect = canvasRef.current!.getBoundingClientRect()
+      const t = e.touches[0]
+      derniereTouchRef.current = {
+        x: (t.clientX - rect.left) * (canvasRef.current!.width / rect.width),
+        y: (t.clientY - rect.top) * (canvasRef.current!.height / rect.height),
+      }
+      return
+    }
     e.preventDefault()
     const { x, y } = getPos(e.touches[0].clientX, e.touches[0].clientY)
     const ctx = applyCtx()
@@ -93,17 +157,31 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
     ctx.stroke()
   }
 
-  function onTouchEnd() { isDrawingRef.current = false }
+  function onTouchEnd() {
+    isDrawingRef.current = false
+    if (tamponActif && derniereTouchRef.current) {
+      const canvas = canvasRef.current
+      if (!canvas) return
+      const ctx = canvas.getContext('2d')
+      if (!ctx) return
+      ctx.font = '40px serif'
+      ctx.fillText(tamponActif, derniereTouchRef.current.x - 20, derniereTouchRef.current.y + 15)
+      derniereTouchRef.current = null
+    }
+  }
 
   function handleClear() {
+    setColoriageActif(null)
+    setTamponActif(null)
     const canvas = canvasRef.current!
     const ctx = canvas.getContext('2d')!
-    ctx.fillStyle = '#FAF4EA'
+    ctx.fillStyle = '#FFFFFF'
     ctx.fillRect(0, 0, canvas.width, canvas.height)
   }
 
   async function handleSave() {
     const canvas = canvasRef.current!
+    setErreurSauvegarde(null)
     setIsSaving(true)
     canvas.toBlob(async (blob) => {
       if (!blob) { setIsSaving(false); return }
@@ -115,7 +193,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
         handleClear()
         onSaved()
       } catch (err) {
-        console.error('Erreur sauvegarde dessin:', err)
+        setErreurSauvegarde(err instanceof Error ? err.message : 'Erreur lors de la sauvegarde')
       } finally {
         setIsSaving(false)
       }
@@ -124,6 +202,60 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
 
   return (
     <div className="space-y-3">
+      {/* Section coloriages */}
+      <div className="mb-3">
+        <p className="text-xs font-semibold text-ink-soft mb-2">CHOISIR UN COLORIAGE</p>
+        <div className="flex gap-2 flex-wrap">
+          {COLORIAGES.map((c) => (
+            <button
+              key={c.id}
+              onClick={() => setColoriageActif(coloriageActif === c.id ? null : c.id)}
+              className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center text-2xl transition-colors ${
+                coloriageActif === c.id
+                  ? 'border-terracotta bg-sand'
+                  : 'border-sand-warm hover:border-terracotta/50'
+              }`}
+              title={c.label}
+            >
+              {c.emoji}
+            </button>
+          ))}
+          <button
+            onClick={() => setColoriageActif(null)}
+            className={`w-12 h-12 rounded-xl border-2 flex items-center justify-center text-xs font-semibold text-ink-soft transition-colors ${
+              coloriageActif === null
+                ? 'border-terracotta bg-sand'
+                : 'border-sand-warm hover:border-terracotta/50'
+            }`}
+          >
+            blanc
+          </button>
+        </div>
+      </div>
+
+      {/* Section tampons */}
+      <div className="mb-3">
+        <p className="text-xs font-semibold text-ink-soft mb-2">TAMPONS</p>
+        <div className="flex gap-2 flex-wrap">
+          {TAMPONS.map((t) => (
+            <button
+              key={t}
+              onClick={() => setTamponActif(tamponActif === t ? null : t)}
+              className={`w-9 h-9 rounded-lg border flex items-center justify-center text-xl transition-colors ${
+                tamponActif === t
+                  ? 'border-terracotta bg-sand'
+                  : 'border-sand-warm hover:border-terracotta/50'
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+        {tamponActif && (
+          <p className="text-xs text-terracotta mt-1">Clique sur le dessin pour placer le tampon {tamponActif}</p>
+        )}
+      </div>
+
       {/* Palette de couleurs */}
       <div className="flex items-center gap-2 flex-wrap">
         {COULEURS.map((c) => (
@@ -181,7 +313,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
           width={640}
           height={380}
           className="w-full touch-none"
-          style={{ display: 'block', cursor: efface ? 'cell' : 'crosshair' }}
+          style={{ display: 'block', cursor: tamponActif ? 'copy' : efface ? 'cell' : 'crosshair' }}
           onMouseDown={onMouseDown}
           onMouseMove={onMouseMove}
           onMouseUp={onMouseUp}
@@ -189,6 +321,7 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
           onTouchStart={onTouchStart}
           onTouchMove={onTouchMove}
           onTouchEnd={onTouchEnd}
+          onClick={tamponActif ? placeTampon : undefined}
         />
       </div>
 
@@ -208,6 +341,12 @@ export default function DrawingCanvas({ onSaved }: DrawingCanvasProps) {
           {isSaving ? 'Enregistrement…' : 'Partager mon dessin ✨'}
         </button>
       </div>
+
+      {erreurSauvegarde && (
+        <p role="alert" className="font-manrope text-sm text-terracotta mt-1">
+          ⚠️ {erreurSauvegarde}
+        </p>
+      )}
     </div>
   )
 }

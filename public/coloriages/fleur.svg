@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 380">
+  <rect width="640" height="380" fill="white"/>
+  <!-- Tige -->
+  <line x1="320" y1="300" x2="320" y2="360" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Feuille gauche -->
+  <path d="M320,310 Q275,285 265,260 Q295,265 320,295" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Feuille droite -->
+  <path d="M320,320 Q365,295 375,270 Q345,278 320,308" fill="none" stroke="#2A1F18" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/>
+  <!-- Pétale haut -->
+  <ellipse cx="320" cy="155" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Pétale bas -->
+  <ellipse cx="320" cy="275" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round"/>
+  <!-- Pétale haut-gauche -->
+  <ellipse cx="237" cy="182" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" transform="rotate(-60 237 182)"/>
+  <!-- Pétale haut-droite -->
+  <ellipse cx="403" cy="182" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" transform="rotate(60 403 182)"/>
+  <!-- Pétale bas-gauche -->
+  <ellipse cx="237" cy="248" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" transform="rotate(60 237 248)"/>
+  <!-- Pétale bas-droite -->
+  <ellipse cx="403" cy="248" rx="38" ry="60" fill="none" stroke="#2A1F18" stroke-width="3" stroke-linecap="round" transform="rotate(-60 403 248)"/>
+  <!-- Centre de la fleur -->
+  <circle cx="320" cy="215" r="45" fill="none" stroke="#2A1F18" stroke-width="3"/>
+  <circle cx="320" cy="215" r="20" fill="none" stroke="#2A1F18" stroke-width="2"/>
+</svg>

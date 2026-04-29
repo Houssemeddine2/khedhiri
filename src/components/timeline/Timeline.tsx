@@ -13,17 +13,19 @@ import type { Defi } from '@/types/defi'
 interface TimelineProps {
   initialPosts: Post[]
   currentUser: CurrentUser
+  userProfile?: { nom: string | null; avatar_url: string | null; couleur: string | null }
   supabaseUrl: string
   supabaseAnonKey: string
 }
 
 type FeedItem =
-  | { kind: 'post'; id: string; created_at: string; data: Post }
-  | { kind: 'defi'; id: string; created_at: string; data: Defi }
+  | { kind: 'post';  id: string; created_at: string; data: Post }
+  | { kind: 'defi';  id: string; created_at: string; data: Defi }
 
 export default function Timeline({
   initialPosts,
   currentUser,
+  userProfile,
   supabaseUrl,
   supabaseAnonKey,
 }: TimelineProps) {
@@ -32,13 +34,13 @@ export default function Timeline({
 
   const supabase = useMemo(
     () => createBrowserClient(supabaseUrl, supabaseAnonKey),
-    [supabaseUrl, supabaseAnonKey]
+    [supabaseUrl, supabaseAnonKey],
   )
 
   const fetchPosts = useCallback(async () => {
     const { data } = await supabase
       .from('posts')
-      .select('*, reactions(*), profiles(email, nom)')
+      .select('*, reactions(*), profiles(email, nom, avatar_url, couleur)')
       .order('created_at', { ascending: false })
       .limit(50)
     if (data) setPosts(data as Post[])
@@ -72,41 +74,46 @@ export default function Timeline({
   ].sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime()), [posts, defis])
 
   return (
-    <div className="min-h-screen bg-cream pb-32">
-      <h1 className="font-fraunces italic text-terracotta text-center text-2xl pt-8 pb-4">
-        La famille Khedhiri ♡
-      </h1>
+    <div className="space-y-0">
+      {/* Barre de composition style Facebook en haut */}
+      <ComposeBar
+        onPosted={fetchPosts}
+        userEmail={currentUser.email}
+        userProfile={userProfile}
+      />
 
-      <div className="mx-auto max-w-lg px-4">
-        {feedItems.length > 0 ? (
-          feedItems.map(item =>
-            item.kind === 'post' ? (
-              <PostCard key={`post-${item.id}`} post={item.data} currentUser={currentUser} />
-            ) : item.data.type === 'mot' ? (
-              <MotCard key={`defi-${item.id}`} defi={item.data} currentUserId={currentUser.id} onRepondu={fetchDefis} />
-            ) : (
-              <DefiCard key={`defi-${item.id}`} defi={item.data} currentUserId={currentUser.id} onRepondu={fetchDefis} />
-            )
-          )
-        ) : (
-          <p className="font-caveat text-center text-ink-soft text-xl mt-16">
-            Soyez les premiers à partager quelque chose ♡
+      {/* Feed */}
+      {feedItems.length === 0 ? (
+        <div className="bg-white rounded-xl shadow-sm p-10 text-center">
+          <p className="font-caveat text-2xl text-terracotta mb-2">
+            Soyez les premiers à partager quelque chose !
           </p>
-        )}
+          <p className="text-sm text-ink-soft font-manrope">
+            Écrivez un message, partagez une photo ou un vocal ♡
+          </p>
+        </div>
+      ) : (
+        feedItems.map(item =>
+          item.kind === 'post' ? (
+            <PostCard key={`post-${item.id}`} post={item.data} currentUser={currentUser} />
+          ) : item.data.type === 'mot' ? (
+            <MotCard key={`defi-${item.id}`} defi={item.data} currentUserId={currentUser.id} onRepondu={fetchDefis} />
+          ) : (
+            <DefiCard key={`defi-${item.id}`} defi={item.data} currentUserId={currentUser.id} onRepondu={fetchDefis} />
+          )
+        )
+      )}
 
-        {defis.length > 0 && (
-          <div className="text-center mt-4 mb-8">
-            <Link
-              href="/defis"
-              className="font-manrope text-sm text-terracotta hover:text-terracotta-deep underline underline-offset-2 transition-colors"
-            >
-              Voir tous les défis →
-            </Link>
-          </div>
-        )}
-      </div>
-
-      <ComposeBar onPosted={fetchPosts} />
+      {defis.length > 0 && (
+        <div className="bg-white rounded-xl shadow-sm p-4 text-center">
+          <Link
+            href="/defis"
+            className="font-manrope text-sm text-terracotta hover:text-terracotta-deep font-semibold transition-colors"
+          >
+            Voir tous les défis →
+          </Link>
+        </div>
+      )}
     </div>
   )
 }
