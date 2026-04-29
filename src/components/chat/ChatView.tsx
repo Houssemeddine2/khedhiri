@@ -10,6 +10,7 @@ import { avatarFromEmail } from '@/lib/avatar'
 import MessageBubble from '@/components/chat/MessageBubble'
 import ChatInput from '@/components/chat/ChatInput'
 import AvatarCircle from '@/components/ui/AvatarCircle'
+import { useCall } from '@/contexts/CallContext'
 
 interface ChatViewProps {
   initialMessages: Message[]
@@ -34,6 +35,7 @@ export default function ChatView({
   const bottomRef = useRef<HTMLDivElement>(null)
   const otherAvatar = avatarFromEmail(otherUser.email)
   const displayName = otherProfile?.nom ?? otherAvatar.nom
+  const { initiateCall, status: callStatus } = useCall()
 
   const supabase = useMemo(
     () => createBrowserClient(supabaseUrl, supabaseAnonKey),
@@ -69,8 +71,8 @@ export default function ChatView({
   }, [messages])
 
   return (
-    /* Occupe toute la hauteur disponible sous le header NavBar fixe */
-    <div className="flex flex-col" style={{ height: 'calc(100dvh - 56px)' }}>
+    /* Couvre exactement l'espace sous la NavBar — position:fixed évite le padding de app-content */
+    <div className="chat-fullpage">
 
       {/* ── Header Messenger ─────────────────────────────────── */}
       <div className="flex-shrink-0 bg-white border-b border-sand shadow-sm">
@@ -105,17 +107,30 @@ export default function ChatView({
             </div>
           </div>
 
-          {/* Actions */}
-          <div className="flex items-center gap-1 flex-shrink-0">
-            <Link
-              href={`/chats/${otherUser.id}`}
-              className="w-9 h-9 flex items-center justify-center rounded-full hover:bg-sand transition-colors text-terracotta"
-              aria-label="Actualiser la conversation"
+          {/* Actions — appels */}
+          <div className="flex items-center gap-0.5 flex-shrink-0">
+            {/* Appel vocal */}
+            <button
+              onClick={() => initiateCall(otherUser.id, displayName, 'audio')}
+              disabled={callStatus !== 'idle'}
+              aria-label={`Appeler ${displayName}`}
+              className={`w-9 h-9 flex items-center justify-center rounded-full transition-colors ${callStatus === 'idle' ? 'hover:bg-sand text-terracotta' : 'text-ink-soft/30 cursor-not-allowed'}`}
             >
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
-                <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12 19.79 19.79 0 0 1 1.61 3.41 2 2 0 0 1 3.6 1h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.96a16 16 0 0 0 6.13 6.13l1.27-1.27a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/>
               </svg>
-            </Link>
+            </button>
+            {/* Appel vidéo */}
+            <button
+              onClick={() => initiateCall(otherUser.id, displayName, 'video')}
+              disabled={callStatus !== 'idle'}
+              aria-label={`Appel vidéo avec ${displayName}`}
+              className={`w-9 h-9 flex items-center justify-center rounded-full transition-colors ${callStatus === 'idle' ? 'hover:bg-sand text-terracotta' : 'text-ink-soft/30 cursor-not-allowed'}`}
+            >
+              <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                <path d="M23 7 16 12 23 17z"/><rect x="1" y="5" width="15" height="14" rx="2" ry="2"/>
+              </svg>
+            </button>
           </div>
         </div>
       </div>
