@@ -1,16 +1,16 @@
 'use client'
 
 import { useState } from 'react'
-import { useChat } from '@/contexts/ChatContext'
+import { useRouter } from 'next/navigation'
 
 interface Member { id: string; nom: string; email: string }
 
 export default function ChatFab({ members }: { members: Member[] }) {
-  const { openChat } = useChat()
+  const router = useRouter()
   const [open, setOpen] = useState(false)
 
   function handleMember(id: string) {
-    openChat(id)
+    router.push(`/chats/${id}`)
     setOpen(false)
   }
 
@@ -28,8 +28,8 @@ export default function ChatFab({ members }: { members: Member[] }) {
             aria-hidden="true"
           />
           <div
-            className="above-tab-bar fixed md:hidden z-50 flex flex-col gap-2"
-            style={{ right: 12, marginBottom: 56 }}
+            className="fixed md:hidden z-50 flex flex-col gap-2"
+            style={{ right: 12, bottom: 'calc(3.5rem + env(safe-area-inset-bottom) + 4rem)' }}
           >
             {members.map(m => {
               const girl = isGirl(m.email)

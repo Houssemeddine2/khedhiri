@@ -131,10 +131,11 @@ export default function ChatPanel() {
   const statusText  = isOnline ? 'En ligne' : (lastSeen ? formatLastSeen(lastSeen) : 'Hors ligne')
 
   return (
-    /* Bulle ancrée en bas à droite — exactement comme Facebook */
+    /* Bulle ancrée en bas à droite — desktop uniquement */
     <div
-      className="fixed bottom-4 right-4 z-50 w-[328px] flex flex-col rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.22)] bg-white overflow-hidden transition-all duration-200 ease-out origin-bottom-right"
+      className="hidden md:flex fixed bottom-4 right-4 z-50 flex-col rounded-2xl shadow-[0_8px_32px_rgba(0,0,0,0.22)] bg-white overflow-hidden transition-all duration-200 ease-out origin-bottom-right"
       style={{
+        width: 328,
         transform: open ? 'scale(1) translateY(0)' : 'scale(0.85) translateY(24px)',
         opacity:   open ? 1 : 0,
         maxHeight: minimized ? '52px' : '480px',
