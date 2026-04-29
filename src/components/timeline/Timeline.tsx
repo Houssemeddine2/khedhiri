@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect, useCallback, useMemo } from 'react'
+import { useState, useEffect, useCallback, useMemo, useRef } from 'react'
 import Link from 'next/link'
 import { createBrowserClient } from '@supabase/ssr'
 import PostCard from './PostCard'
@@ -31,6 +31,7 @@ export default function Timeline({
 }: TimelineProps) {
   const [posts, setPosts] = useState<Post[]>(initialPosts)
   const [defis, setDefis] = useState<Defi[]>([])
+  const channelRef = useRef<ReturnType<typeof supabase.channel> | null>(null)
 
   const supabase = useMemo(
     () => createBrowserClient(supabaseUrl, supabaseAnonKey),
@@ -58,14 +59,27 @@ export default function Timeline({
     fetchPosts()
     fetchDefis()
 
+    // Nettoyer le channel précédent avant d'en créer un nouveau
+    if (channelRef.current) {
+      supabase.removeChannel(channelRef.current)
+      channelRef.current = null
+    }
+
     const channel = supabase
-      .channel('timeline')
+      .channel(`timeline-${Date.now()}`)
       .on('postgres_changes', { event: '*', schema: 'public', table: 'posts' }, () => fetchPosts())
       .on('postgres_changes', { event: '*', schema: 'public', table: 'reactions' }, () => fetchPosts())
       .on('postgres_changes', { event: 'INSERT', schema: 'public', table: 'defis' }, () => fetchDefis())
       .subscribe()
 
-    return () => { supabase.removeChannel(channel) }
+    channelRef.current = channel
+
+    return () => {
+      if (channelRef.current) {
+        supabase.removeChannel(channelRef.current)
+        channelRef.current = null
+      }
+    }
   }, [supabase, fetchPosts, fetchDefis])
 
   const feedItems: FeedItem[] = useMemo(() => [
