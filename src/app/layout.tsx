@@ -64,7 +64,8 @@ export default function RootLayout({
             <div className="hidden md:block" style={{ paddingLeft: '260px' }}>
               {children}
             </div>
-            <div className="md:hidden">
+            {/* Mobile : padding bottom pour la barre de navigation fixe */}
+            <div className="md:hidden" style={{ paddingBottom: 56 }}>
               {children}
             </div>
             <TuteurWidgetWrapper />

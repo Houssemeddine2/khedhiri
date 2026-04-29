@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Propositions design mobile — khedhiri.me</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --terracotta: #C5563D;
+    --olive: #6B7B3F;
+    --azur: #2E5C8A;
+    --sand: #F4E8D8;
+    --sand-warm: #EDD9BC;
+    --cream: #FAF4EA;
+    --ink: #2A1F18;
+    --ink-soft: #5A4A3F;
+    --gold: #D4A04C;
+    --rose: #E8A598;
+  }
+  body {
+    font-family: 'Segoe UI', sans-serif;
+    background: #1a1209;
+    color: white;
+    min-height: 100vh;
+    padding: 40px 20px;
+  }
+  h1 {
+    text-align: center;
+    font-size: 28px;
+    margin-bottom: 8px;
+    color: var(--sand);
+    letter-spacing: -0.5px;
+  }
+  .subtitle {
+    text-align: center;
+    color: var(--sand-warm);
+    opacity: 0.6;
+    margin-bottom: 48px;
+    font-size: 14px;
+  }
+  .designs {
+    display: flex;
+    gap: 40px;
+    justify-content: center;
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .design-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    max-width: 320px;
+  }
+  .label {
+    font-size: 18px;
+    font-weight: 700;
+    color: var(--sand);
+    text-align: center;
+  }
+  .label span {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--sand-warm);
+    opacity: 0.7;
+    margin-top: 4px;
+  }
+  .vote-btn {
+    background: var(--terracotta);
+    color: white;
+    border: none;
+    padding: 12px 32px;
+    border-radius: 24px;
+    font-size: 15px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.3px;
+  }
+  .vote-btn:hover { transform: scale(1.05); background: #9B3F2A; }
+  .vote-btn.b { background: var(--olive); }
+  .vote-btn.b:hover { background: #4f5c2f; }
+  .vote-btn.c { background: var(--azur); }
+  .vote-btn.c:hover { background: #1E3F62; }
+
+  /* === PHONE FRAME === */
+  .phone {
+    width: 280px;
+    height: 560px;
+    background: white;
+    border-radius: 36px;
+    border: 8px solid #333;
+    box-shadow: 0 0 0 2px #555, 0 24px 64px rgba(0,0,0,0.6);
+    overflow: hidden;
+    position: relative;
+    flex-shrink: 0;
+  }
+  .phone::before {
+    content: '';
+    position: absolute;
+    top: 10px; left: 50%; transform: translateX(-50%);
+    width: 60px; height: 5px;
+    background: #333;
+    border-radius: 3px;
+    z-index: 100;
+  }
+
+  /* ============ OPTION A ============ */
+  .phone-a { background: var(--cream); }
+
+  .a-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 16px 10px;
+    background: white;
+    border-bottom: 1px solid var(--sand-warm);
+  }
+  .a-nav-logo { font-family: Georgia, serif; font-style: italic; color: var(--terracotta); font-size: 18px; font-weight: bold; }
+  .a-nav-avatar { width: 32px; height: 32px; background: var(--terracotta); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 12px; font-weight: bold; }
+
+  .a-content { padding: 12px 12px 0; overflow: hidden; }
+  .a-post {
+    background: white;
+    border-radius: 16px;
+    padding: 12px;
+    margin-bottom: 10px;
+    border: 1px solid var(--sand-warm);
+  }
+  .a-post-header { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .a-avatar { width: 28px; height: 28px; border-radius: 50%; background: var(--olive); display: flex; align-items: center; justify-content: center; color: white; font-size: 10px; font-weight: bold; flex-shrink: 0; }
+  .a-avatar.s { background: var(--terracotta); }
+  .a-name { font-size: 11px; font-weight: 700; color: var(--ink); }
+  .a-time { font-size: 10px; color: var(--ink-soft); opacity: 0.6; }
+  .a-text { font-size: 11px; color: var(--ink); line-height: 1.5; }
+  .a-photo { width: 100%; height: 80px; background: linear-gradient(135deg, var(--sand) 0%, var(--sand-warm) 100%); border-radius: 10px; margin-top: 8px; display: flex; align-items: center; justify-content: center; font-size: 24px; }
+  .a-reactions { display: flex; gap: 8px; margin-top: 8px; }
+  .a-reaction { font-size: 14px; background: var(--sand); padding: 2px 8px; border-radius: 12px; }
+
+  .a-fab {
+    position: absolute;
+    bottom: 64px; right: 16px;
+    width: 44px; height: 44px;
+    background: var(--terracotta);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 22px; font-weight: 300;
+    box-shadow: 0 4px 16px rgba(197,86,61,0.4);
+  }
+
+  .a-tabs {
+    position: absolute;
+    bottom: 0; left: 0; right: 0;
+    background: white;
+    border-top: 1px solid var(--sand-warm);
+    display: flex;
+    padding: 8px 0 12px;
+  }
+  .a-tab {
+    flex: 1; display: flex; flex-direction: column; align-items: center; gap: 3px;
+    font-size: 9px; color: var(--ink-soft); opacity: 0.5;
+  }
+  .a-tab.active { color: var(--terracotta); opacity: 1; }
+  .a-tab svg { width: 20px; height: 20px; }
+  .a-tab.active svg { stroke: var(--terracotta); }
+  .a-tab-icon { font-size: 18px; }
+
+  /* ============ OPTION B ============ */
+  .phone-b { background: var(--cream); }
+
+  .b-nav {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 24px 16px 14px;
+    background: white;
+    border-bottom: 1px solid var(--sand-warm);
+  }
+  .b-nav-logo { font-family: Georgia, serif; font-style: italic; color: var(--terracotta); font-size: 18px; font-weight: bold; }
+  .b-nav-right { display: flex; gap: 8px; align-items: center; }
+  .b-nav-icon { width: 30px; height: 30px; border-radius: 50%; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 14px; }
+  .b-nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--terracotta); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: bold; }
+
+  .b-greeting { padding: 14px 16px 10px; }
+  .b-hi { font-family: Georgia, serif; font-style: italic; font-size: 16px; color: var(--ink); }
+  .b-date { font-size: 10px; color: var(--ink-soft); opacity: 0.6; margin-top: 2px; }
+
+  .b-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; padding: 0 12px; }
+  .b-tile {
+    border-radius: 18px;
+    padding: 14px 12px;
+    display: flex; flex-direction: column; gap: 4px;
+    position: relative; overflow: hidden;
+  }
+  .b-tile-icon { font-size: 24px; }
+  .b-tile-name { font-size: 11px; font-weight: 700; color: white; margin-top: 4px; }
+  .b-tile-sub { font-size: 9px; color: rgba(255,255,255,0.75); }
+  .b-tile-badge {
+    position: absolute; top: 10px; right: 10px;
+    background: white; color: var(--terracotta);
+    border-radius: 10px; padding: 1px 6px;
+    font-size: 9px; font-weight: 700;
+  }
+  .b-t1 { background: linear-gradient(135deg, var(--terracotta), #E8735A); }
+  .b-t2 { background: linear-gradient(135deg, var(--olive), #8B9A4F); }
+  .b-t3 { background: linear-gradient(135deg, var(--azur), #4A7BB0); }
+  .b-t4 { background: linear-gradient(135deg, var(--gold), #E8B55A); }
+  .b-t5 { background: linear-gradient(135deg, #9B59B6, #C678DD); }
+  .b-t6 { background: linear-gradient(135deg, var(--rose), #F0B8AA); }
+
+  .b-wide { grid-column: span 2; display: flex; flex-direction: row; align-items: center; padding: 12px 16px; gap: 12px; }
+  .b-wide-info { flex: 1; }
+
+  /* ============ OPTION C ============ */
+  .phone-c { background: var(--cream); }
+
+  .c-nav {
+    display: flex; align-items: center; gap: 12px;
+    padding: 24px 16px 14px;
+    background: white;
+    border-bottom: 1px solid var(--sand-warm);
+  }
+  .c-hamburger { font-size: 20px; color: var(--ink); cursor: pointer; }
+  .c-nav-title { font-family: Georgia, serif; font-style: italic; color: var(--terracotta); font-size: 18px; font-weight: bold; flex: 1; }
+  .c-nav-avatar { width: 30px; height: 30px; border-radius: 50%; background: var(--terracotta); display: flex; align-items: center; justify-content: center; color: white; font-size: 11px; font-weight: bold; }
+
+  .c-drawer {
+    position: absolute;
+    top: 0; left: 0; bottom: 0;
+    width: 230px;
+    background: white;
+    z-index: 50;
+    display: flex; flex-direction: column;
+    border-right: 1px solid var(--sand-warm);
+  }
+  .c-drawer-header {
+    padding: 24px 16px 16px;
+    background: linear-gradient(135deg, var(--olive), #8B9A4F);
+    display: flex; align-items: center; gap: 12px;
+  }
+  .c-drawer-avatar { width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,0.3); display: flex; align-items: center; justify-content: center; color: white; font-weight: bold; font-size: 16px; border: 2px solid rgba(255,255,255,0.5); }
+  .c-drawer-name { color: white; font-weight: 700; font-size: 14px; }
+  .c-drawer-email { color: rgba(255,255,255,0.7); font-size: 10px; margin-top: 2px; }
+
+  .c-drawer-section { padding: 8px 0; border-bottom: 1px solid var(--sand); }
+  .c-drawer-sectionlabel { font-size: 9px; font-weight: 700; color: var(--terracotta); opacity: 0.6; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 16px 4px; }
+  .c-drawer-item {
+    display: flex; align-items: center; gap: 12px;
+    padding: 9px 16px;
+    font-size: 12px; color: var(--ink-soft);
+  }
+  .c-drawer-item.active { color: var(--terracotta); background: rgba(197,86,61,0.08); font-weight: 600; }
+  .c-drawer-item-icon { width: 30px; height: 30px; border-radius: 8px; background: var(--sand); display: flex; align-items: center; justify-content: center; font-size: 14px; flex-shrink: 0; }
+  .c-drawer-item.active .c-drawer-item-icon { background: var(--terracotta); }
+
+  .c-overlay { position: absolute; top: 0; right: 0; bottom: 0; left: 230px; background: rgba(0,0,0,0.3); z-index: 40; }
+
+  .c-content { padding: 12px; }
+  .c-page-title { font-family: Georgia, serif; font-size: 18px; font-weight: bold; color: var(--ink); margin-bottom: 12px; }
+  .c-card { background: white; border-radius: 16px; padding: 12px; margin-bottom: 8px; border: 1px solid var(--sand-warm); }
+
+  .c-drawer-logout { margin-top: auto; padding: 12px 16px; border-top: 1px solid var(--sand); display: flex; align-items: center; gap: 10px; color: #e74c3c; font-size: 12px; }
+</style>
+</head>
+<body>
+
+<h1>khedhiri.me — Design mobile</h1>
+<p class="subtitle">Clique sur "Je veux ça !" pour choisir ton design</p>
+
+<div class="designs">
+
+  <!-- ===== OPTION A ===== -->
+  <div class="design-card">
+    <div class="label">Option A — Bottom tabs
+      <span>Navigation classique épurée, accueil = fil d'actualité</span>
+    </div>
+
+    <div class="phone phone-a">
+      <!-- NavBar -->
+      <div class="a-nav">
+        <div class="a-nav-logo">khedhiri</div>
+        <div style="display:flex;gap:8px;align-items:center;">
+          <div style="font-size:18px;">🔔</div>
+          <div class="a-nav-avatar">H</div>
+        </div>
+      </div>
+
+      <!-- Content -->
+      <div class="a-content">
+        <div class="a-post">
+          <div class="a-post-header">
+            <div class="a-avatar s">S</div>
+            <div>
+              <div class="a-name">Sandra</div>
+              <div class="a-time">Il y a 12 min</div>
+            </div>
+          </div>
+          <div class="a-text">Papa j'ai eu 18/20 en maths aujourd'hui 🎉</div>
+          <div class="a-reactions">
+            <div class="a-reaction">❤️ 2</div>
+            <div class="a-reaction">🎉 1</div>
+          </div>
+        </div>
+
+        <div class="a-post">
+          <div class="a-post-header">
+            <div class="a-avatar">H</div>
+            <div>
+              <div class="a-name">Papa</div>
+              <div class="a-time">Il y a 1h</div>
+            </div>
+          </div>
+          <div class="a-text">Vue de Lisbonne ce soir ✨</div>
+          <div class="a-photo">🌅</div>
+        </div>
+      </div>
+
+      <!-- FAB -->
+      <div class="a-fab">+</div>
+
+      <!-- Bottom tabs -->
+      <div class="a-tabs">
+        <div class="a-tab active">
+          <div class="a-tab-icon">🏠</div>
+          Accueil
+        </div>
+        <div class="a-tab">
+          <div class="a-tab-icon">📷</div>
+          Album
+        </div>
+        <div class="a-tab">
+          <div class="a-tab-icon">🤖</div>
+          Tuteur
+        </div>
+        <div class="a-tab">
+          <div class="a-tab-icon" style="position:relative;">
+            ❤️
+            <div style="position:absolute;top:-4px;right:-4px;background:var(--terracotta);width:10px;height:10px;border-radius:50%;border:2px solid white;"></div>
+          </div>
+          Câlins
+        </div>
+        <div class="a-tab">
+          <div class="a-tab-icon">⋯</div>
+          Plus
+        </div>
+      </div>
+    </div>
+
+    <button class="vote-btn" onclick="choisir('A')">Je veux ça ! →</button>
+  </div>
+
+  <!-- ===== OPTION B ===== -->
+  <div class="design-card">
+    <div class="label">Option B — Dashboard tuiles
+      <span>Accueil = grille de cartes vivantes, pas de bottom tabs</span>
+    </div>
+
+    <div class="phone phone-b">
+      <!-- NavBar -->
+      <div class="b-nav">
+        <div class="b-nav-logo">khedhiri</div>
+        <div class="b-nav-right">
+          <div class="b-nav-icon">🔔</div>
+          <div class="b-nav-avatar">H</div>
+        </div>
+      </div>
+
+      <!-- Greeting -->
+      <div class="b-greeting">
+        <div class="b-hi">Bonsoir, Houssem ☽</div>
+        <div class="b-date">Mardi 29 avril 2026</div>
+      </div>
+
+      <!-- Tuiles -->
+      <div class="b-grid">
+        <div class="b-tile b-t1">
+          <div class="b-tile-icon">📖</div>
+          <div class="b-tile-name">Fil familial</div>
+          <div class="b-tile-sub">3 nouveaux posts</div>
+          <div class="b-tile-badge">3</div>
+        </div>
+        <div class="b-tile b-t2">
+          <div class="b-tile-icon">🤖</div>
+          <div class="b-tile-name">Professeur</div>
+          <div class="b-tile-sub">Sandra active</div>
+        </div>
+        <div class="b-tile b-t3">
+          <div class="b-tile-icon">📷</div>
+          <div class="b-tile-name">Album</div>
+          <div class="b-tile-sub">47 photos</div>
+        </div>
+        <div class="b-tile b-t4">
+          <div class="b-tile-icon">📜</div>
+          <div class="b-tile-name">Lettres</div>
+          <div class="b-tile-sub">2 scellées</div>
+        </div>
+        <div class="b-tile b-t1 b-wide" style="grid-column:span 2;">
+          <div class="b-tile-icon">❤️</div>
+          <div class="b-wide-info">
+            <div class="b-tile-name">Câlin de Sarah</div>
+            <div class="b-tile-sub">Reçu il y a 23 min — Sarah t'embrasse fort !</div>
+          </div>
+          <div style="color:rgba(255,255,255,0.5);font-size:18px;">›</div>
+        </div>
+        <div class="b-tile b-t5">
+          <div class="b-tile-icon">⭐</div>
+          <div class="b-tile-name">Défis</div>
+          <div class="b-tile-sub">Nouveau défi</div>
+        </div>
+        <div class="b-tile b-t6">
+          <div class="b-tile-icon">📅</div>
+          <div class="b-tile-name">Agenda</div>
+          <div class="b-tile-sub">200j → Sandra</div>
+        </div>
+      </div>
+    </div>
+
+    <button class="vote-btn b" onclick="choisir('B')">Je veux ça ! →</button>
+  </div>
+
+  <!-- ===== OPTION C ===== -->
+  <div class="design-card">
+    <div class="label">Option C — Menu slide-in
+      <span>Hamburger ☰ → drawer plein écran, zéro distraction</span>
+    </div>
+
+    <div class="phone phone-c">
+      <!-- Drawer ouvert -->
+      <div class="c-drawer">
+        <div class="c-drawer-header">
+          <div class="c-drawer-avatar">H</div>
+          <div>
+            <div class="c-drawer-name">Houssem</div>
+            <div class="c-drawer-email">houssem@khedhiri.me</div>
+          </div>
+        </div>
+        <div class="c-drawer-section">
+          <div class="c-drawer-sectionlabel">Principal</div>
+          <div class="c-drawer-item active">
+            <div class="c-drawer-item-icon">🏠</div>
+            Accueil
+          </div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">📷</div>
+            Album photos
+          </div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">📅</div>
+            Agenda
+          </div>
+        </div>
+        <div class="c-drawer-section">
+          <div class="c-drawer-sectionlabel">Apprendre</div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">🤖</div>
+            Professeur Sid Ahmed
+          </div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">⭐</div>
+            Défis
+          </div>
+        </div>
+        <div class="c-drawer-section">
+          <div class="c-drawer-sectionlabel">Famille</div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">📜</div>
+            Lettres 18 ans
+          </div>
+          <div class="c-drawer-item">
+            <div class="c-drawer-item-icon">❤️</div>
+            Câlins virtuels
+          </div>
+        </div>
+        <div class="c-drawer-logout">⏻ Se déconnecter</div>
+      </div>
+
+      <!-- Overlay -->
+      <div class="c-overlay"></div>
+    </div>
+
+    <button class="vote-btn c" onclick="choisir('C')">Je veux ça ! →</button>
+  </div>
+
+</div>
+
+<div id="result" style="text-align:center;margin-top:48px;font-size:20px;display:none;"></div>
+
+<script>
+function choisir(opt) {
+  const msgs = {
+    A: '✅ Option A choisie — Bottom tabs épurés. Claude va implémenter ça maintenant !',
+    B: '✅ Option B choisie — Dashboard tuiles. Claude va implémenter ça maintenant !',
+    C: '✅ Option C choisie — Menu slide-in. Claude va implémenter ça maintenant !',
+  }
+  document.getElementById('result').style.display = 'block'
+  document.getElementById('result').textContent = msgs[opt]
+  document.getElementById('result').style.color = opt === 'A' ? '#C5563D' : opt === 'B' ? '#6B7B3F' : '#2E5C8A'
+  window.scrollTo({ top: 999999, behavior: 'smooth' })
+}
+</script>
+
+</body>
+</html>

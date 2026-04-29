@@ -74,10 +74,10 @@ export default async function NavBar() {
               )
             })}
 
-            {/* Badge câlins */}
+            {/* Badge câlins — desktop uniquement (mobile = barre du bas) */}
             <Link
               href="/calin"
-              className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-sand transition-colors"
+              className="relative hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-sand transition-colors"
               aria-label={calinsBadge > 0 ? `${calinsBadge} câlin${calinsBadge > 1 ? 's' : ''} reçu${calinsBadge > 1 ? 's' : ''}` : 'Câlins virtuels'}
             >
               <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" className="text-terracotta" aria-hidden="true">
@@ -90,11 +90,11 @@ export default async function NavBar() {
               )}
             </Link>
 
-            {/* Badge lettres (filles seulement) */}
+            {/* Badge lettres — desktop uniquement (mobile = drawer "Plus") */}
             {!isPapa && (
               <Link
                 href="/lettres"
-                className="relative w-10 h-10 flex items-center justify-center rounded-full hover:bg-sand transition-colors"
+                className="relative hidden md:flex w-10 h-10 items-center justify-center rounded-full hover:bg-sand transition-colors"
                 aria-label={lettresBadge > 0 ? `${lettresBadge} lettre${lettresBadge > 1 ? 's' : ''} de Papa` : 'Lettres pour mes 18 ans'}
               >
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-ink-soft" aria-hidden="true">
